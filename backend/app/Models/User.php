@@ -6,11 +6,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
@@ -45,4 +46,23 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    // relationships
+    public function post() {
+        return $this->hasMany(Post::class);
+    }
+
+    public function Reaction() {
+        return $this->hasMany(Reaction::class);
+    }
+
+    public function Media() {
+        return $this->hasMany(Media::class);
+    }
+
+    public function comment() {
+        return $this->hasMany(Comment::class);
+    }
+
+
 }
