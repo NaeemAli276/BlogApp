@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Tag extends Model
 {
     
-    use HasFactory;
+    use HasFactory; 
 
     protected $fillable = [
         'name'
@@ -25,7 +25,7 @@ class Tag extends Model
 
     // relationships
     public function posts() {
-        return $this->hasMany(Post::class);
+        return $this->belongsToMany(Post::class);
     }
 
 }

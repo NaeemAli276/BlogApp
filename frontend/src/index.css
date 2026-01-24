@@ -5,66 +5,16 @@
 
     --font-poppins: 'Poppins';
 
-    --color-text-50: #eae9fc;
-    --color-text-100: #d4d2f9;
-    --color-text-200: #a9a5f3;
-    --color-text-300: #7e78ed;
-    --color-text-400: #534be7;
-    --color-text-500: #281fe0;
-    --color-text-600: #2018b4;
-    --color-text-700: #181287;
-    --color-text-800: #100c5a;
-    --color-text-900: #08062d;
-    --color-text-950: #040316;
+    --color-text: hsl(243, 76%, 5%);
+    --color-background: hsl(240, 60%, 99%);
+    --color-primary: hsl(243, 68%, 48%);
+    --color-secondary: hsl(243, 100%, 93%);
+    --color-accent: hsl(242, 100%, 62%);
 
-    --color-background-50: #ebebfa;
-    --color-background-100: #d6d6f5;
-    --color-background-200: #adadeb;
-    --color-background-300: #8585e0;
-    --color-background-400: #5c5cd6;
-    --color-background-500: #3333cc;
-    --color-background-600: #2929a3;
-    --color-background-700: #1f1f7a;
-    --color-background-800: #141452;
-    --color-background-900: #0a0a29;
-    --color-background-950: #050514;
-
-    --color-primary-50: #eaeafb;
-    --color-primary-100: #d6d4f7;
-    --color-primary-200: #ada9ef;
-    --color-primary-300: #847ee7;
-    --color-primary-400: #5b54de;
-    --color-primary-500: #3129d6;
-    --color-primary-600: #2821ab;
-    --color-primary-700: #1e1881;
-    --color-primary-800: #141056;
-    --color-primary-900: #0a082b;
-    --color-primary-950: #050415;
-
-    --color-secondary-50: #e7e5ff;
-    --color-secondary-100: #cfccff;
-    --color-secondary-200: #9e99ff;
-    --color-secondary-300: #6e66ff;
-    --color-secondary-400: #3d33ff;
-    --color-secondary-500: #0d00ff;
-    --color-secondary-600: #0a00cc;
-    --color-secondary-700: #080099;
-    --color-secondary-800: #050066;
-    --color-secondary-900: #030033;
-    --color-secondary-950: #01001a;
-
-    --color-accent-50: #e6e5ff;
-    --color-accent-100: #ceccff;
-    --color-accent-200: #9c99ff;
-    --color-accent-300: #6b66ff;
-    --color-accent-400: #3a33ff;
-    --color-accent-500: #0800ff;
-    --color-accent-600: #0700cc;
-    --color-accent-700: #050099;
-    --color-accent-800: #030066;
-    --color-accent-900: #020033;
-    --color-accent-950: #01001a;
-
-
+    --color-dark-text: hsl(243, 76%, 95%);
+    --color-dark-background: hsl(240, 60%, 1%);
+    --color-dark-primary: hsl(243, 68%, 52%);
+    --color-dark-secondary: hsl(243, 100%, 7%);
+    --color-dark-accent: hsl(242, 100%, 38%);
 
 }

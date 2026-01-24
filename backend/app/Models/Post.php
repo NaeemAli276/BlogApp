@@ -37,7 +37,7 @@ class Post extends Model
     }
 
     public function category() {
-        return $this->has(Category::class);
+        return $this->belongsTo(Category::class);
     }
 
     public function comment() {
@@ -53,7 +53,7 @@ class Post extends Model
     }
 
     public function tag() {
-        return $this->hasMany(Tag::class);
+        return $this->belongsToMany(Tag::class);
     }
 
 }

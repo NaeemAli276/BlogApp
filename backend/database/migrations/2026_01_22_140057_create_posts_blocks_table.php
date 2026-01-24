@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('posts_blocks', function (Blueprint $table) {
             $table->id();
             $table->foreignId('post_id')->constrained()->onDelete('cascade');
-            $table->enum('type', ['paragraph', 'image', 'heading', 'embed']);
             $table->text('content')->nullable();
+            $table->enum('type', ['paragraph', 'image', 'heading', 'embed']);
             $table->integer('sort_order');
             $table->json('block_json')->nullable();
             $table->timestamps();

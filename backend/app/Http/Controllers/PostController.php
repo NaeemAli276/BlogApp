@@ -24,7 +24,7 @@ class PostController extends Controller
         $page = $request->get('page', 1);
         $perPage = $request->get('per_page', 10);
 
-        $posts = Post::with('postBlock', 'category', 'tags')->latest()->paginate($perPage, ['*'], $page);
+        $posts = Post::with('category')->latest()->paginate($perPage, ['*'], $page);
 
         return response()->json([
             'success' => true,
@@ -49,6 +49,9 @@ class PostController extends Controller
             'category_id' => 'required|exists:categories,id',
             'tags' => 'array',
             'tags.*' => 'exists:tags,id',
+            'type' => 'required',
+            'json_blocks' => 'array',
+            
         ]);
 
         $post = Post::create([
