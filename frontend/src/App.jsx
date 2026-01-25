@@ -7,6 +7,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import HomePage from './pages/HomePage'
 import LoginPage from './pages/LoginPage'
 import Register from './pages/RegisterPage'
+import ProtectedRoute from './components/auth/ProtectedRoute'
+import CreatePostPage from './pages/CreatePostPage'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -23,7 +25,7 @@ function App() {
 
         {/* login */}
         <Route
-          path='/Login'
+          path='/Login' 
           element={<LoginPage/>}
         />
 
@@ -31,6 +33,15 @@ function App() {
         <Route
           path='/Register'
           element={<Register/>}
+        />
+
+        <Route
+          path='/Dashboard/NewPost'
+          element={
+            <ProtectedRoute>
+              <CreatePostPage/>
+            </ProtectedRoute>
+          }
         />
 
       </Routes>

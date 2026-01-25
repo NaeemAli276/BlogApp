@@ -24,12 +24,14 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'Admin dude',
             'email' => 'adminDude@example.com',
-            'user_type' => 'admin'
+            'user_type' => 'admin',
+            'password' => 'adminPass1234'
         ]);
 
         User::factory()->create([
             'name' => 'John Doe',
             'email' => 'johnDoe@example.com',
+            'password' => 'password1234'
         ]);
 
         Category::factory()->count(10)->create();

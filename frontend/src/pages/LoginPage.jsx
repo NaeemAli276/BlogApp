@@ -1,37 +1,56 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { useAuth } from '../Context/AuthContext'
 
 import TextInput from '../components/inputs/TextInput'
 import PasswordInput from '../components/inputs/PasswordInput'
+import CheckboxInput from '../components/inputs/CheckboxInput'
 
 const LoginPage = () => {
 
     // context
     const { login } = useAuth() 
 
-    // tanstack
-    const { isPending, error,  data } = useQuery({
-        queryKey: ['loginData'],
-        queryFn: login,
-        refetchOnWindowFocus: false
-    })
+    // toggles
+    const [isPending, setIsPending] = useState(false)
 
+    // state
     const [formDetails, setFormDetails] = useState({
         email: '',
         password: '',
         rememberMe: ''
     })
+    const [error, setError] = useState(null)
+    const navigate = useNavigate()
+
+    const handleSubmitLogin = async (e) => {
+        e.preventDefault()
+        setIsPending(true)
+        setError('')
+
+        try {
+            await login(formDetails)
+            navigate('/')
+        }
+        catch (error) {
+            // This catches network errors or thrown errors from login()
+            setError('An error occurred, try again')
+            setIsPending(false)
+        }
+        finally {
+            setIsPending(false)
+        }
+    }
 
     return (
         <div
-            className='grid grid-cols-2 w-full h-screen bg-secondary dark:bg-dark-background font-poppins p-5'
+            className='grid grid-cols-2 w-full h-screen bg-secondary dark:bg-dark-secondary font-poppins p-5'
         >
             
             {/* first part */}
             <div
-                className='bg-primary w-full h-full rounded-md text-dark-text p-10 py-8 flex flex-col justify-between shadow shadow-text/50'
+                className='bg-primary dark:bg-dark-primary w-full h-full rounded-md text-dark-text p-10 py-8 flex flex-col justify-between shadow shadow-text/50'
             >
                 
                 {/* top part*/}
@@ -92,12 +111,12 @@ const LoginPage = () => {
                     className='flex flex-col gap-2 w-full h-fit'
                 >
                     <h1
-                        className='text-4xl font-bold'
+                        className='text-4xl font-bold dark:text-dark-text'
                     >
                         Login
                     </h1>
                     <p
-                        className='w-104 text-text/70'
+                        className='w-104 text-text/70 dark:text-dark-text/80'
                     >
                         Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa eveniet rem adipisci.
                     </p>
@@ -105,7 +124,7 @@ const LoginPage = () => {
 
                 {/* inputs */}
                 <div
-                    className='flex flex-col gap-4 w-full h-fit py-20'
+                    className='flex flex-col gap-4 w-full h-fit py-16'
                 >
                     {/* email */}
                     <TextInput
@@ -115,20 +134,48 @@ const LoginPage = () => {
                         onChange={(e) => setFormDetails({...formDetails, email: e.target.value})}
                         value={formDetails.email}
                         secondaryText={error?.email}
-                        isRequired={false}
+                        isRequired={true}
                         secondaryTextShow={error === null ? false : true}
                     />
 
                     <PasswordInput
                         name={'Password'}
-                        placeholder={'Enter your password...'}
+                        placeholderText={'Enter your password...'}
                         onChange={(e) => setFormDetails({...formDetails, password: e.target.value})}
                         value={formDetails.password}
                         secondaryText={error?.password}
-                        isRequired={false}
+                        isRequired={true}
                         secondaryTextShow={error === null ? false : true}
                     />
 
+                    <CheckboxInput
+                        value={formDetails.rememberMe}
+                        name={'remember me'}
+                        onClick={() => setFormDetails(prevState => ({...prevState, rememberMe: !prevState.rememberMe}))}
+                    />
+
+                </div>
+
+                {/* login and register button */}
+                <div
+                    className='w-full h-fit flex flex-col gap-3'
+                >
+                    <button
+                        className='w-full h-fit p-2 text-lg font-semibold bg-primary dark:bg-dark-primary rounded-md text-dark-text shadow shadow-text duration-200 hover:bg-accent cursor-pointer'
+                        onClick={handleSubmitLogin}
+                    >
+                        {
+                            isPending 
+                            ? 'Submitting...'
+                            : 'Sign In'
+                        }
+                    </button>
+                    <Link
+                        className='text-sm text-center text-text/60 dark:text-dark-text/80 duration-200 hover:text-primary'
+                        to={'/Register'}
+                    >
+                        Don't have an account? Sign In
+                    </Link>
                 </div>
 
             </div>

@@ -31,12 +31,14 @@ class AuthController extends Controller
 
         if ($request->rememberMe == true) {
             return response()->json([
+                'success' => true,
                 'user' => $user,
                 'token' => $user->createToken('auth_token')->plainTextToken
             ]);
         }
         else {
             return response()->json([
+                'success' => true,
                 'user' => $user,
                 // 'token' => $user->createToken('auth_token')->plainTextToken
             ]);
