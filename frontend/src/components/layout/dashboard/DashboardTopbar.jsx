@@ -25,7 +25,7 @@ const DashboardTopbar = () => {
 
     return (
         <div
-            className='row-span-1 col-span-16 flex flex-col gap-1 w-full h-full bg-background dark:bg-dark-background/80 dark:text-dark-text p-2 rounded-md shadow-text/50 shadow px-3 items-center'
+            className='row-span-1 col-span-16 flex flex-col gap-1 w-full h-full bg-background dark:bg-background/10 dark:text-dark-text p-2 rounded-md shadow-text/50 shadow px-3 items-center'
         >   
             <div
                 className='flex flex-row w-full h-full items-center gap-1 px-2'
@@ -33,6 +33,7 @@ const DashboardTopbar = () => {
                 {
                     paths.map((path, index) => (
                         <div
+                            key={path}
                             className='flex flex-row gap-1 w-fit h-full items-center'
                             // onClick={() => navigation(path)}
                         >

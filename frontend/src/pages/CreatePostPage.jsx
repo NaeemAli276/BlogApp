@@ -4,6 +4,9 @@ import TextInput from '../components/inputs/TextInput'
 import NewItemWrapper from '../components/layout/dashboard/NewItemWrapper'
 import ImageInput from '../components/inputs/ImageInput'
 import CreateBlockBtn from '../components/buttons/CreateBlockBtn'
+import JsonView from '@uiw/react-json-view'
+import NewItemWrapperBtn from '../components/buttons/NewItemWrapperBtn'
+import JsonViewer from '../components/general/JsonViewer'
 
 const CreatePostPage = () => {
 
@@ -16,7 +19,7 @@ const CreatePostPage = () => {
     const [totalBlocks, setTotalBlocks] = useState(0)
     const [selectedNav, setSelectedNav] = useState('Content')
 
-    const navBtns = ['Content', 'SEO']
+    const navBtns = ['Content', 'SEO', 'JSON']
     const blocktypes = [
         {
             icon: <svg  xmlns="http://www.w3.org/2000/svg" width={16} height={16} fill={"currentColor"} viewBox="0 0 24 24">{/* Boxicons v3.0.8 https://boxicons.com | License  https://docs.boxicons.com/free */}<path d="M4 10c0 3.31 2.69 6 6 6h2v4h2V6h2v14h2V6h3V4H10c-3.31 0-6 2.69-6 6m8 4h-2c-2.21 0-4-1.79-4-4s1.79-4 4-4h2z"></path></svg>,
@@ -43,15 +46,67 @@ const CreatePostPage = () => {
             setPostDetails({
                 ...postDetails, 
                 json_blocks: [...postDetails.json_blocks, {
-                    type: 'paragraph',
-                    sort_order: totalBlocks === 0 ? 0 : totalBlocks,
+                    id: postDetails.json_blocks.length + 1,
+                    type: 'Paragraph',
+                    sort_order: totalBlocks,
                     content: ''
                 }]
             })
 
         }
 
+        else if (type === 'Image') {
+
+            setPostDetails({
+                ...postDetails, 
+                json_blocks: [...postDetails.json_blocks, {
+                    id: postDetails.json_blocks.length + 1,
+                    type: 'Image',
+                    sort_order: totalBlocks,
+                    path: null
+                }]
+            })
+
+        }
+
         setTotalBlocks(totalBlocks + 1)
+
+    }
+
+    const handleChangeBlockIndex = (type, index) => {
+
+        if (type === 'up') {
+
+            if (index <= 0) return
+            else {
+                const newItems = [...postDetails.json_blocks];
+
+                // Swap current item with previous item
+                [newItems[index], newItems[index - 1]] = [newItems[index - 1], newItems[index]];
+                setPostDetails({...postDetails, json_blocks: newItems});
+            }
+
+        }
+        else {
+
+            if (index >= postDetails.json_blocks.length - 1) return
+            else {
+                const newItems = [...postDetails.json_blocks];
+
+                // Swap current item with previous item
+                [newItems[index], newItems[index + 1]] = [newItems[index + 1], newItems[index]];
+                setPostDetails({...postDetails, json_blocks: newItems});
+            }
+
+        }
+
+    }
+
+    const handleDeleteBlock = (id) => {
+        
+        const filteredItems = postDetails.json_blocks.filter(prev => prev.id !== id)
+
+        setPostDetails({...postDetails, json_blocks: filteredItems})
 
     }
 
@@ -64,18 +119,18 @@ const CreatePostPage = () => {
             
             {/* content manager */}
             <div
-                className='col-span-11 row-span-14 row-start-3 bg-background dark:bg-dark-background/90 rounded-md shadow shadow-text/50 w-full h-full relative'
+                className='col-span-11 row-span-14 row-start-3 bg-background dark:bg-background/10 rounded-md shadow shadow-text/50 w-full h-full relative flex flex-col'
             >
 
                 {/* nav part */}
                 <div
-                    className='flex flex-row items-center font-medium w-full bg-text/10 dark:bg-background/15 rounded-t-md'
+                    className='flex flex-row items-center font-medium w-full h-fit bg-text/10 dark:bg-dark-background/20 rounded-t-md'
                 >
                     {
                         navBtns.map((btn, index) => (
                             <button
                                 key={btn}
-                                className={`${btn === selectedNav ? 'bg-background dark:bg-dark-background/90 text-accent dark:text-dark-primary' : 'text-text dark:text-dark-text'} ${index === 0 && 'rounded-tl'} p-2 px-4 cursor-pointer`}
+                                className={`${btn === selectedNav ? 'bg-background dark:bg-background/5 text-accent dark:text-dark-text' : 'text-text dark:text-dark-text'} ${index === 0 && 'rounded-tl-md'} p-2 px-4 cursor-pointer`}
                                 onClick={() => setSelectedNav(btn)}
                             >
                                 {btn}
@@ -86,14 +141,48 @@ const CreatePostPage = () => {
 
                 {/* main part */}
                 <div
-                    className='p-5 w-full h-full'
+                    className='p-5 w-full h-full flex'
                 >
                     
+                    {/* content */}
+                    <div
+                        className={`${selectedNav === 'Content' ? 'flex' : 'hidden'} w-full h-full overflow-y-scroll flex-col gap-2`}
+                    >
+
+                        {
+                            postDetails.json_blocks.map((block, index) => (
+                                <NewItemWrapper
+                                    name={block.type}
+                                    deleteFtn={() => handleDeleteBlock(block.id)}
+                                    moveDownFtn={() => handleChangeBlockIndex('down',index)}
+                                    moveUpFtn={() => handleChangeBlockIndex('up',index)}
+                                />
+                            ))
+                        }
+
+                    </div>
+
+                    {/* SEO */}
+                    <div
+                        className={`${selectedNav === 'SEO' ? 'flex' : 'hidden'}`}
+                    >
+
+                    </div>
+
+                    {/* JSON */}
+                    <div
+                        className={`${selectedNav === 'JSON' ? 'flex' : 'hidden'} w-full h-full bg-dark-background/10 rounded`}
+                    >
+                        <JsonViewer
+                            data={postDetails.json_blocks}
+                        />
+                    </div>
+
                 </div>
 
                 {/* create new block */}
                 <div
-                    className={`${selectedNav === 'Content' ? 'flex' : 'hidden'} absolute bottom-0 left-0 w-full bg-background dark:bg-dark-background rounded-b-md flex flex-row gap-2 p-2`}
+                    className={`${selectedNav === 'Content' ? 'flex' : 'hidden'} absolute bottom-0 left-0 w-full  rounded-b-md flex flex-row gap-2 p-2`}
                 >
                     {
                         blocktypes.map((type) => (
