@@ -33,7 +33,7 @@ const JsonViewer = ({ data }) => {
         <JsonView
             value={data}
             style={isDarkMode ? darkTheme : githubLightTheme}
-            className='w-full rounded'
+            className='w-full rounded p-3'
         />
     )
 }

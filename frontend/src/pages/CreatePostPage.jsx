@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import DashboardLayout from '../components/layout/dashboard/DashboardLayout'
 import TextInput from '../components/inputs/TextInput'
-import NewItemWrapper from '../components/layout/dashboard/NewItemWrapper'
+import NewItemWrapper from '../components/card/NewItemWrapper'
 import ImageInput from '../components/inputs/ImageInput'
 import CreateBlockBtn from '../components/buttons/CreateBlockBtn'
 import JsonView from '@uiw/react-json-view'
@@ -13,10 +13,22 @@ const CreatePostPage = () => {
     const [postDetails, setPostDetails] = useState({
         title: '',
         json_blocks: [
-
+            {
+                id: 0,
+                type: 'Title',
+                sort_order: 0,
+                content: ''
+            },
+            {
+                id: 1,
+                type: 'Thumbnail',
+                sort_order: 1,
+                path_url: null,
+                file: null
+            }
         ]
     }) 
-    const [totalBlocks, setTotalBlocks] = useState(0)
+    const [totalBlocks, setTotalBlocks] = useState(2)
     const [selectedNav, setSelectedNav] = useState('Content')
 
     const navBtns = ['Content', 'SEO', 'JSON']
@@ -46,7 +58,7 @@ const CreatePostPage = () => {
             setPostDetails({
                 ...postDetails, 
                 json_blocks: [...postDetails.json_blocks, {
-                    id: postDetails.json_blocks.length + 1,
+                    id: postDetails.json_blocks.length,
                     type: 'Paragraph',
                     sort_order: totalBlocks,
                     content: ''
@@ -60,10 +72,11 @@ const CreatePostPage = () => {
             setPostDetails({
                 ...postDetails, 
                 json_blocks: [...postDetails.json_blocks, {
-                    id: postDetails.json_blocks.length + 1,
+                    id: postDetails.json_blocks.length,
                     type: 'Image',
                     sort_order: totalBlocks,
-                    path: null
+                    path_url: null,
+                    file: null
                 }]
             })
 
@@ -77,7 +90,7 @@ const CreatePostPage = () => {
 
         if (type === 'up') {
 
-            if (index <= 0) return
+            if (index <= 2) return
             else {
                 const newItems = [...postDetails.json_blocks];
 
@@ -110,6 +123,36 @@ const CreatePostPage = () => {
 
     }
 
+    const handleAddImageToBlock = (id, value) => {
+
+        const imageBlock = postDetails.json_blocks.filter((prev) => prev.id === id)
+
+        const newImageBlock = {
+            id: id,
+            type: imageBlock.type,
+            sort_order: imageBlock.sort_order,
+            path_url: value.name,
+            file: value
+        }
+
+        setPostDetails({ })
+
+
+
+
+    }
+
+    const handleChangeBlockValue = (id, value, type) => {
+
+        // image blocks
+        if (type === 'Image' || type === 'Thumbnail') {
+            handleAddImageToBlock(id, value)
+        }
+
+
+    }
+
+
     useEffect(() => {
         console.log(postDetails)
     }, [postDetails])
@@ -119,7 +162,7 @@ const CreatePostPage = () => {
             
             {/* content manager */}
             <div
-                className='col-span-11 row-span-14 row-start-3 bg-background dark:bg-background/10 rounded-md shadow shadow-text/50 w-full h-full relative flex flex-col'
+                className='col-span-11 row-span-14 row-start-3 bg-background dark:bg-background/10 rounded-md shadow shadow-text/50 w-full h-full relative flex flex-col overflow-hidden'
             >
 
                 {/* nav part */}
@@ -146,16 +189,17 @@ const CreatePostPage = () => {
                     
                     {/* content */}
                     <div
-                        className={`${selectedNav === 'Content' ? 'flex' : 'hidden'} w-full h-full overflow-y-scroll flex-col gap-2`}
+                        className={`${selectedNav === 'Content' ? 'flex' : 'hidden'} w-full h-full overflow-y-scroll flex-col gap-2 pb-20`}
                     >
 
                         {
                             postDetails.json_blocks.map((block, index) => (
                                 <NewItemWrapper
-                                    name={block.type}
+                                    block={block}
                                     deleteFtn={() => handleDeleteBlock(block.id)}
-                                    moveDownFtn={() => handleChangeBlockIndex('down',index)}
-                                    moveUpFtn={() => handleChangeBlockIndex('up',index)}
+                                    changeIndex={handleChangeBlockIndex}
+                                    index={index}
+                                    changeValue={handleChangeBlockValue}
                                 />
                             ))
                         }
@@ -182,18 +226,23 @@ const CreatePostPage = () => {
 
                 {/* create new block */}
                 <div
-                    className={`${selectedNav === 'Content' ? 'flex' : 'hidden'} absolute bottom-0 left-0 w-full  rounded-b-md flex flex-row gap-2 p-2`}
+                    className={`${selectedNav === 'Content' ? 'flex' : 'hidden'} absolute bottom-0 left-0 w-full bg-background dark:bg-dark-background rounded-b-md flex flex-row gap-2`}
                 >
-                    {
-                        blocktypes.map((type) => (
-                            <CreateBlockBtn
-                                key={type.name}
-                                icon={type.icon}
-                                name={type.name}
-                                ftn={() => handleAddNewBlock(type.name)}
-                            />
-                        ))
-                    }
+                    <div
+                        className='flex flex-row gap-2 w-full h-full dark:bg-background/19 p-2'
+                    >
+                        {
+                            blocktypes.map((type) => (
+                                <CreateBlockBtn
+                                    key={type.name}
+                                    icon={type.icon}
+                                    name={type.name}
+                                    ftn={() => handleAddNewBlock(type.name)}
+                                />
+                            ))
+                        }
+                    </div>
+                    
                 </div>
 
             </div>
