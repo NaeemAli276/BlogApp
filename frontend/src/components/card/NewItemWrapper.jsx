@@ -4,6 +4,7 @@ import ImageInput from '../inputs/ImageInput'
 import TextInput from '../inputs/TextInput'
 import NewPostTitleInput from '../inputs/PostTitleInput'
 import PostParagraphInput from '../inputs/PostParagraphInput'
+import PostHeadingInput from '../inputs/PostHeadingInput'
 
 const NewItemWrapper = ({ block, changeIndex, deleteFtn, index, changeValue }) => {
     
@@ -89,6 +90,15 @@ const NewItemWrapper = ({ block, changeIndex, deleteFtn, index, changeValue }) =
                     &&  <PostParagraphInput
                             id={block?.id}
                             value={block?.content}
+                            onChange={changeValue}
+                        />
+                }
+                {
+                    (block?.type === 'Heading')
+                    &&  <PostHeadingInput
+                            id={block?.id}
+                            content={block?.content}
+                            headingType={block?.headingType}
                             onChange={changeValue}
                         />
                 }

@@ -67,6 +67,21 @@ const CreatePostPage = () => {
 
         }
 
+        else if (type === 'Heading') {
+
+            setPostDetails({
+                ...postDetails, 
+                json_blocks: [...postDetails.json_blocks, {
+                    id: postDetails.json_blocks.length,
+                    type: 'Heading',
+                    sort_order: totalBlocks,
+                    content: null,
+                    headingType: null
+                }]
+            })
+
+        }
+
         else if (type === 'Image') {
 
             setPostDetails({
@@ -175,6 +190,18 @@ const CreatePostPage = () => {
 
         }
 
+        else if (type === 'Heading') {
+
+            setPostDetails((prevPosts) => ({
+                ...prevPosts,
+                json_blocks: prevPosts.json_blocks.map(block =>
+                    block.id === id 
+                    ? { ...block, content: value.content, headingType:value.headingType } 
+                    : block
+                )
+            }))
+
+        }
 
     }
 
@@ -215,13 +242,12 @@ const CreatePostPage = () => {
                     
                     {/* content */}
                     <div
-                        className={`${selectedNav === 'Content' ? 'flex' : 'hidden'} w-full h-full overflow-y-scroll flex-col gap-2 pb-20`}
+                        className={`${selectedNav === 'Content' ? 'flex' : 'hidden'} w-full h-full overflow-y-scroll flex-col gap-2 pb-32`}
                     >
-
                         {
                             postDetails.json_blocks.map((block, index) => (
                                 <NewItemWrapper
-                                    key={index}                                
+                                    key={block.id}                                
                                     block={block}
                                     deleteFtn={() => handleDeleteBlock(block.id)}
                                     changeIndex={handleChangeBlockIndex}
@@ -230,7 +256,6 @@ const CreatePostPage = () => {
                                 />
                             ))
                         }
-
                     </div>
 
                     {/* SEO */}
