@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\TagController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,3 +15,6 @@ Route::post('/login', [AuthController::class, 'login']);
 
 // posts
 Route::get('/posts', [PostController::class, 'index']);
+
+// tags
+Route::get('/tags', [TagController::class, 'getTags']);

@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import DashboardLayout from '../components/layout/dashboard/DashboardLayout'
 import TextInput from '../components/inputs/TextInput'
-import NewItemWrapper from '../components/card/NewItemWrapper'
-import ImageInput from '../components/inputs/ImageInput'
+import NewBlockWrapper from '../components/card/NewBlockWrapper'
 import CreateBlockBtn from '../components/buttons/CreateBlockBtn'
-import JsonView from '@uiw/react-json-view'
-import NewItemWrapperBtn from '../components/buttons/NewItemWrapperBtn'
 import JsonViewer from '../components/general/JsonViewer'
+import PostSlugInput from '../components/inputs/PostSlugInput'
+import TagBlock from '../components/card/TagBlock'
 
 const CreatePostPage = () => {
 
@@ -26,7 +25,8 @@ const CreatePostPage = () => {
                 path_url: null,
                 file: null
             }
-        ]
+        ],
+        slug: ''
     }) 
     const [totalBlocks, setTotalBlocks] = useState(2)
     const [selectedNav, setSelectedNav] = useState('Content')
@@ -50,6 +50,9 @@ const CreatePostPage = () => {
             name: 'Hyperlink'
         }
     ]
+
+    // json block functions
+    ///////////////////////////////////////////////////////////////////////////////////
 
     const handleAddNewBlock = (type) => {
 
@@ -246,6 +249,17 @@ const CreatePostPage = () => {
 
     }
 
+    ///////////////////////////////////////////////////////////////////////////////////
+
+    // SEO functions
+    ///////////////////////////////////////////////////////////////////////////////////
+
+    const handleChangeSlug = (value) => {
+        setPostDetails({...postDetails, slug: value})
+    }
+    
+    ///////////////////////////////////////////////////////////////////////////////////
+
 
     useEffect(() => {
         console.log(postDetails)
@@ -287,7 +301,7 @@ const CreatePostPage = () => {
                     >
                         {
                             postDetails.json_blocks.map((block, index) => (
-                                <NewItemWrapper
+                                <NewBlockWrapper
                                     key={block.id}                                
                                     block={block}
                                     deleteFtn={() => handleDeleteBlock(block.id)}
@@ -301,9 +315,14 @@ const CreatePostPage = () => {
 
                     {/* SEO */}
                     <div
-                        className={`${selectedNav === 'SEO' ? 'flex' : 'hidden'}`}
+                        className={`${selectedNav === 'SEO' ? 'flex' : 'hidden'} w-full h-full overflow-y-scroll flex-col gap-2 pb-40`}
                     >
-
+                        <PostSlugInput
+                            slug={postDetails.slug}
+                            title={postDetails.title}
+                            onChange={handleChangeSlug}
+                        />
+                        <TagBlock/>
                     </div>
 
                     {/* JSON */}

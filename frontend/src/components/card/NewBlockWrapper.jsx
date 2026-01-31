@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import NewItemWrapperBtn from '../buttons/NewItemWrapperBtn'
+import NewBlockWrapperBtn from '../buttons/NewBlockWrapperBtn'
 import ImageInput from '../inputs/ImageInput'
 import TextInput from '../inputs/TextInput'
 import NewPostTitleInput from '../inputs/PostTitleInput'
@@ -7,7 +7,7 @@ import PostParagraphInput from '../inputs/PostParagraphInput'
 import PostHeadingInput from '../inputs/PostHeadingInput'
 import PostLinkInput from '../inputs/PostLinkInput'
 
-const NewItemWrapper = ({ block, changeIndex, deleteFtn, index, changeValue }) => {
+const NewBlockWrapper = ({ block, changeIndex, deleteFtn, index, changeValue }) => {
     
     const [expand, setExpand] = useState(true)
 
@@ -30,7 +30,7 @@ const NewItemWrapper = ({ block, changeIndex, deleteFtn, index, changeValue }) =
     ]
 
     // just checks if its a thumbnail or title, can't be deleted
-    const restricted = ['Title', 'Thumbnail']
+    const restricted = ['Title', 'Thumbnail', 'slug']
 
     return (
         <div
@@ -54,7 +54,7 @@ const NewItemWrapper = ({ block, changeIndex, deleteFtn, index, changeValue }) =
                 >
                     {
                         optionBtns.map((btn, index) => (
-                            <NewItemWrapperBtn
+                            <NewBlockWrapperBtn
                                 key={btn.name}
                                 icon={btn.icon}
                                 index={index}
@@ -119,5 +119,5 @@ const NewItemWrapper = ({ block, changeIndex, deleteFtn, index, changeValue }) =
     )
 }
 
-export default NewItemWrapper
+export default NewBlockWrapper
 
