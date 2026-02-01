@@ -17,7 +17,7 @@ const CheckboxInput = ({ value, onClick, name }) => {
                 id='checkbox'
                 name='checkbox'
                 type="checkbox"
-                className={`w-fit h-fit p-2 rounded appearance-none border-2 dark:border-dark-primary border-primary ${isChecked ? 'bg-primary dark:bg-dark-primary' : ''}`}
+                className={`w-fit bg-background dark:bg-dark-background h-fit p-2 rounded appearance-none border-2 dark:border-dark-primary border-primary ${isChecked ? 'bg-primary dark:bg-dark-primary' : ''}`}
                 onChange={handleChange}
                 checked={value}
             />

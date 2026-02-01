@@ -13,7 +13,7 @@ const DashboardTopbar = () => {
         // Convert input to string if it isn't already
         const str = String(input);
 
-        console.log(str.split('/').filter(item => item !== ''))
+        // console.log(str.split('/').filter(item => item !== ''))
 
         // Split by '/' and remove any empty strings from the result
         setPaths(str.split('/').filter(item => item !== ''))

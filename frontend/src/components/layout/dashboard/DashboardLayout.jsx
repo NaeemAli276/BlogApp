@@ -5,7 +5,7 @@ import DashboardTopBar from './DashboardTopbar'
 const DashboardLayout = ({ children }) => {
     return (
         <div
-            className='w-full h-screen max-h-screen grid grid-cols-16 grid-rows-16 bg-secondary dark:bg-dark-background/90 font-poppins overflow-hidden'
+            className='w-full h-screen max-h-screen grid grid-cols-16 grid-rows-16 bg-background dark:bg-dark-background/90 font-poppins overflow-hidden'
         >   
             <Sidebar/>
             <div

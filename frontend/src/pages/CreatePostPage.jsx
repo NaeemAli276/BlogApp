@@ -26,10 +26,11 @@ const CreatePostPage = () => {
                 file: null
             }
         ],
-        slug: ''
+        slug: '',
+        tags: []
     }) 
     const [totalBlocks, setTotalBlocks] = useState(2)
-    const [selectedNav, setSelectedNav] = useState('Content')
+    const [selectedNav, setSelectedNav] = useState('SEO')
 
     const navBtns = ['Content', 'SEO', 'JSON']
     const blocktypes = [
@@ -255,7 +256,30 @@ const CreatePostPage = () => {
     ///////////////////////////////////////////////////////////////////////////////////
 
     const handleChangeSlug = (value) => {
-        setPostDetails({...postDetails, slug: value})
+        setPostDetails({
+            ...postDetails,
+            slug: value
+        })
+    }
+
+    const handleTagClick = (value) => {
+
+        if (postDetails.tags.includes(value)) {
+
+            const filteredTags = postDetails.tags.filter(tag => tag.id !== value.id)
+            setPostDetails({
+                ...postDetails,
+                tags: filteredTags
+            }) 
+
+        }
+        else {
+            setPostDetails({
+                ...postDetails,
+                tags: [...postDetails.tags, value]
+            })
+        }
+
     }
     
     ///////////////////////////////////////////////////////////////////////////////////
@@ -281,7 +305,7 @@ const CreatePostPage = () => {
                         navBtns.map((btn, index) => (
                             <button
                                 key={btn}
-                                className={`${btn === selectedNav ? 'bg-background dark:bg-background/5 text-accent dark:text-dark-text' : 'text-text dark:text-dark-text'} ${index === 0 && 'rounded-tl-md'} p-2 px-4 cursor-pointer`}
+                                className={`${btn === selectedNav ? 'bg-background dark:bg-background/5 text-primary dark:text-dark-text' : 'text-text dark:text-dark-text'} ${index === 0 && 'rounded-tl-md'} p-2 px-4 cursor-pointer`}
                                 onClick={() => setSelectedNav(btn)}
                             >
                                 {btn}
@@ -322,7 +346,10 @@ const CreatePostPage = () => {
                             title={postDetails.title}
                             onChange={handleChangeSlug}
                         />
-                        <TagBlock/>
+                        <TagBlock
+                            currentTags={postDetails.tags}
+                            handleTagClick={handleTagClick}
+                        />
                     </div>
 
                     {/* JSON */}
