@@ -264,20 +264,22 @@ const CreatePostPage = () => {
 
     const handleTagClick = (value) => {
 
-        if (postDetails.tags.includes(value)) {
+        if (!postDetails.tags.includes(value)) {
 
-            const filteredTags = postDetails.tags.filter(tag => tag.id !== value.id)
+            setPostDetails({
+                ...postDetails,
+                tags: [...postDetails.tags, value]
+            })
+
+        }
+        else {
+
+            const filteredTags = postDetails.tags.filter(tag => tag.id !== value?.id)
             setPostDetails({
                 ...postDetails,
                 tags: filteredTags
             }) 
 
-        }
-        else {
-            setPostDetails({
-                ...postDetails,
-                tags: [...postDetails.tags, value]
-            })
         }
 
     }
@@ -294,18 +296,18 @@ const CreatePostPage = () => {
             
             {/* content manager */}
             <div
-                className='col-span-11 row-span-14 row-start-3 bg-background dark:bg-background/10 rounded-md shadow shadow-text/50 w-full h-full relative flex flex-col overflow-hidden'
+                className='col-span-11 row-span-14 row-start-3 bg-background dark:bg-dark-background rounded-md shadow shadow-text/50 w-full h-full relative flex flex-col overflow-hidden'
             >
 
                 {/* nav part */}
                 <div
-                    className='flex flex-row items-center font-medium w-full h-fit bg-text/10 dark:bg-dark-background/20 rounded-t-md'
+                    className='flex flex-row items-center font-medium w-full h-fit bg-secondary dark:bg-dark-secondary rounded-t-md'
                 >
                     {
                         navBtns.map((btn, index) => (
                             <button
                                 key={btn}
-                                className={`${btn === selectedNav ? 'bg-background dark:bg-background/5 text-primary dark:text-dark-text' : 'text-text dark:text-dark-text'} ${index === 0 && 'rounded-tl-md'} p-2 px-4 cursor-pointer`}
+                                className={`${btn === selectedNav ? 'bg-background dark:bg-dark-background text-primary dark:text-dark-text' : 'text-text dark:text-dark-text'} ${index === 0 && 'rounded-tl-md'} p-2 px-4 cursor-pointer`}
                                 onClick={() => setSelectedNav(btn)}
                             >
                                 {btn}
@@ -368,7 +370,7 @@ const CreatePostPage = () => {
                     className={`${selectedNav === 'Content' ? 'flex' : 'hidden'} absolute bottom-0 left-0 w-full bg-background dark:bg-dark-background rounded-b-md flex flex-row gap-2 z-10`}
                 >
                     <div
-                        className='flex flex-row gap-2 w-full h-full dark:bg-background/19 p-2'
+                        className='flex flex-row gap-2 w-full h-full p-2'
                     >
                         {
                             blocktypes.map((type) => (

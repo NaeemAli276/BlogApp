@@ -17,15 +17,29 @@ const TagBlock = ({ handleTagClick, currentTags }) => {
     const [selectedTags, setSelectedTags] = useState(currentTags || [])
     const [availableTags, setAvailableTags] = useState([])
 
+    const handleTagChange = (value) => {
+
+        console.log(value)
+
+        if (!selectedTags.includes(value)) {
+            setSelectedTags([...selectedTags, value])
+            setAvailableTags(availableTags.filter((tag) => tag.id !== value.id))
+            handleTagClick(value)
+        }
+        else {
+            setSelectedTags(selectedTags.filter((tag) => tag.id !== value.id))
+            setAvailableTags([...availableTags, value])
+            handleTagClick(value)
+        }
+
+    }
+
     useEffect(() => {
         if (data) {
             setAvailableTags(data.data);
         }
     }, [data]);
 
-    useEffect(() => {
-        setSelectedTags(currentTags)
-    }, [currentTags])
 
     // useEffect(() => {
     //     console.log(data)
@@ -34,7 +48,7 @@ const TagBlock = ({ handleTagClick, currentTags }) => {
     return (
 
         <div
-            className='w-full h-fit flex flex-col gap-5 bg-dark-background/10 dark:bg-dark-background/20 p-3 rounded-md'
+            className='w-full h-fit flex flex-col gap-5 bg-secondary dark:bg-dark-secondary p-3 rounded-md'
         >
             <button
                 className='font-medium flex gap-1 py-0.5 items-center text-primary dark:text-dark-text'
@@ -56,15 +70,25 @@ const TagBlock = ({ handleTagClick, currentTags }) => {
                 <div
                     className='flex flex-col gap-2 w-full h-fit'
                 >
-                    {
-                        selectedTags.map((tag) => (
-                            <PostTagBtn
-                                key={tag.id}
-                                name={tag.name}
-                                ftn={() => handleTagClick(tag)}
-                            />
-                        ))
-                    }
+                    <h2
+                        className='w-full pl-1 font-medium text-text dark:text-dark-text'
+                    >
+                        Selected Tags
+                    </h2>
+                    <div
+                        className='flex flex-row flex-wrap w-full h-fit gap-2'
+                    >
+                        {   
+                            selectedTags.map((tag) => (
+                                <PostTagBtn
+                                    key={tag?.id}
+                                    name={tag?.name}
+                                    ftn={() => handleTagChange(tag)}
+                                    isSelected={true}
+                                />
+                            ))
+                        }
+                    </div>
                 </div>
 
                 {/* separator */}
@@ -113,17 +137,27 @@ const TagBlock = ({ handleTagClick, currentTags }) => {
                                             </p>
                                         </div>
                                     :   <div
-                                            className='bg-background dark:bg-background/5 p-2 w-full h-full gap-2 flex flex-row flex-wrap rounded'
+                                            className='flex flex-col gap-2 w-full h-full'
                                         >
-                                            {
-                                                availableTags?.map((tag) => (
-                                                    <PostTagBtn
-                                                        key={tag.id}
-                                                        name={tag.name}
-                                                        ftn={() => handleTagClick(tag)}
-                                                    />
-                                                ))
-                                            }
+                                            <h2
+                                                className='w-full pl-1 font-medium text-text dark:text-dark-text'
+                                            >
+                                                Available Tags
+                                            </h2>
+                                            <div
+                                                className='w-full h-full gap-2 flex flex-row flex-wrap rounded'
+                                            >
+                                                {
+                                                    availableTags?.map((tag) => (
+                                                        <PostTagBtn
+                                                            key={tag.id}
+                                                            name={tag.name}
+                                                            ftn={() => handleTagChange(tag)}
+                                                            isSelected={false}
+                                                        />
+                                                    ))
+                                                }
+                                            </div>
                                         </div>
                                 }
                             </div>

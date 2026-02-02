@@ -5,15 +5,15 @@
 
     --font-poppins: 'Poppins';
     
-    --color-text: hsl(226, 57%, 21%);   
+    --color-text:  #312e81;  
     --color-background:  hsl(240, 60%, 99%);
-    --color-primary: hsl(224, 68%, 43%);
-    --color-secondary: hsl(213, 97%, 87%);
-    --color-accent: hsl(198, 93%, 60%);
+    --color-primary: hsl(243, 81%, 54%);
+    --color-secondary: hsl(243, 100%, 93%);
+    --color-accent: hsl(244, 44%, 45%);
 
-    --color-dark-text: hsl(213, 97%, 87%);
-    --color-dark-background: oklch(14.5% 0 0);
-    --color-dark-primary: hsl(229, 86%, 51%);
-    --color-dark-secondary: hsl(213, 94%, 68%);
-    --color-dark-accent:   hsl(240, 100%, 16%);
+    --color-dark-text: hsl(243, 76%, 95%);
+    --color-dark-background: hsl(240, 60%, 1%);
+    --color-dark-primary: hsl(243, 81%, 46%);
+    --color-dark-secondary: hsl(244, 86%, 12%);
+    --color-dark-accent:  hsl(243, 58%, 47%);
 }

@@ -37,7 +37,7 @@ const PostSlugInput = ({ slug , title, onChange }) => {
     return (
 
         <div
-            className='w-full h-fit flex flex-col gap-5 bg-dark-background/10 dark:bg-dark-background/20 p-3 rounded-md'
+            className='w-full h-fit flex flex-col gap-5 bg-secondary dark:bg-dark-secondary p-3 rounded-md'
         >
             <button
                 className='font-medium flex gap-1 py-0.5 items-center text-primary dark:text-dark-text'
