@@ -15,7 +15,7 @@ class CategoryController extends Controller
 
         return response()->json([
             'success' => true,
-            'data' => $categories
+            'categories' => $categories
         ]);
 
     }

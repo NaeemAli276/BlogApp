@@ -24,7 +24,7 @@ const JsonViewer = ({ data }) => {
         '--w-rjv-quotes-color': '#c586c0', // Quote marks color
         
         // Background and line colors with purple tint
-        '--w-rjv-background-color': 'hsl(240, 10%, 12%)', // Dark purple-ish background
+        '--w-rjv-background-color': '#cac6fb', // Dark purple-ish background
         '--w-rjv-line-color': '#2a2438', // Line separator (darker purple)
         '--w-rjv-arrow-size': '15px', // Optional: Adjust arrow size
     };

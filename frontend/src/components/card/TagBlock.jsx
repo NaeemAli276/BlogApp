@@ -63,12 +63,12 @@ const TagBlock = ({ handleTagClick, currentTags }) => {
             </button>
 
             <div
-                className='flex flex-col gap-2 w-full h-full'
+                className={`${expand ? 'flex' : 'hidden'} flex flex-col gap-2 w-full h-full`}
             >
 
                 {/* selected tags */}
                 <div
-                    className='flex flex-col gap-2 w-full h-fit'
+                    className='flex flex-col gap-5 w-full h-fit'
                 >
                     <h2
                         className='w-full pl-1 font-medium text-text dark:text-dark-text'
@@ -137,7 +137,7 @@ const TagBlock = ({ handleTagClick, currentTags }) => {
                                             </p>
                                         </div>
                                     :   <div
-                                            className='flex flex-col gap-2 w-full h-full'
+                                            className='flex flex-col gap-5 w-full h-full'
                                         >
                                             <h2
                                                 className='w-full pl-1 font-medium text-text dark:text-dark-text'

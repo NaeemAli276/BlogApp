@@ -17,3 +17,14 @@
     --color-dark-secondary: hsl(244, 86%, 12%);
     --color-dark-accent:  hsl(243, 58%, 47%);
 }
+
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+    /* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}

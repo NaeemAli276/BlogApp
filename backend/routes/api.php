@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\TagController;
 use Illuminate\Http\Request;
@@ -18,3 +19,6 @@ Route::get('/posts', [PostController::class, 'index']);
 
 // tags
 Route::get('/tags', [TagController::class, 'getTags']);
+
+// categories
+Route::get('/categories', [CategoryController::class, 'index']);

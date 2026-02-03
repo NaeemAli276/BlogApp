@@ -8,7 +8,7 @@ const TextInput = ({ value, onChange, name, secondaryText, type, isRequired = fa
             className='flex flex-col w-full h-fit gap-1.5'
         >
             <h3
-                className={`text-base/tight font-medium ${showName ? 'block' : 'hidden'} dark:text-dark-text`}
+                className={`text-base/tight font-medium ${showName ? 'block' : 'hidden'} dark:text-dark-text text-text`}
             >
                 {name}
                 <span className={`${isRequired ? 'text-rose-500' : 'hidden'} `}>*</span>
