@@ -11,6 +11,9 @@ import SmallCard from '../components/card/SmallCard'
 import CategoryDropdown from '../components/inputs/CategoryDropdown'
 import { getCurrentTime } from '../utils/DateUtils'
 import ToggleBtn from '../components/buttons/ToggleBtn'
+import { useNavigate } from 'react-router-dom'
+import ToggleCard from '../components/card/ToggleCard'
+
 
 const CreatePostPage = () => {
 
@@ -82,6 +85,9 @@ const CreatePostPage = () => {
             purpose: getCurrentTime().formatted
         }
     ]
+
+    // navigation
+    const navigate = useNavigate()
 
     // json block functions
     ///////////////////////////////////////////////////////////////////////////////////
@@ -327,7 +333,7 @@ const CreatePostPage = () => {
     ///////////////////////////////////////////////////////////////////////////////////
     
     const handleViewFtn = () => {
-
+        navigate(`/Dashboard/Newpost/${postDetails.slug}`, { state: postDetails})
     }
 
     const handlePublishBtn = () => {
@@ -345,7 +351,7 @@ const CreatePostPage = () => {
             
             {/* content manager */}
             <div
-                className='col-span-11 row-span-14 row-start-3 bg-background dark:bg-dark-background rounded-md shadow shadow-text/50 dark:shadow-none w-full h-full relative flex flex-col overflow-hidden'
+                className='col-span-11 row-span-14 row-start-3 bg-background dark:bg-dark-background rounded-md shadow shadow-text/50 dark:shadow-none w-full h-full relative flex flex-col overflow-hidden '
             >
 
                 {/* nav part */}
@@ -372,7 +378,7 @@ const CreatePostPage = () => {
                     
                     {/* content */}
                     <div
-                        className={`${selectedNav === 'Content' ? 'flex' : 'hidden'} w-full h-full overflow-y-scroll flex-col gap-2 pb-40`}
+                        className={`${selectedNav === 'Content' ? 'flex' : 'hidden'} w-full h-full overflow-y-scroll no-scrollbar flex-col gap-2 pb-40`}
                     >
                         {
                             postDetails.json_blocks.map((block, index) => (
@@ -459,6 +465,18 @@ const CreatePostPage = () => {
                     }
                 </div>
 
+                {/* is viewable */}
+                <div
+                    className='w-full h-fit flex justify-end'
+                >
+                    <ToggleCard
+                        text={'Is your post available for everyone to see?'}
+                        value={postDetails.viewable}
+                        toggleFtn={() => setPostDetails({...postDetails, viewable: !postDetails.viewable})}
+                        purpose={'Viewable'}
+                    />
+                </div>
+
                 {/* date and time */}
                 <div
                     className='flex flex-col gap-2 w-full h-fit items-end justify-start'
@@ -476,6 +494,7 @@ const CreatePostPage = () => {
                         {
                             date_time.map((val) => (
                                 <SmallCard
+                                    key={val.purpose}
                                     icon={val.icon}
                                     purpose={val.purpose}
                                 />
@@ -501,21 +520,6 @@ const CreatePostPage = () => {
                         value={postDetails.category}
                     />
 
-                </div>
-
-                {/* is viewable */}
-                <div
-                    className='w-full h-full flex items-end justify-end gap-3'
-                >
-                    <h2
-                        className='font-medium text-text dark:text-dark-text'
-                    >
-                        Viewable
-                    </h2>
-                    <ToggleBtn
-                        isActive={postDetails.viewable}
-                        toggleFtn={() => setPostDetails({...postDetails, viewable: !postDetails.viewable})}
-                    />
                 </div>
 
             </div>

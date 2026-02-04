@@ -51,7 +51,8 @@ const CategoryDropdown = ({ onChange, value }) => {
             >
                 {
                     data?.categories.map((cat) => (
-                        <button
+                        <button 
+                            key={cat.id}
                             className='w-full h-fit p-2 px-3 hover:bg-dark-background/10 dark:hover:bg-background/10 text-start text-text dark:text-dark-text'
                             onClick={() => handleClick(cat)}
                         >

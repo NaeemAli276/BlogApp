@@ -9,6 +9,7 @@ import LoginPage from './pages/LoginPage'
 import Register from './pages/RegisterPage'
 import ProtectedRoute from './components/auth/ProtectedRoute'
 import CreatePostPage from './pages/CreatePostPage'
+import ViewPage from './pages/ViewPage'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -40,6 +41,15 @@ function App() {
           element={
             <ProtectedRoute>
               <CreatePostPage/>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path='/Dashboard/NewPost?:slug'
+          element={
+            <ProtectedRoute>
+              <ViewPage/>
             </ProtectedRoute>
           }
         />
