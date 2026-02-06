@@ -332,7 +332,7 @@ const CreatePostPage = () => {
     ///////////////////////////////////////////////////////////////////////////////////
     
     const toggleViewBtn = () => {
-        
+        setToggleView(!toggleView)
     }
 
     const handlePublishBtn = () => {
@@ -524,7 +524,11 @@ const CreatePostPage = () => {
             </div>
 
             {/* View post component */}
-            <ViewPostCard/>
+            <ViewPostCard
+                postDetials={postDetails}
+                toggleView={() => setToggleView(!toggleView)}
+                showView={toggleView}
+            />
 
         </DashboardLayout>
     )
