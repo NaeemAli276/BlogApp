@@ -1,4 +1,5 @@
 import React from 'react'
+import ViewPostCardBlock from './ViewPostCardBlock'
 
 const ViewPostCard = ({ postDetials, showView = true, toggleView  }) => {
 
@@ -24,14 +25,16 @@ const ViewPostCard = ({ postDetials, showView = true, toggleView  }) => {
 
                 {/* main content */}
                 <div
-                    className='flex flex-col gap-4'
+                    className='w-full h-full overflow-y-scroll flex flex-col gap-4 no-scrollbar'
                 >
-                    <h1
-                        className='text-3xl font-semibold '
-                    >
-                        {postDetials?.title}
-                    </h1>
-
+                    {
+                        postDetials.json_blocks.map((block) => (
+                            <ViewPostCardBlock
+                                key={block.id}
+                                block={block}
+                            />
+                        ))
+                    }
                 </div>
 
             </div>
