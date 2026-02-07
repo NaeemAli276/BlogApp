@@ -9,6 +9,9 @@ import LoginPage from './pages/LoginPage'
 import Register from './pages/RegisterPage'
 import ProtectedRoute from './components/auth/ProtectedRoute'
 import CreatePostPage from './pages/CreatePostPage'
+import MyPostsPage from './pages/MyPostsPage'
+import FriendsPage from './pages/FriendsPage'
+import Dashboard from './pages/Dashboard'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -36,7 +39,34 @@ function App() {
         />
 
         <Route
-          path='/Dashboard/NewPost'
+          path='/Friends'
+          element={
+            <ProtectedRoute>
+              <FriendsPage/>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path='/Dashboard'
+          element={
+            <ProtectedRoute>
+              <Dashboard/>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path='/Posts'
+          element={
+            <ProtectedRoute>
+              <MyPostsPage/>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path='/Posts/NewPost'
           element={
             <ProtectedRoute>
               <CreatePostPage/>

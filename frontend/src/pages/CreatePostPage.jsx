@@ -92,7 +92,7 @@ const CreatePostPage = () => {
 
             {/* other details */}
             <div
-                className='col-span-5 row-span-16 row-start-3 flex flex-col gap-8 w-full h-full pl-4'
+                className='col-span-5 row-span-16 row-start-3 flex flex-col gap-6 w-full h-full pl-4'
             >   
 
                 {/* general buttons */}
@@ -121,6 +121,18 @@ const CreatePostPage = () => {
                         value={postDetails.viewable}
                         toggleFtn={() => setPostDetails({...postDetails, viewable: !postDetails.viewable})}
                         purpose={'Viewable'}
+                    />
+                </div>
+
+                {/* is viewable */}
+                <div
+                    className='w-full h-fit flex justify-end'
+                >
+                    <ToggleCard
+                        text={'Only allow your friends to view your post?'}
+                        value={postDetails.viewable}
+                        toggleFtn={() => setPostDetails({...postDetails, viewable: !postDetails.viewable})}
+                        purpose={'Only friends'}
                     />
                 </div>
 
