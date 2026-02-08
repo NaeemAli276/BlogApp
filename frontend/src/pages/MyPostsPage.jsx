@@ -1,8 +1,15 @@
 import React from 'react'
+import DashboardLayout from '../components/layout/dashboard/DashboardLayout'
+import UserPostsContainer from '../components/layout/PostPage/UserPostsContainer'
 
 const MyPostsPage = () => {
     return (
-        <div>MyPostsPage</div>
+        <DashboardLayout>
+            
+            {/* user posts */}
+            <UserPostsContainer/>
+
+        </DashboardLayout>
     )
 }
 

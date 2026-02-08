@@ -12,6 +12,8 @@ import CreatePostPage from './pages/CreatePostPage'
 import MyPostsPage from './pages/MyPostsPage'
 import FriendsPage from './pages/FriendsPage'
 import Dashboard from './pages/Dashboard'
+import EditProfile from './pages/EditProfile'
+import AssetsPage from './pages/AssetsPage'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -48,10 +50,10 @@ function App() {
         />
 
         <Route
-          path='/Dashboard'
+          path='/EditProfile'
           element={
             <ProtectedRoute>
-              <Dashboard/>
+              <EditProfile/>
             </ProtectedRoute>
           }
         />
@@ -70,6 +72,15 @@ function App() {
           element={
             <ProtectedRoute>
               <CreatePostPage/>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path='/Assets'
+          element={
+            <ProtectedRoute>
+              <AssetsPage/>
             </ProtectedRoute>
           }
         />

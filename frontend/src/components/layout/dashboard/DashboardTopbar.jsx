@@ -25,7 +25,7 @@ const DashboardTopbar = () => {
 
     return (
         <div
-            className='row-span-1 col-span-16 flex flex-col gap-1 w-full h-full bg-background dark:bg-dark-background text-text dark:text-dark-text p-2 rounded-md shadow-text/50 dark:shadow-none shadow px-3 items-center'
+            className='row-span-1 col-span-16 flex flex-col gap-1 w-full h-full bg-background dark:bg-dark-background text-text dark:text-dark-text p-2 rounded-md shadow-dark-background/20 dark:shadow-none shadow px-3 items-center'
         >   
             <div
                 className='flex flex-row w-full h-full items-center gap-1 px-2'

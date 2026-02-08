@@ -35,13 +35,17 @@ const LoginPage = () => {
         }
         catch (error) {
             // This catches network errors or thrown errors from login()
-            setError('An error occurred, try again')
+            setError(error.message)
             setIsPending(false)
         }
         finally {
             setIsPending(false)
         }
     }
+
+    useEffect(() => {
+        console.log(error)
+    }, [error])
 
     return (
         <div
@@ -133,9 +137,8 @@ const LoginPage = () => {
                         placeholderText={'Enter your email...'}
                         onChange={(e) => setFormDetails({...formDetails, email: e.target.value})}
                         value={formDetails.email}
-                        secondaryText={error?.email}
                         isRequired={true}
-                        secondaryTextShow={error === null ? false : true}
+                        secondaryTextShow={false}
                     />
 
                     <PasswordInput
@@ -143,9 +146,8 @@ const LoginPage = () => {
                         placeholderText={'Enter your password...'}
                         onChange={(e) => setFormDetails({...formDetails, password: e.target.value})}
                         value={formDetails.password}
-                        secondaryText={error?.password}
                         isRequired={true}
-                        secondaryTextShow={error === null ? false : true}
+                        secondaryTextShow={false}
                     />
 
                     <CheckboxInput
@@ -160,6 +162,18 @@ const LoginPage = () => {
                 <div
                     className='w-full h-fit flex flex-col gap-3'
                 >
+
+                    {/* errors */}
+                    <div
+                        className={`${error === null ? 'hidden' : 'flex'} w-full h-fit items-center justify-center `}
+                    >
+                        <h2
+                            className='text-rose-500 font-medium'
+                        >
+                            {error}
+                        </h2>
+                    </div>
+
                     <button
                         className='w-full h-fit p-2 text-lg font-semibold bg-primary dark:bg-dark-primary rounded-md text-dark-text shadow shadow-text duration-200 hover:bg-accent cursor-pointer'
                         onClick={handleSubmitLogin}

@@ -28,7 +28,7 @@ const CategoryDropdown = ({ onChange, value }) => {
 
             {/* show current value */}
             <button
-                className='flex flex-row items-center justify-between w-full h-fit p-2 pl-3 bg-secondary text-text dark:text-dark-text dark:bg-background/10 rounded-md'    
+                className='flex flex-row items-center justify-between w-full h-fit p-2 pl-3 bg-secondary text-text dark:text-dark-text dark:bg-background/10 rounded-md shadow shadow-dark-background/20'    
                 onClick={() => setExpand(!expand)}
             >
                 <h2
@@ -47,7 +47,7 @@ const CategoryDropdown = ({ onChange, value }) => {
 
             {/* options */}
             <div
-                className={`absolute top-12 left-0 z-50 bg-secondary flex-col dark:bg-background/10 rounded-md w-full h-48 ${expand ? 'flex' : 'hidden'} overflow-y-scroll no-scrollbar`}
+                className={`absolute top-12 left-0 z-50 bg-secondary flex-col dark:bg-background/10 rounded-md w-full h-48 ${expand ? 'flex' : 'hidden'} overflow-y-scroll no-scrollbar shadow shadow-dark-background/20`}
             >
                 {
                     data?.categories.map((cat) => (

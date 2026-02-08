@@ -265,7 +265,7 @@ const ContentManager = ({ postDetails, setPostDetails }) => {
     
     return (
         <div
-            className='col-span-11 row-span-14 row-start-3 bg-background dark:bg-dark-background rounded-md shadow shadow-text/50 dark:shadow-none w-full h-full relative flex flex-col overflow-hidden '
+            className='col-span-11 row-span-14 row-start-3 bg-background dark:bg-dark-background rounded-md shadow shadow-dark-background/20 dark:shadow-none w-full h-full relative flex flex-col overflow-hidden '
         >
 
             {/* nav part */}

@@ -5,7 +5,7 @@ import ToggleButton from '../buttons/ToggleBtn'
 const ToggleCard = ({ value, toggleFtn, purpose, text }) => {
     return (
         <div
-            className='p-3 rounded-md flex flex-col gap-2 w-3/4 h-fit bg-secondary dark:bg-background/10'
+            className='p-3 rounded-md flex flex-col gap-2 w-3/4 h-fit bg-secondary shadow shadow-dark-background/20 dark:bg-background/10'
         >
             <div
                 className='w-full h-fit flex justify-between items-center'
