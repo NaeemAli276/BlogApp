@@ -20,7 +20,7 @@ const PasswordInput = ({ value, name, onChange, secondaryText, secondaryTextShow
                 secondaryTextShow={secondaryTextShow}
             />
             <button
-                className='absolute top-7.25 right-2 p-2 text-primary dark:text-dark-primary'
+                className='absolute top-7.25 right-2 p-2 text-primary dark:text-dark-text'
                 onClick={() => setShowPassword(!showPassword)}
             >
                 {
