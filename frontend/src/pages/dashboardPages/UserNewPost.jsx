@@ -1,12 +1,12 @@
 import React from 'react'
 import DashboardLayout from '../../components/Layout/DashboardLayout'
 
-const UserAnalytics = () => {
+const UserNewPost = () => {
     return (
         <DashboardLayout>
-            UserAnalytics
+
         </DashboardLayout>
     )
 }
 
-export default UserAnalytics
+export default UserNewPost
