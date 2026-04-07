@@ -8,7 +8,7 @@ const Navbar = () => {
 
     return (
         <div
-            className='w-full bg-background p-4 px-5 h-fit flex flex-row items-center justify-between'
+            className='w-full bg-background p-3 px-5 h-fit flex flex-row items-center justify-between'
         >
 
             {/* current location */}
