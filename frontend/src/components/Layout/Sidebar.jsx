@@ -1,5 +1,5 @@
 // used for user's cms
-import React from 'react'
+import React, { useEffect } from 'react'
 import SidebarBtn from '../btns/SidebarBtn'
 import { useLocation } from 'react-router-dom'
 
@@ -35,7 +35,7 @@ const Sidebar = () => {
 
     return (
         <div
-            className='min-w-1/4 bg-primary h-full text-background p-8 py-6 gap-32 flex flex-col '
+            className='col-span-4 row-span-full bg-primary h-full text-background p-8 py-6 gap-32 flex flex-col '
         >
             
             {/* logo and name */}
@@ -65,7 +65,7 @@ const Sidebar = () => {
                             icon={btn.icon}
                             name={btn.name}
                             ftn={btn.path}
-                            isSelected={location.pathname.includes(btn.name)}
+                            isSelected={location.pathname.includes(btn.path)}
                         />
                     ))
                 }

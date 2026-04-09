@@ -5,18 +5,15 @@ import Navbar from './Navbar'
 const DashboardLayout = ({ children }) => {
     return (
         <div
-            className='font-poppins flex flex-row w-full bg-background h-screen max-h-screen'
+            className='font-poppins w-full bg-background h-screen max-h-screen overflow-hidden grid grid-cols-16 grid-rows-16 '
         >
             <Sidebar/>
+            <Navbar/>
+
             <div
-                className='flex flex-col w-full h-full'
+                className='w-full h-full p-5 col-span-12 row-span-14 row-start-3 grid grid-cols-16 grid-rows-16'
             >
-                <Navbar/>
-                <div
-                    className='grid grid-cols-16 grid-rows-16 w-full h-full p-5'
-                >
-                    {children}
-                </div>
+                {children}
             </div>
         </div>
     )

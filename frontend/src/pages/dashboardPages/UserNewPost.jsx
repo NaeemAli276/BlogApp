@@ -1,6 +1,6 @@
 import React from 'react'
 import DashboardLayout from '../../components/Layout/DashboardLayout'
-import PostHandlerContainer from '../../components/NewPostPage/PostHandlerContainer'
+import PostHandlerContainer from '../../components/PostsPage/PostHandlerContainer'
 
 
 const UserNewPost = ({  }) => {

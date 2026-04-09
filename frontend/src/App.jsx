@@ -28,7 +28,7 @@ const App = () => {
         />
 
         <Route
-          path='/NewPost'
+          path='/Posts/NewPost'
           element={
             <UserNewPost/>
           }
