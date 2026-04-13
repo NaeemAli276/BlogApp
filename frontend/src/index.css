@@ -30,5 +30,80 @@
         content: attr(data-placeholder);
         float: left;
         @apply text-text/50 pointer-events-none h-0;
+    }  /* Base list styles */
+    .tiptap ul, 
+    .tiptap ol {
+        @apply pl-6 text-primary;
     }
+
+    /* Unordered list styles */
+    .tiptap ul {
+        list-style-type: disc;
+    }
+    
+    /* Nested unordered list - second level */
+    .tiptap ul ul {
+        list-style-type: circle;
+    }
+    
+    /* Nested unordered list - third level */
+    .tiptap ul ul ul {
+        list-style-type: square;
+    }
+
+    /* Ordered list styles */
+    .tiptap ol {
+        list-style-type: decimal;
+    }
+    
+    /* Nested ordered list - second level (a, b, c) */
+    .tiptap ol ol {
+        list-style-type: lower-alpha;
+    }
+    
+    /* Nested ordered list - third level (i, ii, iii) */
+    .tiptap ol ol ol {
+        list-style-type: lower-roman;
+    }
+
+    /* List item spacing */
+    .tiptap li {
+    }
+    
+    /* Nested list margin adjustment */
+    .tiptap li > ul,
+    .tiptap li > ol {
+    }
+
+    .tiptap h1 {
+        @apply text-3xl font-semibold;
+    }
+
+    .tiptap h2 {
+        @apply text-2xl font-semibold;
+    }
+
+    .tiptap h3 {
+        @apply text-lg font-semibold;
+    }
+
+    .tiptap code {
+        @apply bg-gray-100 text-red-600 rounded px-1.5 py-0.5 text-sm font-mono;
+    }
+    
+    /* Code block container */
+    .tiptap pre {
+        @apply bg-text/10 text-text rounded p-2 py-3 overflow-x-auto;
+    }
+    
+    /* Code inside pre block */
+    .tiptap pre code {
+        @apply bg-transparent text-inherit p-0 text-sm font-mono;
+    }
+    
+    /* Optional: Add syntax highlighting base styles */
+    .tiptap pre code .token {
+        @apply inline;
+    }
+
 }
