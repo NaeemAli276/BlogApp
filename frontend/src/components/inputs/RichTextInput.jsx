@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useEditor, Tiptap, EditorContext, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Placeholder from '@tiptap/extension-placeholder'
@@ -8,6 +8,8 @@ import Link from "@tiptap/extension-link";
 import Toolbar from "../btns/Toolbar";
 
 const RichTextInput = ({ content = `` }) => {
+
+
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -42,15 +44,11 @@ const RichTextInput = ({ content = `` }) => {
 
   const providerValue = useMemo(() => ({ editor }), [editor])
 
-  useEffect(() => {
-    console.log(editor)
-  }, [editor])
-
   if (!editor) return null;
 
   return (
     <EditorContext.Provider value={providerValue}>
-      <div className="flex flex-col gap-0 w-full h-full">
+      <div className="flex flex-col gap-0 w-full h-full relative">
         <Toolbar />
         <EditorContent editor={editor}/>
       </div>

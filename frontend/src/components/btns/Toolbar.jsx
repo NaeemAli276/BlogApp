@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useCurrentEditor, } from '@tiptap/react';
+import LinkModal from '../PostsPage/LinkModal';
 
 const Toolbar = () => {
     const { editor } = useCurrentEditor();
     const [, forceUpdate] = useState({}); // Used to trigger re-renders
-
+    const [isLinkModalOn, setIsLinkModalOn] = useState(false)
     
 
     const styleCommands = [
@@ -88,38 +89,46 @@ const Toolbar = () => {
             isActive: () => editor.isActive({ textAlign: 'right' }),
         },
     ]
-    const miscCommands = [
+    const codeCommands = [
         {
             btnTitle: 'Code block (Ctrl + Alt + C)',
             icon: <svg  xmlns="http://www.w3.org/2000/svg" width={20} height={20} fill={"currentColor"} viewBox={"0 0 24 24"}>{/* Boxicons v3.0.8 https://boxicons.com | License  https://docs.boxicons.com/free */}<path d="M9.71 16.29 5.41 12l4.3-4.29-1.42-1.42L2.59 12l5.7 5.71zm6 1.42 5.7-5.71-5.7-5.71-1.42 1.42 4.3 4.29-4.3 4.29z"></path></svg>,
             command: () => editor.chain().focus().toggleCodeBlock().run(),
             isActive: () => editor.isActive('codeBlock'),
         },
+    ]
+    const miscCommands = [
         {
             btnTitle: 'Link',
             icon: <svg  xmlns="http://www.w3.org/2000/svg" width={20} height={20} fill={"currentColor"} viewBox={"0 0 24 24"}>{/* Boxicons v3.0.8 https://boxicons.com | License  https://docs.boxicons.com/free */}<path d="M9.88 18.36a3 3 0 0 1-4.24 0 3 3 0 0 1 0-4.24l2.83-2.83-1.41-1.41-2.83 2.83a5.003 5.003 0 0 0 0 7.07c.98.97 2.25 1.46 3.54 1.46s2.56-.49 3.54-1.46l2.83-2.83-1.41-1.41-2.83 2.83Zm2.83-14.14L9.88 7.05l1.41 1.41 2.83-2.83a3 3 0 0 1 4.24 0 3 3 0 0 1 0 4.24l-2.83 2.83 1.41 1.41 2.83-2.83a5.003 5.003 0 0 0 0-7.07 5.003 5.003 0 0 0-7.07 0Z"></path><path d="m16.95 8.46-.71-.7-.7-.71-4.25 4.24-4.24 4.25.71.7.7.71 4.25-4.24z"></path></svg>,
-            command: () => editor.chain().focus().toggleBlockquote().run(),
-            isActive: () => editor.isActive('blockquote'),
+            command: () => setIsLinkModalOn(true),
+            isActive: isLinkModalOn === true,
+        },
+        {
+            btnTitle: 'Trash',
+            icon: <svg  xmlns="http://www.w3.org/2000/svg" width={20} height={20} fill={"currentColor"} viewBox={"0 0 24 24"}>{/* Boxicons v3.0.8 https://boxicons.com | License  https://docs.boxicons.com/free */}<path d="M17 6V4c0-1.1-.9-2-2-2H9c-1.1 0-2 .9-2 2v2H2v2h2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8h2V6zM9 4h6v2H9zM6 20V8h12v12z"></path><path d="M9 10h2v8H9zm4 0h2v8h-2z"></path></svg>,
+            command: () => editor.commands.clearContent(),
+            isActive: null,
         },
     ]
 
     useEffect(() => {
         if (!editor) return;
-        
-        // Force a re-render whenever the editor state changes
-        const handleUpdate = () => {
-        forceUpdate({});
-        };
-        
-        // Subscribe to all relevant editor events
-        editor.on('update', handleUpdate);
-        editor.on('selectionUpdate', handleUpdate);
-        editor.on('transaction', handleUpdate);
-        
-        return () => {
-        editor.off('update', handleUpdate);
-        editor.off('selectionUpdate', handleUpdate);
-        editor.off('transaction', handleUpdate);
+            
+            // Force a re-render whenever the editor state changes
+            const handleUpdate = () => {
+                forceUpdate({});
+            };
+            
+            // Subscribe to all relevant editor events
+            editor.on('update', handleUpdate);
+            editor.on('selectionUpdate', handleUpdate);
+            editor.on('transaction', handleUpdate);
+            
+            return () => {
+                editor.off('update', handleUpdate);
+                editor.off('selectionUpdate', handleUpdate);
+                editor.off('transaction', handleUpdate);
         };
     }, [editor]);
 
@@ -129,14 +138,14 @@ const Toolbar = () => {
     }
 
     return (
-        <div className='flex flex-row items-center gap-0 w-full h-fit rounded-t border-2 border-primary/70 divide-primary/70 divide-x-2 relative'>
+        <div className='flex flex-row items-center gap-0 w-full h-fit rounded-t border-2 border-primary/70 divide-primary/70 divide-x overflow-y-scroll scrollbar-hide'>
 
             {/* style commands */}
             <div className='flex flex-row items-center gap-0 w-fit h-full px-0.5'>
                 {styleCommands.map((comm) => (
                     <div className='p-1 px-1.25' key={comm.btnTitle}>
                         <button
-                            className={`border-primary/70 p-1 duration-200 ${comm.isActive() ? 'bg-secondary/70 text-primary' : 'text-text'} rounded-xs`}
+                            className={`border-primary/70 hover:bg-text/10 p-1 duration-200 ${comm.isActive() ? 'bg-secondary/70 text-primary' : 'text-text'} rounded-xs`}
                             onClick={comm.command}
                             title={comm.btnTitle}
                         >
@@ -151,7 +160,7 @@ const Toolbar = () => {
                 {headingCommands.map((comm) => (
                     <div className='p-1 px-1.25' key={comm.btnTitle}>
                         <button
-                            className={`border-primary p-1 duration-200 ${comm.isActive() ? 'bg-secondary/70 text-primary' : 'text-text'} rounded-xs`}
+                            className={`border-primary/70 hover:bg-text/10 p-1 duration-200 ${comm.isActive() ? 'bg-secondary/70 text-primary' : 'text-text'} rounded-xs`}
                             onClick={comm.command}
                             title={comm.btnTitle}
                         >
@@ -166,7 +175,7 @@ const Toolbar = () => {
                 {listCommands.map((comm) => (
                     <div className='p-1 px-1.25' key={comm.btnTitle}>
                         <button
-                            className={`border-primary p-1 duration-200 ${comm.isActive() ? 'bg-secondary/70 text-primary' : 'text-text'} rounded-xs`}
+                            className={`border-primary/70 hover:bg-text/10 p-1 duration-200 ${comm.isActive() ? 'bg-secondary/70 text-primary' : 'text-text'} rounded-xs`}
                             onClick={comm.command}
                             title={comm.btnTitle}
                         >
@@ -181,7 +190,7 @@ const Toolbar = () => {
                 {alignCommands.map((comm) => (
                     <div className='p-1 px-1.25' key={comm.btnTitle}>
                         <button
-                            className={`border-primary p-1 duration-200 ${comm.isActive() ? 'bg-secondary/70 text-primary' : 'text-text'} rounded-xs`}
+                            className={`border-primary/70 hover:bg-text/10 p-1 duration-200 ${comm.isActive() ? 'bg-secondary/70 text-primary' : 'text-text'} rounded-xs`}
                             onClick={comm.command}
                             title={comm.btnTitle}
                         >
@@ -193,10 +202,10 @@ const Toolbar = () => {
 
             {/* code commands */}
             <div className='flex flex-row items-center gap-0 w-fit h-full px-0.5'>
-                {miscCommands.map((comm) => (
+                {codeCommands.map((comm) => (
                     <div className='p-1 px-1.25' key={comm.btnTitle}>
                         <button
-                            className={`border-primary p-1 duration-200 ${comm.isActive() ? 'bg-secondary/70 text-primary' : 'text-text'} rounded-xs`}
+                            className={`border-primary/70 hover:bg-text/10 p-1 duration-200 ${comm.isActive() ? 'bg-secondary/70 text-primary' : 'text-text'} rounded-xs`}
                             onClick={comm.command}
                             title={comm.btnTitle}
                         >
@@ -205,7 +214,27 @@ const Toolbar = () => {
                     </div>
                 ))}
             </div>
+
+            <div className='flex flex-row items-center gap-0 w-fit h-full px-0.5'>
+                {
+                    miscCommands.map((comm) => (
+                        <div className='p-1 px-1.25' key={comm.btnTitle}>
+                            <button
+                                className={`border-primary/70 hover:bg-text/10 p-1 duration-200 ${comm.isActive ? 'bg-secondary/70 text-primary' : 'text-text'} rounded-xs`}
+                                onClick={comm.command}
+                                title={comm.btnTitle}
+                            >
+                                {comm.icon}
+                            </button>
+                        </div>
+                    ))
+                }
+            </div>
             
+            <LinkModal  
+                isLinkModalOn={isLinkModalOn}
+                setIsLinkModalOn={setIsLinkModalOn}
+            />
 
         </div>
     );
