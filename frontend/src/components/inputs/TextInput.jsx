@@ -3,7 +3,7 @@ import React from 'react'
 const TextInput = ({ text, handleText, name, extraText, isRequired, placeholder = 'Enter some text...', type = 'text' }) => {
     return (
         <div
-            className='p-3 rounded bg-background flex flex-col gap-1 w-full'
+            className=' rounded bg-background flex flex-col gap-1 w-full'
         >
             <h2
                 className='text-text'

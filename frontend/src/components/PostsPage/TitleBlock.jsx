@@ -8,13 +8,17 @@ const TitleBlock = ({ title, setTitle }) => {
             name='Title'
             isRequired={true}
         >
-            <TextInput
-                name={'Title'}
-                text={title}
-                handleText={setTitle}
-                isRequired={true}
-                extraText={'This will be used to identify the blog/article by users'}
-            />
+            <div
+                className='p-2 w-full h-fit bg-background rounded px-3'
+            >
+                <TextInput
+                    name={'Title'}
+                    text={title}
+                    handleText={setTitle}
+                    isRequired={true}
+                    extraText={'This will be used to identify the blog/article by users'}
+                />
+            </div>
         </DropDownBox>
     )
 }

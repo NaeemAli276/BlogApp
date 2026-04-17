@@ -115,11 +115,10 @@
     /* Blockquote with subtle background */
     .tiptap blockquote {
 
-        @apply border-l-accent border-l-4;
+        @apply border-l-accent border-l-4 bg-background;
 
         /* margin: 1.5rem 0; */
         padding-left: 0.75em;
-        background: #f9fafb; /* Gray-50 */
         /* border-left: 4px solid #3b82f6; Blue-500 */
         border-radius: 0 0.5rem 0.5rem 0;
         font-style: italic;

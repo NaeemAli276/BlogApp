@@ -98,12 +98,12 @@ const Toolbar = () => {
         },
     ]
     const miscCommands = [
-        {
-            btnTitle: 'Link',
-            icon: <svg  xmlns="http://www.w3.org/2000/svg" width={20} height={20} fill={"currentColor"} viewBox={"0 0 24 24"}>{/* Boxicons v3.0.8 https://boxicons.com | License  https://docs.boxicons.com/free */}<path d="M9.88 18.36a3 3 0 0 1-4.24 0 3 3 0 0 1 0-4.24l2.83-2.83-1.41-1.41-2.83 2.83a5.003 5.003 0 0 0 0 7.07c.98.97 2.25 1.46 3.54 1.46s2.56-.49 3.54-1.46l2.83-2.83-1.41-1.41-2.83 2.83Zm2.83-14.14L9.88 7.05l1.41 1.41 2.83-2.83a3 3 0 0 1 4.24 0 3 3 0 0 1 0 4.24l-2.83 2.83 1.41 1.41 2.83-2.83a5.003 5.003 0 0 0 0-7.07 5.003 5.003 0 0 0-7.07 0Z"></path><path d="m16.95 8.46-.71-.7-.7-.71-4.25 4.24-4.24 4.25.71.7.7.71 4.25-4.24z"></path></svg>,
-            command: () => setIsLinkModalOn(true),
-            isActive: isLinkModalOn === true,
-        },
+        // {
+        //     btnTitle: 'Link',
+        //     icon: <svg  xmlns="http://www.w3.org/2000/svg" width={20} height={20} fill={"currentColor"} viewBox={"0 0 24 24"}>{/* Boxicons v3.0.8 https://boxicons.com | License  https://docs.boxicons.com/free */}<path d="M9.88 18.36a3 3 0 0 1-4.24 0 3 3 0 0 1 0-4.24l2.83-2.83-1.41-1.41-2.83 2.83a5.003 5.003 0 0 0 0 7.07c.98.97 2.25 1.46 3.54 1.46s2.56-.49 3.54-1.46l2.83-2.83-1.41-1.41-2.83 2.83Zm2.83-14.14L9.88 7.05l1.41 1.41 2.83-2.83a3 3 0 0 1 4.24 0 3 3 0 0 1 0 4.24l-2.83 2.83 1.41 1.41 2.83-2.83a5.003 5.003 0 0 0 0-7.07 5.003 5.003 0 0 0-7.07 0Z"></path><path d="m16.95 8.46-.71-.7-.7-.71-4.25 4.24-4.24 4.25.71.7.7.71 4.25-4.24z"></path></svg>,
+        //     command: () => setIsLinkModalOn(true),
+        //     isActive: isLinkModalOn === true,
+        // },
         {
             btnTitle: 'Trash',
             icon: <svg  xmlns="http://www.w3.org/2000/svg" width={20} height={20} fill={"currentColor"} viewBox={"0 0 24 24"}>{/* Boxicons v3.0.8 https://boxicons.com | License  https://docs.boxicons.com/free */}<path d="M17 6V4c0-1.1-.9-2-2-2H9c-1.1 0-2 .9-2 2v2H2v2h2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8h2V6zM9 4h6v2H9zM6 20V8h12v12z"></path><path d="M9 10h2v8H9zm4 0h2v8h-2z"></path></svg>,
@@ -138,7 +138,7 @@ const Toolbar = () => {
     }
 
     return (
-        <div className='flex flex-row items-center gap-0 w-full h-fit rounded-t border-2 border-primary/70 divide-primary/70 divide-x overflow-y-scroll scrollbar-hide'>
+        <div className='flex flex-row items-center gap-0 w-full h-fit rounded-xs border-2 border-primary/70 divide-primary/70 divide-x overflow-y-scroll scrollbar-hide sticky top-0 left-0 z-10 bg-background '>
 
             {/* style commands */}
             <div className='flex flex-row items-center gap-0 w-fit h-full px-0.5'>
@@ -169,6 +169,8 @@ const Toolbar = () => {
                     </div>
                 ))}
             </div>
+
+                
 
             {/* list commands */}
             <div className='flex flex-row items-center gap-0 w-fit h-full px-0.5'>

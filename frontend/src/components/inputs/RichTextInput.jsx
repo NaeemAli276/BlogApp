@@ -28,7 +28,11 @@ const RichTextInput = ({ content = `` }) => {
         isAllowedUri: (url, ctx) => {
           // Only allow HTTPS URLs
           return ctx.defaultValidate(url) && url.startsWith('https://');
-        }
+        },
+        openOnClick: true,      // Open link when clicked
+        autolink: true,         // Auto-convert URLs as you type
+        linkOnPaste: true,      // Convert pasted URLs to links
+        defaultProtocol: "https", // Default protocol for URLs without one
       })
     ],
     content: content,
