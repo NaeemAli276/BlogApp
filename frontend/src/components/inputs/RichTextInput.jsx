@@ -40,7 +40,7 @@ const RichTextInput = ({ content = ``, handleChangeContent }) => {
       attributes: {
         // Add your Tailwind classes here
         class:
-          "prose prose-lg max-w-none focus:outline-none min-h-[200px] flex flex-col flex-1 h-full p-2 bg-background border-t-0 rounded-t-none border-2 rounded border-primary/70 text-text placeholder:text-text/50",
+          "prose prose-lg max-w-none focus:outline-none min-h-[200px] flex flex-col flex-1 h-full p-2 bg-background rounded text-text placeholder:text-text/50",
         
       },
     },
@@ -54,7 +54,7 @@ const RichTextInput = ({ content = ``, handleChangeContent }) => {
 
   return (
     <EditorContext.Provider value={providerValue}>
-      <div className="flex flex-col flex-1 gap-0 w-full h-full relative ">
+      <div className="flex flex-col-reverse flex-1 gap-0 w-full h-full relative border-2 border-primary/70 rounded">
         <Toolbar />
         <EditorContent editor={editor} className="flex-1 h-full"/>
       </div>
