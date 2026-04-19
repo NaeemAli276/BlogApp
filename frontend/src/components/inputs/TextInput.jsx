@@ -1,6 +1,6 @@
 import React from 'react'
 
-const TextInput = ({ text, handleText, name, extraText, isRequired, placeholder = 'Enter some text...', type = 'text', children }) => {
+const TextInput = ({ text, handleText, name, extraText, isRequired, placeholder = 'Enter some text...', type = 'text', children, readOnly = false }) => {
     return (
         <div
             className='rounded flex flex-col gap-1 w-full relative'
@@ -16,6 +16,7 @@ const TextInput = ({ text, handleText, name, extraText, isRequired, placeholder 
                 onChange={handleText}
                 value={text}
                 placeholder={placeholder}
+                readOnly={readOnly}
             />
             <h2
                 className='text-text/70 text-sm'

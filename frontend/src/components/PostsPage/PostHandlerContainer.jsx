@@ -62,7 +62,7 @@ const PostHandlerContainer = ({ data }) => {
 
 
     return (
-        <div
+        <form
             className='col-span-11 w-full row-span-16 rounded border-2 border-primary flex flex-col h-full'
         >
 
@@ -76,6 +76,7 @@ const PostHandlerContainer = ({ data }) => {
                             key={tab}
                             className={` ${index === 0 && 'rounded-tl'} ${currentTab === tab ? 'bg-background text-primary' : 'bg-secondary text-text'} cursor-pointer p-2 px-3 text-sm font-medium`}
                             onClick={() => setCurrentTab(tab)}
+                            type='button'
                         >
                             {tab}
                         </button>
@@ -125,14 +126,14 @@ const PostHandlerContainer = ({ data }) => {
                     className={`${currentTab === 'SEO' ? 'flex' : 'hidden'} flex-col gap-4 w-full h-full overflow-hidden p-5`}
                 >
                     <UrlBox
-                        currentURL={SEO.url}
+                        titleStr={featuredTab.title}
                         handleUrlChange={handleSEOChange}
                     />
                 </div>
 
             </div>
 
-        </div>
+        </form>
     )
 }
 
