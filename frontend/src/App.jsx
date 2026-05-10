@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import UserAnalytics from './pages/dashboardPages/UserAnalytics'
 import UserPosts from './pages/dashboardPages/UserPosts'
 import UserNewPost from './pages/dashboardPages/UserNewPost'
+import UserAssets from './pages/dashboardPages/UserAssets'
 
 
 const App = () => {
@@ -31,6 +32,13 @@ const App = () => {
           path='/Posts/NewPost'
           element={
             <UserNewPost/>
+          }
+        />
+
+        <Route
+          path='/Assets'
+          element={
+            <UserAssets/>
           }
         />
 

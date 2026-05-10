@@ -19,7 +19,6 @@ const Navbar = () => {
             </h3>
 
             {/* user dropdown */}
-            <UserBtn/>
 
         </div>
     )
