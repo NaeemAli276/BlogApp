@@ -5,7 +5,7 @@ import Navbar from './Navbar'
 const DashboardLayout = ({ children }) => {
     return (
         <div
-            className='font-poppins w-full bg-background h-screen max-h-screen overflow-hidden grid grid-cols-16 grid-rows-16 '
+            className='font-poppins w-full bg-slate-200/50 h-screen max-h-screen overflow-hidden grid grid-cols-16 grid-rows-16 '
         >
             <Sidebar/>
             <Navbar/>

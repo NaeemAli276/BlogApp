@@ -43,7 +43,7 @@ const Sidebar = () => {
                 className='flex flex-row items-center gap-3 w-full h-fit'
             >
                 <i
-                    className='p-1 rounded-md bg-background text-primary px-1.5'
+                    className='p-1 rounded-md bg-primary text-background px-1.5'
                 >
                     <svg xmlns="http://www.w3.org/2000/svg" width={32} height={32} fill={"currentColor"} viewBox={"0 0 24 24"}><path d="M5 7h5v6H5zm0 8h10v2H5zm7-4h3v2h-3zm0-4h3v2h-3z"></path><path d="M21 18c0 .55-.45 1-1 1s-1-.45-1-1V5c0-1.1-.9-2-2-2H3c-1.1 0-2 .9-2 2v13c0 1.65 1.35 3 3 3h16c1.65 0 3-1.35 3-3V6h-2zM4 19c-.55 0-1-.45-1-1V5h14v13c0 .35.07.69.18 1z"></path></svg>
                 </i>
