@@ -101,7 +101,7 @@ const UserPosts = () => {
                 excerpt: '',
                 mainContent: ``,
                 url: '',
-                tags: [],
+                tags: ['javascript', 'programming'],
                 metaDesc: '',
                 category: '',
                 date: ''

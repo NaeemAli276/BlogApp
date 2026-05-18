@@ -46,6 +46,16 @@ const PostContentContainer = ({ selectedPost = {} }) => {
 
     const handleTagChange = (tag) => {
 
+        if (post.tags.includes(tag)) {
+            const filterTags = post.tags.filter((currentTag) => currentTag !== tag)
+            setPost({...post, tags: filterTags })
+            return false // add it to the selected tags in the labelBox
+        }
+        else {
+            setPost({...post, tags: [...post.tags, tag]})
+            return true // remove it from the selected tags in the labelBox
+        }
+
     }
 
     const handleCategoryChange = (cat) => {

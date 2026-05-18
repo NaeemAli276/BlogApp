@@ -7,7 +7,8 @@ import TextInput from '../inputs/TextInput'
 const LabelBox = ({ 
     currentTags = [], 
     currentCategory = 'None', 
-    handleCategoryChange 
+    handleCategoryChange,
+    handleTagChange
 }) => {
 
     // toggles
@@ -35,13 +36,34 @@ const LabelBox = ({
     const [searchInput, setSearchInput] = useState('')
     
     const [selectedCategory, setSelectedCategory] = useState('None' || currentCategory)
-    const [selectedTags, setSelectedTags] = useState([])
 
     const handleCategoryClick = (cat) => {
         handleCategoryChange(cat)
         setSelectedCategory(cat)
         setIsCategoryDropdownActive(false)
     }
+
+    const handleActiveTags = () => {
+        const filterTags = tags.filter((tag) => !currentTags.includes(tag))
+        console.log(filterTags)
+        setTags(filterTags)
+    }
+
+    const handleTagClick = (tag) => {
+
+        if (handleTagChange(tag) === false) {
+            setTags([...tags, tag])
+        }
+        else if (handleTagChange(tag) === true) {
+            const filterTags = tags.filter((currentTag) => currentTag !== tag)
+            setTags(filterTags)
+        }
+
+    }
+
+    useEffect(() => {
+        handleActiveTags()
+    } ,[])
 
     return (
         <DropDownBox
@@ -66,7 +88,7 @@ const LabelBox = ({
 
                     {/* btn */}
                     <button
-                        className='w-full h-fit p-2 rounded border-2 border-primary text-text text-start px-3 flex-row flex justify-between items-center font-medium cursor-pointer'
+                        className={`w-full h-fit p-2 rounded border-2 border-primary ${selectedCategory !== 'None' ? 'text-text' : 'text-text/70'} text-start px-3 flex-row flex justify-between items-center font-medium cursor-pointer`}
                         type='button'
                         onClick={() => setIsCategoryDropdownActive(!isCategoryDropdownActive)}
                     >
@@ -77,7 +99,7 @@ const LabelBox = ({
                     </button>
 
                     <div
-                        className={`${isCategoryDropdownActive ? 'flex' : 'hidden'} w-1/2 h-fit absolute top-20 right-0 bg-background flex flex-col shadow shadow-text/50 rounded z-50`}
+                        className={`${isCategoryDropdownActive ? 'flex' : 'hidden'} w-full h-fit  top-20 right-0 bg-background flex flex-col shadow shadow-text/50 rounded z-50 mt-1`}
                     >
                         {
                             categories.map((cat, index) => (
@@ -111,27 +133,44 @@ const LabelBox = ({
                     </h4>
 
                     <div
-                        className='w-full h-full flex relative '
+                        className='w-full h-full flex relative flex-col gap-2'
                     >
 
                         {/* tags btn */}
-                        <button
-                            className='w-full h-fit p-2 rounded border-2 border-primary text-text text-start px-3 flex-row flex justify-between items-center font-medium cursor-pointer'
+                        <div
+                            className='w-full h-fit p-2 rounded border-2 border-primary text-text text-start px-3 flex-row flex justify-between items-center cursor-pointer'
                             type='button'
-                            onClick={() => setIsTagsDropdownActive(!isTagsDropdownActive)}
                         >
-                            <span
-                                className={`text-text/50 ${currentTags.length <= 0 ? 'flex' : 'hidden'}`}
+                            <div
+                                className='flex flex-row items-center gap-2 w-full h-fit overflow-x-scroll scrollbar-hide'
                             >
-                                No tags selected
-                            </span>
-                            <svg className={isTagsDropdownActive ? 'rotate-180 mb-0.5' : 'rotate-0 mb-0.5'} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                {
+                                    currentTags.length <= 0 
+                                    ?   <span
+                                            className='font-medium text-text/50'
+                                        >
+                                            No tags selected
+                                        </span> 
+                                    :   currentTags.map((tag) => (
+                                            <TagBtn
+                                                key={tag}
+                                                name={tag}
+                                                handleSelectTag={() => handleTagClick(tag)}
+                                            />
+                                        ))
+                                }
+                                
+                            </div>
+                            
+                            <svg
+                                onClick={() => setIsTagsDropdownActive(!isTagsDropdownActive)}
+                                className={isTagsDropdownActive ? 'rotate-180' : 'rotate-0 mb-0.5'} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                                 <path fill="none" stroke="currentColor"  strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="m6 9l6 6l6-6"></path>
                             </svg>
-                        </button>
+                        </div>
 
                         <div
-                            className={`${isTagsDropdownActive ? 'flex' : 'hidden'} w-1/2 top-13 right-0 h-fit absolute flex-col gap-2 bg-background shadow shadow-text/50 px-3.5 p-3 rounded z-50`}
+                            className={`${isTagsDropdownActive ? 'flex' : 'hidden'} w-full top-13 right-0 h-fit flex-col gap-5 bg-background shadow shadow-text/50 px-3.5 p-3 rounded`}
                         >
 
                             <TextInput
@@ -142,12 +181,14 @@ const LabelBox = ({
                             />
 
                             <div
-                                className='flex flex-wrap gap-2 w-full h-full'
+                                className='flex flex-wrap gap-2 w-full h-fit'
                             >
                                 {
                                     tags.map((tag) => (
                                         <TagBtn
+                                            key={tag}
                                             name={tag}
+                                            handleSelectTag={() => handleTagClick(tag)}
                                         />
                                     ))
                                 }
