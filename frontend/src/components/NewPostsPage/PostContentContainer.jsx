@@ -112,6 +112,7 @@ const PostContentContainer = ({
                         image={post.thumbnail}
                     />
                     <RichTextEditorBlock
+                        wordLimit={1000}
                         content={post.excerpt}
                         handleChangeContent={handleExcerpt}
                         hiddenComm={['headings', 'align', 'code', 'lists']}
@@ -156,7 +157,7 @@ const PostContentContainer = ({
                     className='absolute left-0 bottom-0 w-full h-fit bg-background flex flex-row items-center justify-end gap-2 p-2 rounded-b'
                 >
                     <Link 
-                        to={'/Posts/preview'}
+                        to={`/${post.url}`}
                         state={{ post:post }}
                         className='p-2 px-3 rounded bg-secondary/50 flex flex-row items-center gap-2 text-sm text-primary hover:bg-primary hover:text-background duration-200'
                     >

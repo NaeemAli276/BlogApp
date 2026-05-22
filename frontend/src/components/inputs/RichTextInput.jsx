@@ -17,11 +17,14 @@ import Underline from '@tiptap/extension-underline'
 import Document from '@tiptap/extension-document'
 import Image from '@tiptap/extension-image'
 import FileHandler from '@tiptap/extension-file-handler'
+import { CharacterCount } from "@tiptap/extensions";
 
 const RichTextInput = ({ 
   content = ``, 
   handleChangeContent, 
-  hiddenComm
+  hiddenComm,
+  wordLimit=256,
+  className="prose prose-lg max-w-none focus:outline-none min-h-50 flex flex-col flex-1 h-full p-2 bg-background rounded text-text placeholder:text-text/50"
 }) => {
 
   const [newContent, setNewContent] = useState(content) // used to make sure the content updates
@@ -97,7 +100,11 @@ const RichTextInput = ({
             }
           })
         },
-      }),
+    }),
+    CharacterCount.configure({
+      limit: wordLimit,
+      mode:'dictionary'
+    })
   ] 
 
   const editor = useEditor({
@@ -106,8 +113,7 @@ const RichTextInput = ({
     editorProps: {
       attributes: {
         // Add your Tailwind classes here
-        class:
-          "prose prose-lg max-w-none focus:outline-none min-h-[200px] flex flex-col flex-1 h-full p-2 bg-background rounded text-text placeholder:text-text/50",
+        class: className
         
       },
     },

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import DropDownBox from './DropDownBox'
 import RichTextInput from '../inputs/RichTextInput'
 
-const RichTextEditorBlock = ({ content, handleChangeContent, hiddenComm }) => {
+const RichTextEditorBlock = ({ wordLimit, content, handleChangeContent, hiddenComm }) => {
 
     return (
         <DropDownBox
@@ -21,6 +21,7 @@ const RichTextEditorBlock = ({ content, handleChangeContent, hiddenComm }) => {
                     content={content}
                     handleChangeContent={handleChangeContent}
                     hiddenComm={hiddenComm}
+                    wordLimit={wordLimit}
                 />
                 <h3
                     className='text-sm text-text/50'

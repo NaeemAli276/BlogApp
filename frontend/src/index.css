@@ -46,6 +46,10 @@
         @apply text-text
     }
 
+    .tiptap img {
+        @apply rounded;
+    }
+
     /* Unordered list styles */
     .tiptap ul {
         list-style-type: disc;

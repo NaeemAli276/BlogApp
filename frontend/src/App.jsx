@@ -7,7 +7,7 @@ import UserPosts from './pages/dashboardPages/UserPosts'
 import UserNewPost from './pages/dashboardPages/UserNewPost'
 import UserAssets from './pages/dashboardPages/UserAssets'
 import CommentsPage from './pages/dashboardPages/CommentsPage'
-import PostPreview from './pages/default/PostPreview'
+import Post from './pages/default/Post'
 
 
 const App = () => {
@@ -52,9 +52,9 @@ const App = () => {
         />
 
         <Route
-          path='/Posts/Preview'
+          path='/:url'
           element={
-            <PostPreview/>
+            <Post/>
           }
         />
 
