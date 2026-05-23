@@ -49,7 +49,7 @@ const Comment = ({
                 className='w-full h-fit flex flex-row gap-2 items-center justify-between'
             >
                 <div
-                    className='flex flex-row items-start gap-2 w-fit h-full'
+                    className='flex flex-row items-start gap-2 w-fit h-full pl-1'
                 >
                     {
                         comment?.profileImg === null
@@ -87,12 +87,10 @@ const Comment = ({
                     className='flex w-full items-center justify-end h-fit relative'
                 >
                     <button
-                        className='duration-200 rounded-full hover:bg-text/10 rotate-90'
+                        className='duration-200 p-1 rounded-full text-text hover:bg-text/10'
                         onClick={() => setIsDropdownActive(!isDropdownActive)}
                     >
-                        <svg xmlns="http://www.w3.org/2000/svg" width={32} height={32} viewBox="0 0 24 24">
-                            <path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 12h.01M8 12h.01M16 12h.01"></path>
-                        </svg>
+                        <svg  xmlns="http://www.w3.org/2000/svg" width={24} height={24} fill={"currentColor"} viewBox={"0 0 24 24"}>{/* Boxicons v3.0.8 https://boxicons.com | License  https://docs.boxicons.com/free */}<path d="M12 10a2 2 0 1 0 0 4 2 2 0 1 0 0-4m0 6a2 2 0 1 0 0 4 2 2 0 1 0 0-4m0-12a2 2 0 1 0 0 4 2 2 0 1 0 0-4"></path></svg>
                     </button>
 
                     {/* menu */}
@@ -103,11 +101,11 @@ const Comment = ({
                             menuBtns.map((btn, index) => (
                                 <button
                                     className={`
-                                            ${index === menuBtns.length -1 && 'rounded-b'} 
-                                            ${index === 0 && 'rounded-t'}
-                                            ${btn.name === 'Delete' ? 'hover:text-rose-700 hover:bg-rose-200' : 'hover:bg-secondary/50 hover:text-primary'}
-                                            w-full h-fit p-3 text-text/70 cursor-pointer text-sm flex items-center gap-2 duration-200
-                                        `}
+                                        ${index === menuBtns.length -1 && 'rounded-b'} 
+                                        ${index === 0 && 'rounded-t'}
+                                        ${btn.name === 'Delete' ? 'hover:text-rose-700 hover:bg-rose-200' : 'hover:bg-secondary/50 hover:text-primary'}
+                                        w-full h-fit p-3 text-text/70 cursor-pointer text-sm flex items-center gap-2 duration-200
+                                    `}
                                 >
                                     <i>
                                         {btn.icon}

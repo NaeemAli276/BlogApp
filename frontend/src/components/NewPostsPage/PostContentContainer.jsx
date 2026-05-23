@@ -110,6 +110,7 @@ const PostContentContainer = ({
                     <FeaturedImageBlock
                         handleThumbnail={handleThumbnail}
                         image={post.thumbnail}
+                        
                     />
                     <RichTextEditorBlock
                         wordLimit={1000}

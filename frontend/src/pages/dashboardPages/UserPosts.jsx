@@ -24,8 +24,13 @@ const UserPosts = () => {
             date: "22/01/26",
             likes: 20000,
             shares: 10000,
-            views: 10400
-            },
+            views: 10400,
+            profile: {
+                profileImg: null,
+                username: 'John Doe',
+                email: 'johnDoe@example.com'
+            }
+        },
         {
             id: 1,
             title: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Lorem ipsum dolor sit1, amet consectetur adipisicing elit.',
@@ -39,7 +44,12 @@ const UserPosts = () => {
             date: '22/01/26',
             likes: 20000,
             shares: 10000,
-            views: 10400
+            views: 10400,
+            profile: {
+                profileImg: null,
+                username: 'Jane Doe',
+                email: 'janeDoe@example.com'
+            }
         },
         {
             id: 2,
@@ -54,7 +64,12 @@ const UserPosts = () => {
             date: '22/01/26',
             likes: 20000,
             shares: 10000,
-            views: 10400
+            views: 10400,
+            profile: {
+                profileImg: null,
+                username: 'Bob Smith',
+                email: 'BobSmith@example.com'
+            }
         },
     ])
     const [postView, setPostView] = useState(0) // 0: empty state, 1: new post, 2: editing post not related to the component PostsView

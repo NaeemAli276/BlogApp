@@ -42,7 +42,7 @@ const CommentsSection = () => {
 
     return (
         <div
-            className='w-full h-full pt-2 rounded text-text px-4 flex flex-col gap-4 relative bg-background shadow shadow-text/20'
+            className='w-full h-full pt-3 rounded text-text px-4 flex flex-col gap-4 relative bg-background shadow shadow-text/20'
         >
 
             <h2
@@ -52,7 +52,7 @@ const CommentsSection = () => {
             </h2>
 
             <div
-                className='flex flex-col gap-10 w-full h-full overflow-y-scroll p-0.5 scrollbar-hide'
+                className='flex flex-col gap-10 w-full h-full max-h-72 overflow-y-scroll p-0.5 scrollbar-hide'
             >
                 {
                     comments.map((comment) => (
@@ -68,11 +68,12 @@ const CommentsSection = () => {
 
             {/* reply */}
             <div
-                className='w-full min-h-52 h-fit bg-background relative rounded pb-3 px-1 overflow-y-hidden'
+                className='w-full h-fit bg-background relative rounded pb-3 px-1 overflow-y-hidden'
             >
                 <RichTextInput
                     hiddenComm={['headings', 'align', 'code', 'lists']}
-                    className='w-full h-full outline-none p-2 text-clip'
+                    className='w-full h-full outline-none p-2 text-clip flex-1 min-h-32'
+                    wordLimit={1024}
                 />
             </div>
 

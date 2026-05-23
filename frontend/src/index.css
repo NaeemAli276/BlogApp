@@ -47,7 +47,7 @@
     }
 
     .tiptap img {
-        @apply rounded;
+        @apply rounded shadow shadow-text/20;
     }
 
     /* Unordered list styles */

@@ -5,7 +5,7 @@ import ImageInput from '../inputs/ImageInput'
 const FeaturedImageBlock = ({ image, handleThumbnail }) => {
     return (
         <DropDownBox
-            isRequired={false}
+            isRequired={true}
             name={'Thumbnail'}
         >
             <ImageInput
