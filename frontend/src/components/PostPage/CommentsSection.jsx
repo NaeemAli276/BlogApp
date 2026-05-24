@@ -39,10 +39,11 @@ const CommentsSection = () => {
 
         },
     ])
+    const [comment, setComment] = useState(`dsad`) // the users new comment
 
     return (
         <div
-            className='w-full h-full pt-3 rounded text-text px-4 flex flex-col gap-4 relative bg-background shadow shadow-text/20'
+            className='w-full h-full pt-3 rounded text-text px-4 flex flex-col gap-4 relative bg-background shadow shadow-text/20 '
         >
 
             <h2
@@ -52,7 +53,7 @@ const CommentsSection = () => {
             </h2>
 
             <div
-                className='flex flex-col gap-10 w-full h-full max-h-72 overflow-y-scroll p-0.5 scrollbar-hide'
+                className='flex flex-col gap-10 w-full h-full max-h-84 overflow-y-scroll p-0.5 scrollbar-hide'
             >
                 {
                     comments.map((comment) => (
@@ -64,7 +65,7 @@ const CommentsSection = () => {
                 }
             </div>
 
-            <span className='w-full h-0.5 bg-primary'></span>
+            <span className='w-full h-px bg-primary/70'></span>
 
             {/* reply */}
             <div
@@ -72,9 +73,25 @@ const CommentsSection = () => {
             >
                 <RichTextInput
                     hiddenComm={['headings', 'align', 'code', 'lists']}
-                    className='w-full h-full outline-none p-2 text-clip flex-1 min-h-32'
+                    className='w-full h-full outline-none p-2 text-clip flex-1 min-h-32 max-h-64 overflow-y-scroll scrollbar-hide'
                     wordLimit={1024}
+                    content={comment}
+                    handleChangeContent={(e) => setComment(e.target.value)}
                 />
+                {/* submit btn */}
+                <button
+                    className={`
+                        ${comment !== '' ? 'flex' : 'hidden'} 
+                        p-1 bg-secondary/50 text-primary 
+                        duration-200
+                        hover:bg-primary hover:text-background rounded-xs
+                        absolute bottom-5.5 right-3.5 z-50 cursor-pointer
+                    `}
+                >   
+                    <svg xmlns="http://www.w3.org/2000/svg" width={20} height={20} viewBox="0 0 16 16">
+                        <path fill="currentColor" d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576zm6.787-8.201L1.591 6.602l4.339 2.76z"></path>
+                    </svg>
+                </button>
             </div>
 
         </div>

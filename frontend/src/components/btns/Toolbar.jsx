@@ -149,7 +149,7 @@ const Toolbar = ({ hiddenComm = [] }) => {
                 {styleCommands.map((comm) => (
                     <div className='p-1 px-1.25' key={comm.btnTitle}>
                         <button
-                            className={`border-primary/70 hover:bg-text/10 p-1 duration-200 ${comm.isActive() ? 'bg-secondary/70 text-primary' : 'text-text'} rounded-xs`}
+                            className={`border-primary/70 hover:bg-text/10 p-1 duration-200 ${comm.isActive() ? 'bg-secondary/70 text-primary' : 'text-text'} rounded-xs cursor-pointer`}
                             onClick={comm.command}
                             title={comm.btnTitle}
                             type='button'
@@ -168,7 +168,7 @@ const Toolbar = ({ hiddenComm = [] }) => {
                 {headingCommands.map((comm) => (
                     <div className='p-1 px-1.25' key={comm.btnTitle}>
                         <button
-                            className={`border-primary/70 hover:bg-text/10 p-1 duration-200 ${comm.isActive() ? 'bg-secondary/70 text-primary' : 'text-text'} rounded-xs`}
+                            className={`border-primary/70 hover:bg-text/10 p-1 duration-200 ${comm.isActive() ? 'bg-secondary/70 text-primary' : 'text-text'} rounded-xs cursor-pointer`}
                             onClick={comm.command}
                             title={comm.btnTitle}
                             type='button'
@@ -187,7 +187,7 @@ const Toolbar = ({ hiddenComm = [] }) => {
                 {listCommands.map((comm) => (
                     <div className='p-1 px-1.25' key={comm.btnTitle}>
                         <button
-                            className={`border-primary/70 hover:bg-text/10 p-1 duration-200 ${comm.isActive() ? 'bg-secondary/70 text-primary' : 'text-text'} rounded-xs`}
+                            className={`border-primary/70 hover:bg-text/10 p-1 duration-200 ${comm.isActive() ? 'bg-secondary/70 text-primary' : 'text-text'} rounded-xs cursor-pointer`}
                             onClick={comm.command}
                             title={comm.btnTitle}
                             type='button'
@@ -206,7 +206,7 @@ const Toolbar = ({ hiddenComm = [] }) => {
                 {alignCommands.map((comm) => (
                     <div className='p-1 px-1.25' key={comm.btnTitle}>
                         <button
-                            className={`border-primary/70 hover:bg-text/10 p-1 duration-200 ${comm.isActive() ? 'bg-secondary/70 text-primary' : 'text-text'} rounded-xs`}
+                            className={`border-primary/70 hover:bg-text/10 p-1 duration-200 ${comm.isActive() ? 'bg-secondary/70 text-primary' : 'text-text'} rounded-xs cursor-pointer`}
                             onClick={comm.command}
                             title={comm.btnTitle}
                             type='button'
@@ -224,7 +224,7 @@ const Toolbar = ({ hiddenComm = [] }) => {
                 {codeCommands.map((comm) => (
                     <div className='p-1 px-1.25' key={comm.btnTitle}>
                         <button
-                            className={`border-primary/70 hover:bg-text/10 p-1 duration-200 ${comm.isActive() ? 'bg-secondary/70 text-primary' : 'text-text'} rounded-xs`}
+                            className={`border-primary/70 hover:bg-text/10 p-1 duration-200 ${comm.isActive() ? 'bg-secondary/70 text-primary' : 'text-text'} rounded-xs cursor-pointer`}
                             onClick={comm.command}
                             title={comm.btnTitle}
                             type='button'
@@ -242,7 +242,7 @@ const Toolbar = ({ hiddenComm = [] }) => {
                     miscCommands.map((comm) => (
                         <div className='p-1 px-1.25' key={comm.btnTitle}>
                             <button
-                                className={`border-primary/70 hover:bg-text/10 p-1 duration-200 ${comm.isActive ? 'bg-secondary/70 text-primary' : 'text-text'} rounded-xs`}
+                                className={`border-primary/70 hover:bg-text/10 p-1 duration-200 ${comm.isActive ? 'bg-secondary/70 text-primary' : 'text-text'} rounded-xs cursor-pointer`}
                                 onClick={comm.command}
                                 title={comm.btnTitle}
                                 type='button'

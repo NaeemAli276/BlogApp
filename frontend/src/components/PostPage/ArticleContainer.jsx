@@ -63,7 +63,7 @@ const ArticleContainer = ({
                     >
                         {/* user */}
                         <div
-                            className='w-fit h-fit flex flex-row gap-2'
+                            className='w-fit h-fit flex flex-row gap-2 z-50'
                         >
                             {
                                 post?.profile.profileImg === null
@@ -89,7 +89,7 @@ const ArticleContainer = ({
                             </h2>
                         </div>
                         <h3
-                            className='text-sm p-1 px-2 rounded font-semibold bg-primary text-background'
+                            className='text-sm p-1 px-2 rounded font-semibold bg-primary text-background z-50'
                         >
                             {post.category}
                         </h3>
@@ -105,7 +105,7 @@ const ArticleContainer = ({
                             {post.title}
                         </h2>
                         <div
-                            className='flex flex-row-reverse items-center justify-between w-full h-fit'
+                            className='flex flex-row items-center justify-between w-full h-fit'
                         >    
                             {/* date */}
                             <h3
@@ -177,10 +177,10 @@ const ArticleContainer = ({
                             className='duration-200 p-1 rounded-full text-text hover:bg-text/10'
                             onClick={() => setIsDropdownActive(!isDropdownActive)}
                         >
-                            <svg  xmlns="http://www.w3.org/2000/svg" width={24} height={24} fill={"currentColor"} viewBox={"0 0 24 24"}>{/* Boxicons v3.0.8 https://boxicons.com | License  https://docs.boxicons.com/free */}<path d="M12 10a2 2 0 1 0 0 4 2 2 0 1 0 0-4m0 6a2 2 0 1 0 0 4 2 2 0 1 0 0-4m0-12a2 2 0 1 0 0 4 2 2 0 1 0 0-4"></path></svg>
+                            <svg  xmlns="http://www.w3.org/2000/svg" width={20} height={20} fill={"currentColor"} viewBox={"0 0 24 24"}>{/* Boxicons v3.0.8 https://boxicons.com | License  https://docs.boxicons.com/free */}<path d="M12 10a2 2 0 1 0 0 4 2 2 0 1 0 0-4m0 6a2 2 0 1 0 0 4 2 2 0 1 0 0-4m0-12a2 2 0 1 0 0 4 2 2 0 1 0 0-4"></path></svg>
                         </button>
                         <div
-                            className={`${isDropdownActive ? 'flex' : 'hidden'} flex-col w-40 rounded h-fit shadow shadow-text/30 absolute top-10 right-0 z-50 bg-background`}
+                            className={`${isDropdownActive ? 'flex' : 'hidden'} flex-col w-52 rounded h-fit shadow shadow-text/30 absolute top-10 right-0 z-50 bg-background`}
                         >
                             {
                                 menuBtns.map((btn, index) => (
@@ -211,7 +211,7 @@ const ArticleContainer = ({
                     className='text-text px-1'
                 />
 
-                <span className='w-full h-px bg-primary'></span>
+                <span className={`${post.excerpt !== '' ? '' : ''} w-full h-px bg-primary`}></span>
 
             </div>
 
