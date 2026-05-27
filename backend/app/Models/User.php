@@ -12,7 +12,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
 #[Fillable(['username', 'email', 'password', 'thumbnail'])]
-#[Hidden(['password', 'remember_token'])]
+#[Hidden(['password', 'remember_token', 'role'])]
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
@@ -34,10 +34,9 @@ class User extends Authenticatable
     // gets the users posts
     public function Posts() {
         return $this->hasMany(Post::class);
-    }  
+    }
 
-    // gets the users posts that they have bookmarked
-    public function PostsBookmarked() {
+    public function Bookmarks() {
         return $this->hasMany(Bookmark::class);
     }
 

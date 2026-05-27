@@ -8,16 +8,11 @@ class Reaction extends Model
 {
     //
     protected $fillable = [
-        'post_id',
         'reaction'
     ];
 
-    public function User() {
-
-        return $this->hasOne(User::class);
-
+    public function Post() {
+        return $this->belongsTo(Post::class);
     }
-
-    public function 
 
 }
