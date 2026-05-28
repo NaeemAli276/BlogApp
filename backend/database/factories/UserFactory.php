@@ -22,12 +22,18 @@ class UserFactory extends Factory
      *
      * @return array<string, mixed>
      */
+
+
     public function definition(): array
     {
+
+        $random_num = rand(1,100);
+
         return [
-            'name' => fake()->name(),
+            'username' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
+            'profileImg' => `https://picsum.photos/seed/$random_num`,
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
         ];
