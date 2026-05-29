@@ -19,7 +19,8 @@ class Post extends Model
         'likes',
         'dislikes',
         'thumbnail',
-        'date'
+        'date',
+        'url'
     ];
 
     protected $hidden = [

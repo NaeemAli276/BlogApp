@@ -2,15 +2,15 @@
 
 namespace Database\Factories;
 
+use App\Models\Dislike;
 use App\Models\Post;
-use App\Models\Reaction;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<Reaction>
+ * @extends Factory<Dislike>
  */
-class ReactionFactory extends Factory
+class DislikeFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -20,11 +20,8 @@ class ReactionFactory extends Factory
     public function definition(): array
     {
         return [
-            
-            'post_id' => Post::factory(),
-            'user_id' => User::factory(),
-            'reaction' => fake()->randomElement(['liked', 'disliked'])
-
+            "post_id" => Post::factory(),
+            "user_id" => User::factory()
         ];
     }
 }

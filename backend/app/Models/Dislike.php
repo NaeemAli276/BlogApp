@@ -2,22 +2,26 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 
-class Reaction extends Model
+class Dislike extends Model
 {
-
+    
     use HasFactory;
 
-    //
     protected $fillable = [
-        'reaction'
+        'post_id',
+        'user_id'
     ];
 
     public function Post() {
         return $this->belongsTo(Post::class);
+    }
+
+    public function User() {
+        return $this->belongsTo(User::class);
     }
 
 }

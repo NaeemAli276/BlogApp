@@ -28,6 +28,7 @@ class PostFactory extends Factory
             'title' => fake()->text(90),
             'excerpt' => fake()->text(),
             'mainContent' => fake()->text(),
+            'url' => fake()->url(),
             'thumbnail' => "https://picsum.photos/seed/{$random_num}/960/544",
             'is_published' => fake()->randomElement([true, false]),
         ];
