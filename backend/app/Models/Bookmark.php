@@ -15,11 +15,11 @@ class Bookmark extends Model
         'user_id'
     ];
 
-    public function Posts() {
+    public function posts() {
         return $this->belongsToMany(Post::class);
     }
 
-    public function User() {
+    public function user() {
         return $this->belongsTo(User::class);
     }
 

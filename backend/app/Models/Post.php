@@ -31,29 +31,34 @@ class Post extends Model
 
     ];
 
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
+
     // get the comments of the post
-    public function Comments() {
+    public function comments() {
         return $this->hasMany(Comment::class);
     }
 
     // gets the category of the post
-    public function Category() {
-        return $this->hasOne(Category::class);
+    public function category() {
+        return $this->belongsTo(Category::class);
     }
 
-    // gets the reactions of the post
-    public function Reactions() {
-        return $this->hasMany(Reaction::class);
+    public function tags() {
+        return $this->belongsToMany(Tag::class, 'post_tags', 'tag_id', 'post_id');
     }
 
-    public function Tags() {
-        return $this->belongsToMany(Tag::class, 'post_tags', 'post_id', 'tag_id');
-    }
-
-    public function Bookmarks() {
+    public function bookmarks() {
         return $this->belongsToMany(Bookmark::class, 'bookmarks', 'post_id', 'user_id');
     }
 
+    public function likes() {
+        return $this->hasMany(Like::class);
+    }
 
+    public function dislikes() {
+        return $this->hasMany(Dislike::class);
+    }
 
 }

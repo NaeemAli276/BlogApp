@@ -32,19 +32,19 @@ class User extends Authenticatable
     }
 
     // gets the users posts
-    public function Posts() {
+    public function posts() {
         return $this->hasMany(Post::class);
     }
 
-    public function Bookmarks() {
+    public function bookmarks() {
         return $this->hasMany(Bookmark::class);
     }
 
-    public function Like() {
+    public function like() {
         return $this->hasMany(Like::class);
     }
 
-    public function Dislike() {
+    public function dislike() {
         return $this->hasMany(Dislike::class);
     }
 

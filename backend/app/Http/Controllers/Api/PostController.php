@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\PostResource;
 use App\Models\Post;
 use Illuminate\Http\Request;
 
@@ -13,14 +14,15 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::with('Category')
-        ->get();
-        // ->paginate(15);
+        
+        // get multiple posts
+        $posts = Post::with(['user', 'category'])
+            ->latest()
+            ->paginate(5);
 
-        return response()->json([
-            'success' => true,
-            'posts' => $posts,
-        ]);
+        // $posts = Post::all();
+
+        return PostResource::collection($posts);
 
     }
 
@@ -37,15 +39,18 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Post $post)
+    public function show($id)
     {
-        //
+        $post = Post::with(['user', 'comments', 'tags'])
+                ->findOrFail($id);
+
+        return new PostResource($post);
+
     }
 
     /**

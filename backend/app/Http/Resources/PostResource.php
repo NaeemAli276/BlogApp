@@ -14,22 +14,32 @@ class PostResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        // return parent::toArray($request);
-
         return [
             'id' => $this->id,
             'title' => $this->title,
             'thumbnail' => $this->thumbnail,
-            'date' => $this->created_at->toISOString(),
-            'author' => new UserResource($this->whenLoaded('User')),
-            'category' => new CategoryResource($this->whenLoaded('Category')),
+            'date' => $this->created_at->format('d/m/Y'),
+            
+            // Use lowercase to match how you loaded them
+            'author' => new UserResource($this->whenLoaded('user')),
+            'category' => $this->whenLoaded('category', function() {
+                return $this->category->category;
+            }),
 
             // conditional
             'mainContent' => $this->when($request->routeIs('posts.show'), $this->mainContent),
-            'tags' => $this->when($request->routeIs('posts.show') ,TagResource::collection($this->whenLoaded('Tags'))),
-            'likes' 
-
+            'tags' => $this->when(
+                $request->routeIs('posts.show'), 
+                TagResource::collection($this->whenLoaded('tags'))
+            ),
+            'likes' => $this->when(
+                $request->routeIs('posts.show'), 
+                $this->whenCounted('likes')  
+            ),
+            'dislikes' => $this->when(
+                $request->routeIs('posts.show'), 
+                $this->whenCounted('dislikes')
+            ),
         ];
-
     }
 }
