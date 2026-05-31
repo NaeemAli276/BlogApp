@@ -40,12 +40,8 @@ class User extends Authenticatable
         return $this->hasMany(Bookmark::class);
     }
 
-    public function like() {
+    public function likes() {
         return $this->hasMany(Like::class);
-    }
-
-    public function dislike() {
-        return $this->hasMany(Dislike::class);
     }
 
 }

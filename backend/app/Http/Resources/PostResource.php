@@ -14,32 +14,37 @@ class PostResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        // Only show these fields on api.posts.show
+        if (!$request->routeIs('api.posts.show')) {
+            return [
+                'id' => $this->id,
+                'title' => $this->title,
+                'thumbnail' => $this->thumbnail,
+                'date' => $this->created_at->format('d/m/Y'),
+                'author' => new UserResource($this->whenLoaded('user')),
+                'category' => $this->whenLoaded('category', function() {
+                    return $this->category->category_name;
+                }),
+            ];
+        }
+        
+        // Full response for show route
         return [
             'id' => $this->id,
             'title' => $this->title,
             'thumbnail' => $this->thumbnail,
             'date' => $this->created_at->format('d/m/Y'),
-            
-            // Use lowercase to match how you loaded them
             'author' => new UserResource($this->whenLoaded('user')),
             'category' => $this->whenLoaded('category', function() {
-                return $this->category->category;
+                return $this->category->category_name;
             }),
-
-            // conditional
-            'mainContent' => $this->when($request->routeIs('posts.show'), $this->mainContent),
-            'tags' => $this->when(
-                $request->routeIs('posts.show'), 
-                TagResource::collection($this->whenLoaded('tags'))
-            ),
-            'likes' => $this->when(
-                $request->routeIs('posts.show'), 
-                $this->whenCounted('likes')  
-            ),
-            'dislikes' => $this->when(
-                $request->routeIs('posts.show'), 
-                $this->whenCounted('dislikes')
-            ),
+            'mainContent' => $this->mainContent,
+            'tags' => $this->whenLoaded('tags', function() {
+                return $this->tags->pluck('tag_name')->toArray();
+            }, []), // Return empty array if not loaded
+            // 'tags' => TagResource::collection($this->whenLoaded('tags')),
+            'likes_count' => $this->whenCounted('likes'),
+            'dislikes_count' => $this->whenCounted('dislikes'),        
         ];
     }
 }

@@ -8,5 +8,5 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::get('/posts', [PostController::class, 'index']);
-Route::get('/posts/{id}', [PostController::class, 'show']);
+Route::get('/posts', [PostController::class, 'index'])->name('api.posts.index');
+Route::get('/posts/{id}', [PostController::class, 'show'])->name('api.posts.show');

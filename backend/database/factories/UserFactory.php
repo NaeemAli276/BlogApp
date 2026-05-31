@@ -33,7 +33,7 @@ class UserFactory extends Factory
             'username' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'profileImg' => `https://picsum.photos/seed/$random_num`,
+            'profileImg' => "https://picsum.photos/seed/{$random_num}/400",
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
         ];

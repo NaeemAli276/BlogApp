@@ -46,7 +46,8 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        $post = Post::with(['user', 'comments', 'tags'])
+        $post = Post::with('user', 'comments', 'tags', 'category')
+                ->withCount(['likes', 'dislikes'])
                 ->findOrFail($id);
 
         return new PostResource($post);

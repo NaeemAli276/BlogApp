@@ -18,7 +18,7 @@ class CategoryFactory extends Factory
     public function definition(): array
     {
         return [
-            'category' => fake()->name()
+            'category_name' => fake()->unique(true, 10000)->word()
         ];
     }
 }

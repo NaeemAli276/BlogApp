@@ -16,8 +16,6 @@ class Post extends Model
         'title',
         'excerpt',
         'mainContent',
-        'likes',
-        'dislikes',
         'thumbnail',
         'date',
         'url'
@@ -54,11 +52,11 @@ class Post extends Model
     }
 
     public function likes() {
-        return $this->hasMany(Like::class);
+        return $this->hasMany(Like::class)->where('type', 'like');
     }
 
     public function dislikes() {
-        return $this->hasMany(Dislike::class);
+        return $this->hasMany(Like::class)->where('type', 'dislike');
     }
 
 }

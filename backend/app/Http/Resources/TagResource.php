@@ -17,7 +17,7 @@ class TagResource extends JsonResource
         // return parent::toArray($request);
 
         return [
-            'tag' => $this->tag
+            'tag_name' => $this->tag_name
         ];
 
     }
