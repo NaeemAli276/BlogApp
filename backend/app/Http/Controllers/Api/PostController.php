@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -21,6 +22,18 @@ class PostController extends Controller
             ->paginate(5);
 
         // $posts = Post::all();
+
+        return PostResource::collection($posts);
+
+    }
+
+    // display user posts
+    public function showUserPosts(User $user) {
+
+        $posts = $user->posts()
+            ->with(['user', 'category'])
+            ->latest()
+            ->get();
 
         return PostResource::collection($posts);
 

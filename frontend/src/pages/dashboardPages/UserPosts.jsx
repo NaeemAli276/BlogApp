@@ -25,7 +25,7 @@ const UserPosts = () => {
             likes: 20000,
             shares: 10000,
             views: 10400,
-            profile: {
+            author: {
                 profileImg: null,
                 username: 'John Doe',
                 email: 'johnDoe@example.com'
@@ -45,7 +45,7 @@ const UserPosts = () => {
             likes: 20000,
             shares: 10000,
             views: 10400,
-            profile: {
+            author: {
                 profileImg: null,
                 username: 'Jane Doe',
                 email: 'janeDoe@example.com'
@@ -65,7 +65,7 @@ const UserPosts = () => {
             likes: 20000,
             shares: 10000,
             views: 10400,
-            profile: {
+            author: {
                 profileImg: null,
                 username: 'Bob Smith',
                 email: 'BobSmith@example.com'

@@ -8,6 +8,7 @@ import UserNewPost from './pages/dashboardPages/UserNewPost'
 import UserAssets from './pages/dashboardPages/UserAssets'
 import CommentsPage from './pages/dashboardPages/CommentsPage'
 import Post from './pages/default/Post'
+import LoginPage from './pages/auth/LoginPage'
 
 
 const App = () => {
@@ -55,6 +56,13 @@ const App = () => {
           path='/:url'
           element={
             <Post/>
+          }
+        />
+
+        <Route
+          path='/Login'
+          element={
+            <LoginPage/>
           }
         />
 

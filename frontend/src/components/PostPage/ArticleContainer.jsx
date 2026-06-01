@@ -66,7 +66,7 @@ const ArticleContainer = ({
                             className='w-fit h-fit flex flex-row gap-2 z-50'
                         >
                             {
-                                post?.profile.profileImg === null
+                                post?.author.profileImg === null
                                 ?   <i
                                         className='p-1 rounded-full border-primary w-fit h-fit bg-background text-text'
                                     >
@@ -78,14 +78,14 @@ const ArticleContainer = ({
                                         </svg>
                                     </i>
                                 :   <img 
-                                        src={post?.profile.profileImg} 
+                                        src={post?.author.profileImg} 
                                         alt="" 
                                     />
                             }                                        
                             <h2
                                 className='text-background font-semibold'
                             >
-                                {post?.profile.username}
+                                {post?.author.username}
                             </h2>
                         </div>
                         <h3

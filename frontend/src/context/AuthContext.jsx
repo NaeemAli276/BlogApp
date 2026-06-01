@@ -13,14 +13,7 @@ export const useAuth = () => {
 };
 
 export const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState({
-        id: 0,
-        profileImg: userImage,
-        name: 'Jane Smith',
-        email: 'JaneSmith01@example.com',
-        wishItems: 0,
-        cartItems: 8
-    });
+    const [user, setUser] = useState({})
     // const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 

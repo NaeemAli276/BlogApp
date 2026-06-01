@@ -44,7 +44,8 @@ class PostResource extends JsonResource
             }, []), // Return empty array if not loaded
             // 'tags' => TagResource::collection($this->whenLoaded('tags')),
             'likes_count' => $this->whenCounted('likes'),
-            'dislikes_count' => $this->whenCounted('dislikes'),        
+            'dislikes_count' => $this->whenCounted('dislikes'),       
+            'url' => $this->url
         ];
     }
 }
