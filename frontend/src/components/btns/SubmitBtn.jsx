@@ -1,0 +1,18 @@
+import React from 'react'
+
+const SubmitBtn = ({
+    className = 'w-full h-fit p-2 bg-secondary/70 font-medium text-primary rounded hover:bg-primary hover:text-background duration-200 cursor-pointer',
+    text = 'submit',
+    ftn = () => {},
+}) => {
+    return (
+        <button
+            className={className}
+            onClick={ftn}
+        >
+            {text}
+        </button>
+    )
+}
+
+export default SubmitBtn
