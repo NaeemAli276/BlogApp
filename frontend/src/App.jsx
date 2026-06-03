@@ -3,12 +3,16 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 // pages
 import UserAnalytics from './pages/dashboardPages/UserAnalytics'
-import UserPosts from './pages/dashboardPages/UserPosts'
+import MyPosts from './pages/dashboardPages/MyPosts'
 import UserNewPost from './pages/dashboardPages/UserNewPost'
 import UserAssets from './pages/dashboardPages/UserAssets'
 import CommentsPage from './pages/dashboardPages/CommentsPage'
 import Post from './pages/default/Post'
 import LoginPage from './pages/auth/LoginPage'
+import Homepage from './pages/default/Homepage'
+
+// components
+import ProtectedRoute from './components/auth/ProtectedRoute'
 
 
 const App = () => {
@@ -25,25 +29,32 @@ const App = () => {
         />
 
         <Route
-          path='/Posts'
+          path='/My_posts'
           element={
-            <UserPosts/>
+            <ProtectedRoute>
+              <MyPosts/>
+            </ProtectedRoute>
           }
         />
 
         <Route
+          path='/'
+          element={<Homepage/>}
+        />
+
+        {/* <Route
           path='/Posts/NewPost'
           element={
             <UserNewPost/>
           }
-        />
+        /> */}
 
-        <Route
+        {/* <Route
           path='/Assets'
           element={
             <UserAssets/>
           }
-        />
+        /> */}
 
         <Route
           path='/Comments'

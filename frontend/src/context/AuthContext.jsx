@@ -13,7 +13,7 @@ export const useAuth = () => {
 };
 
 export const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState({})
+    const [user, setUser] = useState(null)
     // const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
@@ -58,27 +58,29 @@ export const AuthProvider = ({ children }) => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ email: formDetails.email, password: formDetails.password, rememberMe: formDetails.rememberMe }),
+                body: JSON.stringify({ email: formDetails.email, password: formDetails.password, remember_me: formDetails.remember_me }),
             });
 
             if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.message || 'Login failed');
+                const data = await response.json();
+                return data.message
             }
 
             const data = await response.json();
 
             console.log(data)
 
-            if (formDetails.rememberMe) {
+            if (formDetails.remember_me) {
                 localStorage.setItem('token', data.token);
-                setUser(data.user);    
+                setUser(data.user);
+                return true    
             }
             else {
-                setUser(data.user);    
+                setUser(data.user);
+                return true    
             }
         
-            return true;
+            return false;
         } catch (error) {
             throw error;
         }
@@ -101,8 +103,8 @@ export const AuthProvider = ({ children }) => {
             });
 
             if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.message || 'Registration failed');
+                const data = await response.json();
+                throw new Error(data.message || 'Registration failed');
             }
 
             const data = await response.json();

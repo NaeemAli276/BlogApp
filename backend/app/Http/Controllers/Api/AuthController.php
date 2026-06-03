@@ -16,7 +16,7 @@ class AuthController extends Controller
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
-            'rememberMe' => 'required|boolean'
+            'remember_me' => 'boolean'
         ]);
 
         $user = User::where('email', $request->email)->first();
@@ -27,7 +27,7 @@ class AuthController extends Controller
             ]);
         }
 
-        if ($request->rememberMe == true) {
+        if ($request->remember_me == true) {
             return response()->json([
                 'user' => $user,
                 'token' => $user->createToken('auth_token')->plainTextToken

@@ -22,3 +22,7 @@ export const formatCompactNumber = (value, maxDecimals = 1) => {
         maximumFractionDigits: maxDecimals
     }).format(value);
 };
+
+export function removeDashes(str) {
+    return str.split('-').join('');
+}

@@ -5,7 +5,7 @@ import AnalyticsCard from '../../components/UserPostPage/AnalyticsCard'
 import PostCreator from '../../components/UserPostPage/PostCreator'
 
 
-const UserPosts = () => {
+const MyPosts = () => {
 
     const [posts, setPosts] = useState([
         {
@@ -168,4 +168,4 @@ const UserPosts = () => {
     )
 }
 
-export default UserPosts
+export default MyPosts

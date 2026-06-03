@@ -27,5 +27,12 @@ class DatabaseSeeder extends Seeder
             // LikeSeeder::class,
         ]); 
 
+        User::create([
+            'username' => 'adminUser',            
+            'email' => 'admin@example.com',
+            'password' => bcrypt('pass1234'),
+            'role' => 'admin'
+        ]);
+
     }
 }

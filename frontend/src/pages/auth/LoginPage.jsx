@@ -16,18 +16,26 @@ const LoginPage = () => {
         password: '',
         remember_me: false
     })
+    const [error, setError] = useState('')
 
     const [showPassword, setShowPassword] = useState(false)
+
+    const handleLoginSubmit = async () => {
+        setError('')
+        const response = await mutation.mutateAsync(formDetails)
+
+        if (response === true) {
+            navigate('/my_posts')
+        }
+        else {
+            setError(response)
+        }
+
+    }
 
     // responsible for handling user info
     const mutation = useMutation({
         mutationFn: login,
-        onSuccess: (data) => {
-            console.log('success', data)
-        },
-        onError: (error) => {
-            console.error('Error', error.message)
-        }
     })
 
     useEffect(() => {
@@ -203,9 +211,17 @@ const LoginPage = () => {
                 <div
                     className='flex flex-col gap-2 w-full h-fit'
                 >   
+
+                    {/* error message */}
+                    <h3
+                        className={`${error === '' ? 'hidden' : 'block'} w-full h-fit text-rose-400 text-sm text-center`}
+                    >
+                        {error}
+                    </h3>
+
                     <SubmitBtn
                         text={mutation.isPending ? `Loading` : 'Sign In'}
-                        ftn={() => mutation.mutate(formDetails)}
+                        ftn={() => handleLoginSubmit()}
                     />
                     <Link
                         className='text-text/70 text-sm text-center hover:text-primary'
