@@ -44,19 +44,19 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'username' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
-            'rememberMe' => 'required|boolean'
+            'remember_me' => 'boolean'
         ]);
 
         $user = User::create([
-            'name' => $request->name,
+            'username' => $request->username,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
 
-        if ($request->rememberMe == true) {
+        if ($request->remember_me == true) {
             return response()->json([
                 'user' => $user,
                 'token' => $user->createToken('auth_token')->plainTextToken

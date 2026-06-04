@@ -13,6 +13,7 @@ import Homepage from './pages/default/Homepage'
 
 // components
 import ProtectedRoute from './components/auth/ProtectedRoute'
+import RegisterPage from './pages/auth/RegisterPage'
 
 
 const App = () => {
@@ -74,6 +75,13 @@ const App = () => {
           path='/Login'
           element={
             <LoginPage/>
+          }
+        />
+
+        <Route
+          path='/Register'
+          element={
+            <RegisterPage/>
           }
         />
 

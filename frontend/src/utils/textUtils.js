@@ -23,6 +23,6 @@ export const formatCompactNumber = (value, maxDecimals = 1) => {
     }).format(value);
 };
 
-export function removeDashes(str) {
-    return str.split('-').join('');
+export function removeDashesAndUnderscores(str) {
+    return str.replace(/[_-]/g, ' ');
 }

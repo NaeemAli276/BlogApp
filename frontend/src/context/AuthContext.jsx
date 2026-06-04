@@ -73,7 +73,7 @@ export const AuthProvider = ({ children }) => {
             if (formDetails.remember_me) {
                 localStorage.setItem('token', data.token);
                 setUser(data.user);
-                return true    
+                return true
             }
             else {
                 setUser(data.user);
@@ -86,7 +86,7 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    const register = async (name, email, password, password_confirmation, rememberMe) => {
+    const register = async (formDetails) => {
         try {
             const response = await fetch('/api/register', {
                 method: 'POST',
@@ -94,27 +94,29 @@ export const AuthProvider = ({ children }) => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ 
-                    name, 
-                    email, 
-                    password, 
-                    password_confirmation, 
-                    rememberMe
+                    username: formDetails.username, 
+                    email: formDetails.email, 
+                    password: formDetails.password, 
+                    password_confirmation: formDetails.password_confirmation, 
+                    remember_me: formDetails.remember_me
                 }),
             });
 
             if (!response.ok) {
                 const data = await response.json();
-                throw new Error(data.message || 'Registration failed');
+                return data;
             }
 
             const data = await response.json();
             
-            if (rememberMe) {
+            if (formDetails.remember_me) {
                 localStorage.setItem('token', data.token);
                 setUser(data.user);
+                return true
             }
             else {
                 setUser(data.user);
+                return true
             }
         
             return data;

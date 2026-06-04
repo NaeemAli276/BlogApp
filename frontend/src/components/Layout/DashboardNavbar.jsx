@@ -1,7 +1,7 @@
 import React from 'react'
 import { useLocation } from 'react-router-dom'
 import UserBtn from '../btns/UserBtn'
-import { removeDashes } from '../../utils/textUtils'
+import { removeDashesAndUnderscores } from '../../utils/textUtils'
 
 const DahsboardNavbar = () => {
 
@@ -16,7 +16,7 @@ const DahsboardNavbar = () => {
             <h3
                 className='font-medium text-primary text-lg'
             >
-                {removeDashes(location.pathname.substring(1))}
+                {removeDashesAndUnderscores(location.pathname.substring(1))}
             </h3>
 
 
