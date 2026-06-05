@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import PostCard from '../General/PostCard'
+import PostCard from './PostCard'
 
 const SimilarPostsContainer = ({
     category

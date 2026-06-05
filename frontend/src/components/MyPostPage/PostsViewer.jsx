@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import TextInput from '../inputs/TextInput'
 import DropdownMenu from '../inputs/DropdownMenu'
 import RadioBtn from '../btns/RadioBtn'
-import PostCard from './PostCard'
+import PostCard from '../cards/PostCard'
 
 const PostsViewer = ({ 
     posts, 

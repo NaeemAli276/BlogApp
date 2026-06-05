@@ -29,7 +29,7 @@ const PostCard = ({
                             className='w-fit h-fit flex flex-row gap-2 z-50'
                         >
                             {
-                                post?.profile.profileImg === null
+                                post?.author?.profileImg === null
                                 ?   <i
                                         className='p-1 rounded-full border-primary w-fit h-fit bg-background text-text'
                                     >
@@ -41,20 +41,20 @@ const PostCard = ({
                                         </svg>
                                     </i>
                                 :   <img 
-                                        src={post?.profile.profileImg} 
+                                        src={post?.author?.profileImg} 
                                         alt="" 
                                     />
                             }                                        
                             <h2
                                 className='text-background font-semibold'
                             >
-                                {post?.profile.username}
+                                {post?.author?.username}
                             </h2>
                         </div>
                         <h3
                             className='text-sm p-1 px-2 rounded font-semibold bg-primary text-background z-50'
                         >
-                            {post.category}
+                            {post?.category}
                         </h3>
                     </div>
                 </div>
@@ -67,7 +67,7 @@ const PostCard = ({
                     <h2
                         className='w-4/5 h-fit text-background font-bold text-xl'
                     >
-                        {truncateText(post.title, 90)}
+                        {truncateText(post?.title, 90)}
                     </h2>
                     <div
                         className='flex flex-row items-center justify-between w-full h-fit'
@@ -76,7 +76,7 @@ const PostCard = ({
                         <h3
                             className='text-background/90 text-sm'
                         >
-                            Date: {post.date}
+                            Date: {post?.date}
                         </h3>
                         <div
                             className='flex flex-row items-center gap-2 w-fit h-fit'

@@ -31,7 +31,7 @@ const ArticleContainer = ({
             
             <Link
                 className='flex flex-row items-center gap-1.5 text-text/70 hover:text-primary duration-200'
-                to={'/posts'}
+                to={-1}
             >
                 <svg xmlns="http://www.w3.org/2000/svg" width={20} height={20} viewBox="0 0 24 24">
                     <path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 12H4m0 0l6-6m-6 6l6 6"></path>
@@ -66,7 +66,7 @@ const ArticleContainer = ({
                             className='w-fit h-fit flex flex-row gap-2 z-50'
                         >
                             {
-                                post?.author.profileImg === null
+                                post?.author?.profileImg === null
                                 ?   <i
                                         className='p-1 rounded-full border-primary w-fit h-fit bg-background text-text'
                                     >
@@ -78,7 +78,7 @@ const ArticleContainer = ({
                                         </svg>
                                     </i>
                                 :   <img 
-                                        src={post?.author.profileImg} 
+                                        src={post?.author?.profileImg} 
                                         alt="" 
                                     />
                             }                                        

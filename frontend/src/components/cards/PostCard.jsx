@@ -10,7 +10,7 @@ const PostCard = ({
 
     return (
         <div
-            className='bg-background rounded flex flex-col gap-2 shadow shadow-text/20 relative cursor-pointer hover:-translate-y-3 active:-translate-y-1 duration-200 hover:shadow-text/70 hover:z-50u'
+            className='bg-background rounded flex flex-col gap-2 shadow shadow-text/20 relative cursor-pointer hover:-translate-y-3 active:-translate-y-1 duration-200 hover:shadow-text/70 hover:z-50'
             onClick={ftn}
         >
 

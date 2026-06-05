@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import DashboardLayout from '../../components/Layout/DashboardLayout'
-import PostsViewer from '../../components/UserPostPage/PostsViewer'
-import AnalyticsCard from '../../components/UserPostPage/AnalyticsCard'
-import PostCreator from '../../components/UserPostPage/PostCreator'
+import PostsViewer from '../../components/MyPostPage/PostsViewer'
+import AnalyticsCard from '../../components/cards/AnalyticsCard'
+import PostCreator from '../../components/MyPostPage/PostCreator'
 
 
 const MyPosts = () => {
@@ -119,6 +119,12 @@ const MyPosts = () => {
         },
     ])
     
+    /* 
+        params
+        post: the post itself (contains the data)
+        isNew: checks if it is a new one, or if it has already been created
+
+    */
     const handlePostSelect = (post, isNew) => {
 
         if (isNew === true && post === null) {
