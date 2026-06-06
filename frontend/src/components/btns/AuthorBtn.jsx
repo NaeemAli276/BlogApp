@@ -11,11 +11,15 @@ const AuthorBtn = ({
             className='w-fit h-fit flex flex-row gap-2 items-start cursor-pointer'
             disabled={disabled}            
         >
-            <img    
-                src={author?.profileImg === null ? defaultUserImg : author?.profileImg } 
-                alt="author" 
-                className='aspect-square size-8 rounded-full bg-white p-1'
-            />
+            <div
+                className='w-full h-full pt-px'
+            >
+                <img    
+                    src={author?.profileImg === null ? defaultUserImg : author?.profileImg} 
+                    alt="author" 
+                    className={`aspect-square size-8 rounded-full ${author?.profileImg === null ? 'shadow shadow-text/59 bg-white p-1 ' : ''}`}
+                />
+            </div>
             <div
                 className='flex flex-col w-full h-fit text-start'
             >

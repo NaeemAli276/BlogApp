@@ -3,7 +3,7 @@ import Layout from '../../components/Layout/Layout'
 import SectionContainer from '../../components/Layout/SectionContainer'
 import PostCard from '../../components/PostPage/PostCard'
 import HeroPostCard from '../../components/cards/HeroPostCard'
-import HorizonatalPostCard from '../../components/cards/HorizonatalPostCard'
+import SmallPostCard from '../../components/cards/SmallPostCard'
 
 const Homepage = () => {
     
@@ -91,7 +91,7 @@ const Homepage = () => {
 
                 {/* popular posts */}
                 <div
-                    className='w-full h-full col-span-4 row-span-full flex flex-col gap-5'
+                    className='w-full h-full col-span-4 row-span-full flex flex-col gap-4'
                 >
 
                     <h2
@@ -101,11 +101,12 @@ const Homepage = () => {
                     </h2>
 
                     <div
-                        className='flex flex-col gap-2 w-full h-full'
+                        className='flex flex-col gap-2 w-full h-full overflow-y-scroll scrollbar-hide p-1'
                     >
                         {
                             posts.map((post) => (
-                                <HorizonatalPostCard
+                                <SmallPostCard
+                                    key={post.id}
                                     post={post}
                                 />
                             ))

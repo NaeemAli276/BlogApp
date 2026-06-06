@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('url');
             $table->string('thumbnail');
             $table->boolean('is_published')->default(false);
+            $table->decimal('view_count')->default(0);
             $table->timestamps();
         });
     }
