@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import defaultUserImg from '../../assets/user.png'
 import AuthorBtn from '../btns/AuthorBtn'
 import { truncateText } from '../../utils/textUtils'
 import { useNavigate } from 'react-router-dom'
+import { useQuery } from '@tanstack/react-query'
+import { getPopularPosts } from '../../apis/postApi'
 
 const SmallPostCard = ({
     post

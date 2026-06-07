@@ -1,5 +1,6 @@
 import React from 'react'
 import defaultUserImg from '../../assets/user.png'
+import { truncateText } from '../../utils/textUtils'
 
 const AuthorBtn = ({
     author,
@@ -26,7 +27,7 @@ const AuthorBtn = ({
                 <h2
                     className='text-background text-sm/tight'
                 >
-                    {author?.username}
+                    {truncateText(author?.username,21)}
                 </h2>
                 <h3
                     className={`text-background/80 text-xs/tight ${hideEmail ? 'hidden' : 'block'}`}
