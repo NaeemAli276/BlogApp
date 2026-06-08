@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { formatCompactNumber } from '../../utils/textUtils'
 import { Link } from 'react-router-dom'
 import RichTextViewer from './RichTextViewer'
+import AuthorBtn from '../btns/AuthorBtn'
 
 
 const ArticleContainer = ({ 
@@ -64,29 +65,10 @@ const ArticleContainer = ({
                         {/* user */}
                         <div
                             className='w-fit h-fit flex flex-row gap-2 z-50'
-                        >
-                            {
-                                post?.author?.profileImg === null
-                                ?   <i
-                                        className='p-1 rounded-full border-primary w-fit h-fit bg-background text-text'
-                                    >
-                                        <svg xmlns="http://www.w3.org/2000/svg" width={20} height={20} viewBox="0 0 24 24">
-                                            <g fill="none" stroke="currentColor" strokeWidth={1.5}>
-                                                <circle cx={12} cy={6} r={4}></circle>
-                                                <path d="M20 17.5c0 2.485 0 4.5-8 4.5s-8-2.015-8-4.5S7.582 13 12 13s8 2.015 8 4.5Z"></path>
-                                            </g>
-                                        </svg>
-                                    </i>
-                                :   <img 
-                                        src={post?.author?.profileImg} 
-                                        alt="" 
-                                    />
-                            }                                        
-                            <h2
-                                className='text-background font-semibold'
-                            >
-                                {post?.author.username}
-                            </h2>
+                        >                                  
+                            <AuthorBtn
+                                author={post?.author}
+                            />
                         </div>
                         <h3
                             className='text-sm p-1 px-2 rounded font-semibold bg-primary text-background z-50'
@@ -117,7 +99,7 @@ const ArticleContainer = ({
                                 className='flex flex-row items-center gap-2 w-fit h-fit'
                             >
                                 {
-                                    post?.tags.map((tag) => (
+                                    post?.tags?.map((tag) => (
                                         <button
                                             className='text-xs bg-secondary text-primary px-2 p-1 rounded font-medium flex flex-row items-center gap-1'
                                         >
@@ -153,14 +135,14 @@ const ArticleContainer = ({
                             className='flex flex-row items-center gap-1 text-text/70 font-medium'
                         >
                             <svg  xmlns="http://www.w3.org/2000/svg" width={24} height={24} fill={"currentColor"} viewBox={"0 0 24 24"}>{/* Boxicons v3.0.8 https://boxicons.com | License  https://docs.boxicons.com/free */}<path d="M12 9a3 3 0 1 0 0 6 3 3 0 1 0 0-6"></path><path d="M12 19c7.63 0 9.93-6.62 9.95-6.68.07-.21.07-.43 0-.63-.02-.07-2.32-6.68-9.95-6.68s-9.93 6.61-9.95 6.67c-.07.21-.07.43 0 .63.02.07 2.32 6.68 9.95 6.68Zm0-12c5.35 0 7.42 3.85 7.93 5-.5 1.16-2.58 5-7.93 5s-7.42-3.84-7.93-5c.5-1.16 2.58-5 7.93-5"></path></svg>
-                            {formatCompactNumber(post?.views)}
+                            {formatCompactNumber(post?.view_count)}
                         </h3>
                         {/* likes */}
                         <h3
                             className='flex flex-row items-center gap-1 text-text/70 font-medium'
                         >
                             <svg  xmlns="http://www.w3.org/2000/svg" width={21} height={21} fill={"currentColor"} viewBox={"0 0 24 24"}>{/* Boxicons v3.0.8 https://boxicons.com | License  https://docs.boxicons.com/free */}<path d="M20 8h-5.61l1.12-3.37c.2-.61.1-1.28-.27-1.8-.38-.52-.98-.83-1.62-.83h-1.61c-.3 0-.58.13-.77.36L6.54 8H4.01c-1.1 0-2 .9-2 2v9c0 1.1.9 2 2 2h13.31a2 2 0 0 0 1.87-1.3l2.76-7.35c.04-.11.06-.23.06-.35v-2c0-1.1-.9-2-2-2ZM6 19H4v-9h2zm14-7.18L17.31 19H8V9.36L12.47 4h1.15l-1.56 4.68a1.01 1.01 0 0 0 .95 1.32h7v1.82Z"></path></svg>
-                            {formatCompactNumber(post?.likes)}
+                            {formatCompactNumber(post?.likes_count)}
                         </h3>
                         {/* shares */}
                         <h3

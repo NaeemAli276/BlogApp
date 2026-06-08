@@ -7,7 +7,7 @@ import MyPosts from './pages/dashboardPages/MyPosts'
 import UserNewPost from './pages/dashboardPages/UserNewPost'
 import UserAssets from './pages/dashboardPages/UserAssets'
 import CommentsPage from './pages/dashboardPages/CommentsPage'
-import Post from './pages/default/Post'
+import PostPage from './pages/default/PostPage'
 import LoginPage from './pages/auth/LoginPage'
 import Homepage from './pages/default/Homepage'
 
@@ -65,9 +65,9 @@ const App = () => {
         />
 
         <Route
-          path='/:url'
+          path='/posts/:id'
           element={
-            <Post/>
+            <PostPage/>
           }
         />
 

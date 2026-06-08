@@ -18,7 +18,8 @@ class Post extends Model
         'mainContent',
         'thumbnail',
         'date',
-        'url'
+        'url',
+        'view_count'
     ];
 
     protected $hidden = [
@@ -57,6 +58,11 @@ class Post extends Model
 
     public function dislikes() {
         return $this->hasMany(Like::class)->where('type', 'dislike');
+    }
+
+    public function recordView() {
+        $this->increment('view_count');
+        return $this;
     }
 
 }

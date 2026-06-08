@@ -17,9 +17,10 @@ class PostController extends Controller
     {
         
         // get multiple posts
-        $posts = Post::with(['user', 'category'])
+        $posts = Post::with('user', 'category')
             ->latest()
-            ->paginate(5);
+            ->limit(6)
+            ->get();
 
         // $posts = Post::all();
 
@@ -61,7 +62,8 @@ class PostController extends Controller
     {
         $post = Post::with('user', 'comments', 'tags', 'category')
                 ->withCount(['likes', 'dislikes'])
-                ->findOrFail($id);
+                ->findOrFail($id)
+                ->recordView();
 
         return new PostResource($post);
 
@@ -90,4 +92,28 @@ class PostController extends Controller
     {
         //
     }
+
+    // gets the most popular post
+    public function getMostPopularPost() {
+        $post = Post::with('user', 'category')
+        // ->withCount('likes', 'dislikes')
+        ->orderBy('view_count', 'desc')
+        ->latest()
+        ->first();
+
+        return new PostResource($post);
+    }
+
+    public function getPopularPosts() {
+
+        $post = Post::with('user', 'category')
+        ->orderBy('view_count', 'desc')
+        ->skip(1)
+        ->take(5)
+        ->get();
+        
+        return PostResource::collection($post);
+
+    }
+
 }

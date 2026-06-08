@@ -3,7 +3,11 @@ import defaultUserImg from '../../assets/user.png'
 import { truncateText } from '../../utils/textUtils'
 
 const AuthorBtn = ({
-    author,
+    author = {
+        username: '',
+        email: '',
+        profileImg: ''
+    },
     hideEmail = false,
     disabled = false
 }) => {

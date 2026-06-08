@@ -17,7 +17,7 @@ export async function getMostPopularPost() {
 
     }
     catch (error) {
-        return error
+        throw error
     }
 
 }
@@ -38,7 +38,7 @@ export async function getPopularPosts() {
 
     }
     catch (error) {
-        return error
+        throw error
     }
 
 }
@@ -59,7 +59,26 @@ export async function getMostRecentPosts() {
 
     }
     catch (error) {
-        return error
+        throw error
     }
 
+}
+
+export async function getRequestedPost(id) {
+    const url = `http://localhost:8000/api/posts/${id}`
+
+    try {
+
+        const { data } = await axios(url, {
+            headers: {
+                Accept: 'application/json'
+            }
+        })
+
+        return data.data
+
+    }
+    catch (error) {
+        throw error
+    }
 }

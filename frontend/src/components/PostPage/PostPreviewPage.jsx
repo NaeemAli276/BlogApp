@@ -1,23 +1,15 @@
-import React, { useEffect } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
-import Layout from '../../components/Layout/Layout'
-import ArticleContainer from '../../components/PostPage/ArticleContainer'
-import CommentsSection from '../../components/PostPage/CommentsSection'
-import SimilarPostsContainer from '../../components/PostPage/SimilarPostsContainer'
+import React from 'react'
+import Layout from '../Layout/Layout'
+import { useLocation } from 'react-router-dom'
 
-const Post = () => {
+const PostPreviewPage = () => {
 
     const location = useLocation()
     const navigate = useNavigate()
-    const post = location.state?.post
-
-    useEffect(() => {
-        console.log(post)
-    }, [])
+    const post = location?.state?.post
 
     return (
         <Layout>
-
             <div
                 className='flex flex-row gap-2 w-full h-full'
             >
@@ -34,8 +26,7 @@ const Post = () => {
             </div>
 
         </Layout>
-        
     )
 }
 
-export default Post
+export default PostPreviewPage

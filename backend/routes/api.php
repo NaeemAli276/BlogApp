@@ -10,6 +10,8 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::get('/posts', [PostController::class, 'index'])->name('api.posts.index');
+Route::get('/posts/featured', [PostController::class, 'getMostPopularPost'])->name('api.posts.getMostPopular');
+Route::get('/posts/featured_posts', [PostController::class, 'getPopularPosts'])->name('api.posts.getPopularPosts');
 Route::get('/posts/{id}', [PostController::class, 'show'])->name('api.posts.show');
 Route::get('/user/{user}/posts', [PostController::class, 'showUserPosts']);
 

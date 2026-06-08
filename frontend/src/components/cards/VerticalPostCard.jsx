@@ -77,9 +77,8 @@ const VerticalPostCard = ({
                     </span>
                     <Link
                         className='w-fit flex h-fit items-center gap-2 text-sm text-text/80 hover:text-primary duration-200'
-                        to={`/${post?.url}`}
-                        state={{ post: post }}
-
+                        to={`/posts/${post?.id}`}
+                        // state={post?.id}
                     >
                         View more
                         <svg xmlns="http://www.w3.org/2000/svg" width={20} height={20} viewBox="0 0 16 16">
