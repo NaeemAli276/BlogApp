@@ -9,7 +9,8 @@ const AuthorBtn = ({
         profileImg: ''
     },
     hideEmail = false,
-    disabled = false
+    disabled = false,
+    textTheme = 'light'
 }) => {
     return (
         <button
@@ -17,24 +18,24 @@ const AuthorBtn = ({
             disabled={disabled}            
         >
             <div
-                className='w-full h-full pt-px'
+                className='w-fit h-full pt-px'
             >
                 <img    
                     src={author?.profileImg === null ? defaultUserImg : author?.profileImg} 
                     alt="author" 
-                    className={`aspect-square size-8 rounded-full ${author?.profileImg === null ? 'shadow shadow-text/59 bg-white p-1 ' : ''}`}
+                    className={`aspect-square min-h-8 max-h-8 min-w-8 max-w-8 rounded-full ${author?.profileImg === null ? 'shadow shadow-text/59 bg-white p-1 ' : ''}`}
                 />
             </div>
             <div
-                className='flex flex-col w-full h-fit text-start'
+                className='flex flex-col w-full h-full text-start items-start'
             >
                 <h2
-                    className='text-background text-sm/tight'
+                    className={`${textTheme === 'light' ? 'text-background' : 'text-text'} text-sm/tight`}
                 >
                     {truncateText(author?.username,21)}
                 </h2>
                 <h3
-                    className={`text-background/80 text-xs/tight ${hideEmail ? 'hidden' : 'block'}`}
+                    className={`${textTheme === 'light' ? 'text-background/80' : 'text-text/80'}  text-xs/tight ${hideEmail ? 'hidden' : 'block'}`}
                 >
                     {author?.email}
                 </h3>

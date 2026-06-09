@@ -67,8 +67,8 @@ const PostPage = () => {
                     <div
                         className='w-2/5 h-1/4 overflow-y-scroll pt-11 p-1 flex flex-col gap-4'
                     >
-                        <CommentsSection/>
-                        <SimilarPostsContainer/>
+                        {/* <CommentsSection/>
+                        <SimilarPostsContainer/> */}
                     </div>
                 </div>
 

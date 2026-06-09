@@ -26,3 +26,8 @@ export const formatCompactNumber = (value, maxDecimals = 1) => {
 export function removeDashesAndUnderscores(str) {
     return str.replace(/[_-]/g, ' ');
 }
+
+export function formatDate(dateString) {
+    const d = new Date(dateString);
+    return `${d.getDate()} ${d.toLocaleString('en', { month: 'short' })} ${d.getFullYear()}`;
+};

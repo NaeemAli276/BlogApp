@@ -1,6 +1,6 @@
 import React from 'react'
 import DropdownMenu from '../inputs/DropdownMenu'
-import { truncateText, formatCompactNumber } from '../../utils/textUtils'
+import { truncateText, formatCompactNumber, formatDate } from '../../utils/textUtils'
 
 const PostCard = ({ 
     post = null,
@@ -94,7 +94,7 @@ const PostCard = ({
                     <h4
                         className='text-sm text-background/80 '
                     >
-                        Date: {post.date}
+                        Date: {formatDate(post.date)}
                     </h4>
                 </div>
 

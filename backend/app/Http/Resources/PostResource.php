@@ -27,7 +27,7 @@ class PostResource extends JsonResource
                     return $this->category->category_name;
                 }),
                 'view_count' => $this->view_count,
-                'url' => $this->url
+                'url' => $this->url,
             ];
         }
         
@@ -50,7 +50,8 @@ class PostResource extends JsonResource
             'likes_count' => $this->whenCounted('likes'),
             'dislikes_count' => $this->whenCounted('dislikes'),       
             'url' => $this->url,
-            'view_count' => $this->view_count
+            'view_count' => $this->view_count,
+            'comments' => CommentResource::collection($this->whenLoaded('comments'))
         ];
     }
 }
