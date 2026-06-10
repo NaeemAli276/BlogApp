@@ -2,10 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Category;
-use App\Models\Post;
-use App\Models\PostBlock;
-use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -21,23 +17,22 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'Admin dude',
-            'email' => 'adminDude@example.com',
-            'user_type' => 'admin',
-            'password' => 'adminPass1234'
+        $this->call([
+            UserSeeder::class,
+            TagSeeder::class,
+            CategorySeeder::class,
+            PostSeeder::class,
+            BookmarkSeeder::class,
+            CommentSeeder::class,
+            // LikeSeeder::class,
+        ]); 
+
+        User::create([
+            'username' => 'adminUser',            
+            'email' => 'admin@example.com',
+            'password' => bcrypt('pass1234'),
+            'role' => 'admin'
         ]);
-
-        User::factory()->create([
-            'name' => 'John Doe',
-            'email' => 'johnDoe@example.com',
-            'password' => 'password1234'
-        ]);
-
-        Category::factory()->count(10)->create();
-        Tag::factory()->count(10)->create();
-
-        Post::factory()->count(20)->create();
 
     }
 }

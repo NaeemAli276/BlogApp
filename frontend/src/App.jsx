@@ -1,76 +1,87 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
-import HomePage from './pages/HomePage'
-import LoginPage from './pages/LoginPage'
-import Register from './pages/RegisterPage'
+// pages
+import UserAnalytics from './pages/dashboardPages/UserAnalytics'
+import MyPosts from './pages/dashboardPages/MyPosts'
+import UserNewPost from './pages/dashboardPages/UserNewPost'
+import UserAssets from './pages/dashboardPages/UserAssets'
+import CommentsPage from './pages/dashboardPages/CommentsPage'
+import PostPage from './pages/default/PostPage'
+import LoginPage from './pages/auth/LoginPage'
+import Homepage from './pages/default/Homepage'
+
+// components
 import ProtectedRoute from './components/auth/ProtectedRoute'
-import CreatePostPage from './pages/CreatePostPage'
-import MyPostsPage from './pages/MyPostsPage'
-import FriendsPage from './pages/FriendsPage'
-import Dashboard from './pages/Dashboard'
+import RegisterPage from './pages/auth/RegisterPage'
 
-function App() {
-  const [count, setCount] = useState(0)
 
+const App = () => {
   return (
     <BrowserRouter>
       <Routes>
 
-        {/* home */}
+
+        <Route
+          path='/Analytics'
+          element={
+            <UserAnalytics/>
+          }
+        />
+
+        <Route
+          path='/My_posts'
+          element={
+            <ProtectedRoute>
+              <MyPosts/>
+            </ProtectedRoute>
+          }
+        />
+
         <Route
           path='/'
-          element={<HomePage/>}
+          element={<Homepage/>}
         />
 
-        {/* login */}
-        <Route
-          path='/Login' 
-          element={<LoginPage/>}
-        />
-
-        {/* register */}
-        <Route
-          path='/Register'
-          element={<Register/>}
-        />
-
-        <Route
-          path='/Friends'
-          element={
-            <ProtectedRoute>
-              <FriendsPage/>
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path='/Dashboard'
-          element={
-            <ProtectedRoute>
-              <Dashboard/>
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path='/Posts'
-          element={
-            <ProtectedRoute>
-              <MyPostsPage/>
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
+        {/* <Route
           path='/Posts/NewPost'
           element={
-            <ProtectedRoute>
-              <CreatePostPage/>
-            </ProtectedRoute>
+            <UserNewPost/>
+          }
+        /> */}
+
+        {/* <Route
+          path='/Assets'
+          element={
+            <UserAssets/>
+          }
+        /> */}
+
+        <Route
+          path='/Comments'
+          element={
+            <CommentsPage/>
+          }
+        />
+
+        <Route
+          path='/posts/:id'
+          element={
+            <PostPage/>
+          }
+        />
+
+        <Route
+          path='/Login'
+          element={
+            <LoginPage/>
+          }
+        />
+
+        <Route
+          path='/Register'
+          element={
+            <RegisterPage/>
           }
         />
 

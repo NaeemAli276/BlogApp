@@ -2,30 +2,22 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 
 class Tag extends Model
 {
-    
-    use HasFactory; 
+
+    use HasFactory;
 
     protected $fillable = [
-        'name'
+        'tag_name'
     ];
 
-    protected $hidden = [
-        'created_at',
-        'updated_at'
-    ];
-
-    protected $casts = [
-        'name' => 'string'
-    ];
-
-    // relationships
-    public function posts() {
-        return $this->belongsToMany(Post::class);
+    public function post() {
+        return $this->belongsToMany(Post::class, 'post_tags', 'post_id', 'tag_id');
     }
+
 
 }

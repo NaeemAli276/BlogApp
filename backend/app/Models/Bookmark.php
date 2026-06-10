@@ -3,26 +3,24 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Bookmark extends Model
 {
-    
+
+    use HasFactory;
+
     protected $fillable = [
         'post_id',
+        'user_id'
     ];
 
-    protected $hidden = [
-        'created_at',
-        'updated_at'
-    ];
-
-    // relationships
-    public function user() {
-        return $this->hasMany(User::class);
+    public function posts() {
+        return $this->belongsToMany(Post::class);
     }
 
-    public function post() {
-        return $this->hasMany(Post::class);
+    public function user() {
+        return $this->belongsTo(User::class);
     }
 
 }

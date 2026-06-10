@@ -7,53 +7,62 @@ use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
-    
+    //
+
     use HasFactory;
 
     protected $fillable = [
+        'category_id',
         'title',
-        'slug',
+        'excerpt',
+        'mainContent',
+        'thumbnail',
         'date',
-        'category_id'
+        'url',
+        'view_count'
     ];
 
     protected $hidden = [
-        'created_at',
-        'updated_at'
+        
     ];
 
     protected $casts = [
-        'title' => 'string',
-        'slug' => 'string',
+
     ];
 
-    // relationships
     public function user() {
         return $this->belongsTo(User::class);
     }
 
-    public function bookmark() {
-        return $this->belongsToMany(Bookmark::class);
+    // get the comments of the post
+    public function comments() {
+        return $this->hasMany(Comment::class);
     }
 
+    // gets the category of the post
     public function category() {
         return $this->belongsTo(Category::class);
     }
 
-    public function comment() {
-        return $this->hasMany(Comment::class);
+    public function tags() {
+        return $this->belongsToMany(Tag::class, 'post_tags', 'tag_id', 'post_id');
     }
 
-    public function postBlock() {
-        return $this->hasMany(PostBlock::class);
+    public function bookmarks() {
+        return $this->belongsToMany(Bookmark::class, 'bookmarks', 'post_id', 'user_id');
     }
 
-    public function reaction() {
-        return $this->hasMany(Reaction::class);
+    public function likes() {
+        return $this->hasMany(Like::class)->where('type', 'like');
     }
 
-    public function tag() {
-        return $this->belongsToMany(Tag::class);
+    public function dislikes() {
+        return $this->hasMany(Like::class)->where('type', 'dislike');
+    }
+
+    public function recordView() {
+        $this->increment('view_count');
+        return $this;
     }
 
 }

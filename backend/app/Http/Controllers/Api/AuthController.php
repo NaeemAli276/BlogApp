@@ -1,13 +1,11 @@
 <?php
-// app/Http/Controllers/Api/AuthController.php
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\User;
 use App\Http\Controllers\Controller;
-use ErrorException;
-use Exception;
+use App\Models\User;
 use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
@@ -18,7 +16,7 @@ class AuthController extends Controller
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
-            'rememberMe' => 'required|boolean'
+            'remember_me' => 'boolean'
         ]);
 
         $user = User::where('email', $request->email)->first();
@@ -29,16 +27,14 @@ class AuthController extends Controller
             ]);
         }
 
-        if ($request->rememberMe == true) {
+        if ($request->remember_me == true) {
             return response()->json([
-                'success' => true,
                 'user' => $user,
                 'token' => $user->createToken('auth_token')->plainTextToken
             ]);
         }
         else {
             return response()->json([
-                'success' => true,
                 'user' => $user,
                 // 'token' => $user->createToken('auth_token')->plainTextToken
             ]);
@@ -48,19 +44,19 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'username' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
-            'rememberMe' => 'required|boolean'
+            'remember_me' => 'boolean'
         ]);
 
         $user = User::create([
-            'name' => $request->name,
+            'username' => $request->username,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
 
-        if ($request->rememberMe == true) {
+        if ($request->remember_me == true) {
             return response()->json([
                 'user' => $user,
                 'token' => $user->createToken('auth_token')->plainTextToken
