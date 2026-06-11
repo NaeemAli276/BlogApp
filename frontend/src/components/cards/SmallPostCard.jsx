@@ -15,7 +15,7 @@ const SmallPostCard = ({
     return (
         <div
             className='w-full h-fit relative aspect-video shadow shadow-text/50 rounded cursor-pointer'
-            onClick={() => navigate(`/${post?.url}`, { state: post })}
+            onClick={() => navigate(`/posts/${post?.id}`)}
         >
 
             <div

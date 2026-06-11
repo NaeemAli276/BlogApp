@@ -1,5 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import PostCard from './PostCard'
+import { useQuery } from '@tanstack/react-query'
+import { getPostsFromCategory } from '../../apis/postApi'
 
 const SimilarPostsContainer = ({
     category
@@ -70,6 +72,16 @@ const SimilarPostsContainer = ({
             }
         },
     ])
+
+    
+    const { isLoading, error, data } = useQuery({
+        queryFn: () => getPostsFromCategory(category),
+        queryKey: ['post_data', category]
+    })
+
+    useEffect(() => (
+        console.log(data)
+    ), [data])
 
     return (
         <div

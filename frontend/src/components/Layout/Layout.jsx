@@ -3,7 +3,7 @@ import Navbar from './Navbar'
 
 const Layout = ({ 
     children,
-    className='flex flex-col w-full h-full p-10 px-20 overflow-y-hidden'
+    className='flex flex-col w-full h-full p-20 overflow-y-hidden'
 }) => {
     return (
         <div

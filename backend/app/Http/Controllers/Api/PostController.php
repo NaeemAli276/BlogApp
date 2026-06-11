@@ -116,4 +116,15 @@ class PostController extends Controller
 
     }
 
+    public function getPostsFromCategory($category) {
+
+        $post = Post::with('user', 'category')
+        ->where('categories.name', $category)    
+        ->limit(5)
+        ->get();
+        
+        return PostResource::collection($post);
+
+    }
+
 }

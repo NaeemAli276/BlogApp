@@ -199,9 +199,9 @@ const ArticleContainer = ({
                     >
                         {tags?.map((tag) => (
                             <button
-                                className='p-1 px-2 rounded-md bg-text/10 text-text text-sm'
+                                className='p-1 px-2 rounded-md bg-text/10 text-text text-sm hover:bg-primary hover:text-background duration-200'
                             >
-                                {tag}
+                                # {tag}
                             </button>
                         ))}
                     </div>

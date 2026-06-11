@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import RichTextViewer from '../PostPage/RichTextViewer'
 
 const Comment = ({
@@ -39,9 +39,13 @@ const Comment = ({
 
     }
 
+    useEffect(() => {
+        console.log(comment)
+    })
+
     return (
         <div
-            className='w-full h-fit bg-background rounded flex flex-col gap-2'
+            className='w-full h-fit bg-text/5 shadow shadow-text/20 p-3 py-4 rounded flex flex-col gap-2'
         >
 
             {/* profileImg, name and email */}
@@ -52,9 +56,9 @@ const Comment = ({
                     className='flex flex-row items-start gap-2 w-fit h-full pl-1'
                 >
                     {
-                        comment?.profileImg === null
+                        comment?.user?.profileImg === null
                         ?   <i
-                                className='p-1 rounded-full border-2 border-primary w-fit h-fit'
+                                className='p-1 rounded-full border-2 border-primary w-fit h-fit bg-background'
                             >
                                 <svg xmlns="http://www.w3.org/2000/svg" width={20} height={20} viewBox="0 0 24 24">
                                     <g fill="none" stroke="currentColor" strokeWidth={1.5}>
@@ -64,8 +68,9 @@ const Comment = ({
                                 </svg>
                             </i>
                         :   <img 
-                                src={comment?.profileImg} 
+                                src={comment?.user?.profileImg} 
                                 alt="" 
+                                className='size-8 rounded-full aspect-square'
                             />
                     }
                     <div
@@ -74,20 +79,20 @@ const Comment = ({
                         <h3
                             className='text-sm/tight font-medium'
                         >
-                            {comment?.username}
+                            {comment?.user?.username}
                         </h3>
                         <h4
                             className='text-xs text-text/70'
                         >
-                            {comment?.email}
+                            {comment?.user?.email}
                         </h4>
                     </div>
                 </div>
                 <div
-                    className='flex w-full items-center justify-end h-fit relative'
+                    className='flex w-full items-start justify-end h-fit relative'
                 >
                     <button
-                        className='duration-200 p-1 rounded-full text-text hover:bg-text/10'
+                        className='duration-200 p-0.5 rounded-full text-text hover:bg-text/10 rotate-90'
                         onClick={() => setIsDropdownActive(!isDropdownActive)}
                     >
                         <svg  xmlns="http://www.w3.org/2000/svg" width={24} height={24} fill={"currentColor"} viewBox={"0 0 24 24"}>{/* Boxicons v3.0.8 https://boxicons.com | License  https://docs.boxicons.com/free */}<path d="M12 10a2 2 0 1 0 0 4 2 2 0 1 0 0-4m0 6a2 2 0 1 0 0 4 2 2 0 1 0 0-4m0-12a2 2 0 1 0 0 4 2 2 0 1 0 0-4"></path></svg>
@@ -122,9 +127,20 @@ const Comment = ({
             </div>
 
             <RichTextViewer
-                content={comment.content}
-                className='px-1 text-text/70'
+                content={comment?.content}
+                className='px-1 text-text/70 text-sm'
             />
+
+            {/* buttons */}
+            <div
+                className='flex flex-row items-center gap-2 w-full h-fit pl-1 pt-2'
+            >
+                <button
+                    className='text-text/70 text-sm font-medium'
+                >
+                    Reply
+                </button>
+            </div>
 
         </div>
     )
