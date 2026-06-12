@@ -24,10 +24,17 @@ class PostResource extends JsonResource
                 'date' => $this->created_at->format('d/m/Y'),
                 'author' => new UserResource($this->whenLoaded('user')),
                 'category' => $this->whenLoaded('category', function() {
+                    // return [
+                    //     'id'=> $this->category->id, 
+                    //     'name'=> $this->category->category_name,
+                    // ];
                     return $this->category->category_name;
                 }),
                 'view_count' => $this->view_count,
                 'url' => $this->url,
+                'tags' => $this->whenLoaded('tags', function() {
+                    return $this->tags->pluck('tag_name')->toArray();
+                }, []),
             ];
         }
         
@@ -40,6 +47,10 @@ class PostResource extends JsonResource
             'date' => $this->created_at->format('d/m/Y'),
             'author' => new UserResource($this->whenLoaded('user')),
             'category' => $this->whenLoaded('category', function() {
+                // return [
+                //     // 'id'=> $this->category->id, 
+                //     // 'name'=> $this->category->category_name,
+                // ];
                 return $this->category->category_name;
             }),
             'mainContent' => $this->mainContent,

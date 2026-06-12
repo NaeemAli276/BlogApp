@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PostResource;
+use App\Models\Category;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -116,15 +117,17 @@ class PostController extends Controller
 
     }
 
-    public function getPostsFromCategory($category) {
-
-        $post = Post::with('user', 'category')
-        ->where('categories.name', $category)    
-        ->limit(5)
-        ->get();
-        
-        return PostResource::collection($post);
-
+    public function getPostsByCategory($category)
+    {
+        $posts = Post::with('user', 'category', 'tags')
+            ->whereHas('category', function($query) use ($category) {
+                $query->where('category_name', $category);
+            })
+            ->latest()
+            ->get();
+            // ->paginate(15);
+    
+        return PostResource::collection($posts);
     }
 
 }

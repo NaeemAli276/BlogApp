@@ -110,7 +110,7 @@ const CommentsSection = ({
                         </div>  
                     :   comments.map((comment) => (
                             <Comment
-                                key={comment.username}
+                                key={comment?.user?.id}
                                 comment={comment}
                             />
                         ))

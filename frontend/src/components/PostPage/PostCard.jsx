@@ -6,7 +6,7 @@ const PostCard = ({
 }) => {
     return (
         <div
-            className='relative aspect-video rounded cursor-pointer shadow shadow-text/30j'
+            className='relative aspect-video rounded cursor-pointer shadow shadow-text/30'
         >   
             <img 
                 src={post?.thumbnail} 
@@ -14,7 +14,7 @@ const PostCard = ({
                 className='w-full h-fit rounded'    
             />
             <div
-                className='w-full h-full absolute left-0 top-0 z-50 bg-black/20 flex flex-col justify-between'
+                className='w-full h-full absolute left-0 top-0 z-50 bg-black/20 flex flex-col justify-between rounded'
             >
 
                 {/* name and category */}
@@ -26,7 +26,7 @@ const PostCard = ({
                     >
                         {/* user */}
                         <div
-                            className='w-fit h-fit flex flex-row gap-2 z-50'
+                            className='w-fit h-fit flex flex-row gap-2 z-50 items-start'
                         >
                             {
                                 post?.author?.profileImg === null
@@ -43,13 +43,23 @@ const PostCard = ({
                                 :   <img 
                                         src={post?.author?.profileImg} 
                                         alt="" 
+                                        className='size-8 rounded-full'
                                     />
-                            }                                        
-                            <h2
-                                className='text-background font-semibold'
+                            }  
+                            <div
+                            
                             >
-                                {post?.author?.username}
-                            </h2>
+                                <h2
+                                    className='text-background font-semibold text-sm/tight'
+                                >
+                                    {post?.author?.username}
+                                </h2>
+                                <h3
+                                    className='text-background/70 text-xs'
+                                >
+                                    {post?.author?.email}
+                                </h3>
+                            </div>                                      
                         </div>
                         <h3
                             className='text-sm p-1 px-2 rounded font-semibold bg-primary text-background z-50'
@@ -82,9 +92,10 @@ const PostCard = ({
                             className='flex flex-row items-center gap-2 w-fit h-fit'
                         >
                             {
-                                post?.tags.map((tag) => (
+                                post?.tags?.map((tag) => (
                                     <button
                                         className='text-xs bg-secondary text-primary px-2 p-1 rounded font-medium flex flex-row items-center gap-1'
+                                        key={tag}
                                     >
                                         <svg xmlns="http://www.w3.org/2000/svg" width={6} height={6} viewBox="0 0 24 24">
                                             <path fill="currentColor" d="M12 22q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22"></path>

@@ -142,6 +142,7 @@ const ArticleContainer = ({
                                     menuBtns.map((btn) => (
                                         <button
                                             className='flex flex-row items-center gap-2 justify-start p-2 text-sm px-2.5 text-text hover:text-primary hover:bg-secondary/50 duration-200'
+                                            key={btn.name}
                                         >
                                             {btn.icon}
                                             {btn.name}
@@ -199,6 +200,7 @@ const ArticleContainer = ({
                     >
                         {tags?.map((tag) => (
                             <button
+                                key={tag}
                                 className='p-1 px-2 rounded-md bg-text/10 text-text text-sm hover:bg-primary hover:text-background duration-200'
                             >
                                 # {tag}

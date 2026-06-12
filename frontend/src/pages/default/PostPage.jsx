@@ -18,10 +18,9 @@ const PostPage = () => {
         queryKey: ['post_data', post_id]
     })
 
-
-    useEffect(() => {
-        console.log(data)
-    }, [data])
+    // useEffect(() => {
+    //     console.log(data)
+    // }, [data])
     
     if (isLoading) {
         return (
@@ -65,7 +64,7 @@ const PostPage = () => {
                     />
 
                     <div
-                        className='w-2/5 h-1/4 overflow-y-scroll pt-11 p-1 flex flex-col gap-4'
+                        className='w-2/5 h-1/4 overflow-y-scroll pt-11 p-1 flex flex-col gap-8'
                     >
                         <CommentsSection
                             comments={data?.comments}

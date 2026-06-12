@@ -47,7 +47,7 @@ const HeroPostCard = ({
         return (
             <div
                 className='aspect-video relative shadow shadow-text/50 rounded cursor-pointer'
-                onClick={() => navigate(`/${data?.url}`, { state: post })}
+                onClick={() => navigate(`/posts/${data?.id}`)}
             >
 
                 {/* author */}

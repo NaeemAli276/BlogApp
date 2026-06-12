@@ -83,9 +83,9 @@ export async function getRequestedPost(id) {
     }
 }
 
-export async function getPostsFromCategory($category) {
+export async function getPostsFromCategory(category) {
     
-    const url = `http://localhost:8000/api/posts/${$category}`
+    const url = `http://localhost:8000/api/posts/category/${category}`
 
     try {
 
@@ -95,6 +95,7 @@ export async function getPostsFromCategory($category) {
             }
         })
 
+        console.log(data)
         return data.data
 
     }

@@ -39,10 +39,6 @@ const Comment = ({
 
     }
 
-    useEffect(() => {
-        console.log(comment)
-    })
-
     return (
         <div
             className='w-full h-fit bg-text/5 shadow shadow-text/20 p-3 py-4 rounded flex flex-col gap-2'
@@ -111,6 +107,7 @@ const Comment = ({
                                         ${btn.name === 'Delete' ? 'hover:text-rose-700 hover:bg-rose-200' : 'hover:bg-secondary/50 hover:text-primary'}
                                         w-full h-fit p-3 text-text/70 cursor-pointer text-sm flex items-center gap-2 duration-200
                                     `}
+                                    key={index}
                                 >
                                     <i>
                                         {btn.icon}

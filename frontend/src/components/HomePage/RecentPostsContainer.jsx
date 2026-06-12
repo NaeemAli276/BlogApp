@@ -45,6 +45,7 @@ const RecentPostsContainer = () => {
                 {
                     data?.map((post) => (
                         <VerticalPostCard
+                            key={post.id}
                             post={post}
                         />
                     ))
