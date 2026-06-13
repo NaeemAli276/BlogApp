@@ -1,12 +1,17 @@
 import React from 'react'
 import { truncateText } from '../../utils/textUtils'
+import { useNavigate } from 'react-router-dom'
 
 const PostCard = ({
     post
 }) => {
+
+    const navigate = useNavigate()
+
     return (
         <div
             className='relative aspect-video rounded cursor-pointer shadow shadow-text/30'
+            onClick={() => navigate(`/posts/${post?.id}`)}
         >   
             <img 
                 src={post?.thumbnail} 

@@ -126,6 +126,7 @@ const SimilarPostsContainer = ({
                     {
                         data?.map((post) => (
                             <PostCard
+                                key={post.id}
                                 post={post}
                             />
                         ))

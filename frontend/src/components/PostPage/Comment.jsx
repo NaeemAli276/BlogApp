@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import RichTextViewer from '../PostPage/RichTextViewer'
+import AuthorBtn from '../btns/AuthorBtn'
 
 const Comment = ({
     comment
@@ -41,87 +42,14 @@ const Comment = ({
 
     return (
         <div
-            className='w-full h-fit bg-text/5 shadow shadow-text/20 p-3 py-4 rounded flex flex-col gap-2'
+            className='w-full h-fit bg-text/5 shadow shadow-text/20 p-3 pb-3.5 rounded flex flex-col gap-2'
         >
 
-            {/* profileImg, name and email */}
-            <div
-                className='w-full h-fit flex flex-row gap-2 items-center justify-between'
-            >
-                <div
-                    className='flex flex-row items-start gap-2 w-fit h-full pl-1'
-                >
-                    {
-                        comment?.user?.profileImg === null
-                        ?   <i
-                                className='p-1 rounded-full border-2 border-primary w-fit h-fit bg-background'
-                            >
-                                <svg xmlns="http://www.w3.org/2000/svg" width={20} height={20} viewBox="0 0 24 24">
-                                    <g fill="none" stroke="currentColor" strokeWidth={1.5}>
-                                        <circle cx={12} cy={6} r={4}></circle>
-                                        <path d="M20 17.5c0 2.485 0 4.5-8 4.5s-8-2.015-8-4.5S7.582 13 12 13s8 2.015 8 4.5Z"></path>
-                                    </g>
-                                </svg>
-                            </i>
-                        :   <img 
-                                src={comment?.user?.profileImg} 
-                                alt="" 
-                                className='size-8 rounded-full aspect-square'
-                            />
-                    }
-                    <div
-                        className='w-full h-fit flex flex-col gap-0'
-                    >
-                        <h3
-                            className='text-sm/tight font-medium'
-                        >
-                            {comment?.user?.username}
-                        </h3>
-                        <h4
-                            className='text-xs text-text/70'
-                        >
-                            {comment?.user?.email}
-                        </h4>
-                    </div>
-                </div>
-                <div
-                    className='flex w-full items-start justify-end h-fit relative'
-                >
-                    <button
-                        className='duration-200 p-0.5 rounded-full text-text hover:bg-text/10 rotate-90'
-                        onClick={() => setIsDropdownActive(!isDropdownActive)}
-                    >
-                        <svg  xmlns="http://www.w3.org/2000/svg" width={24} height={24} fill={"currentColor"} viewBox={"0 0 24 24"}>{/* Boxicons v3.0.8 https://boxicons.com | License  https://docs.boxicons.com/free */}<path d="M12 10a2 2 0 1 0 0 4 2 2 0 1 0 0-4m0 6a2 2 0 1 0 0 4 2 2 0 1 0 0-4m0-12a2 2 0 1 0 0 4 2 2 0 1 0 0-4"></path></svg>
-                    </button>
-
-                    {/* menu */}
-                    <div
-                        className={`${isDropdownActive ? 'flex' : 'hidden'} w-3/4 h-fit bg-background shadow shadow-text/30 rounded z-50 right-0 top-9 absolute flex-col`}
-                    >
-                        {
-                            menuBtns.map((btn, index) => (
-                                <button
-                                    className={`
-                                        ${index === menuBtns.length -1 && 'rounded-b'} 
-                                        ${index === 0 && 'rounded-t'}
-                                        ${btn.name === 'Delete' ? 'hover:text-rose-700 hover:bg-rose-200' : 'hover:bg-secondary/50 hover:text-primary'}
-                                        w-full h-fit p-3 text-text/70 cursor-pointer text-sm flex items-center gap-2 duration-200
-                                    `}
-                                    key={index}
-                                >
-                                    <i>
-                                        {btn.icon}
-                                    </i>
-                                    <span>
-                                        {btn.name}
-                                    </span>
-                                </button>
-                            ))
-                        }
-                    </div>
-
-                </div>
-            </div>
+            {/* profileImg, name and email and menu */}
+            <AuthorBtn
+                author={comment?.user}
+                textTheme='dark'
+            />
 
             <RichTextViewer
                 content={comment?.content}
