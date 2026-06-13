@@ -2,7 +2,7 @@
 import React, { useEffect } from 'react'
 import SidebarBtn from '../btns/SidebarBtn'
 import { useLocation } from 'react-router-dom'
-
+import Icon from '../Icon'
 
 const Sidebar = () => {
 
@@ -16,9 +16,14 @@ const Sidebar = () => {
         // },
         {
             name: 'Posts',
-            icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 256 256">
-                    <path fill="currentColor" d="M184 72H40a16 16 0 0 0-16 16v112a16 16 0 0 0 16 16h144a16 16 0 0 0 16-16V88a16 16 0 0 0-16-16m0 128H40V88h144zm48-144v120a8 8 0 0 1-16 0V56H64a8 8 0 0 1 0-16h152a16 16 0 0 1 16 16"></path>
-                </svg>,
+            icon:   <i
+                        className='text-text'
+                    >
+                        <Icon
+                            type={'cardView'}
+                            size='base'
+                        />
+                    </i>,
             path: '/My_posts'
         },
         // {
@@ -29,10 +34,15 @@ const Sidebar = () => {
         // },
         {
             name: 'Comments',
-            icon: <svg 
-                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                    <path fill="currentColor" d="M5 3h13a3 3 0 0 1 3 3v9a3 3 0 0 1-3 3h-4.59l-3.7 3.71c-.18.18-.43.29-.71.29a1 1 0 0 1-1-1v-3H5a3 3 0 0 1-3-3V6a3 3 0 0 1 3-3m13 1H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h4v4l4-4h5a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2" strokeWidth={0.4} stroke="currentColor"></path>
-                </svg>,
+            icon:   
+                    <i
+                        className='text-text'
+                    >
+                        <Icon
+                            type={'comments'}
+                            size='base'
+                        />
+                    </i>,
             path: '/Comments'
         },
 
@@ -46,9 +56,10 @@ const Sidebar = () => {
             {/* logo and name */}
             <SidebarBtn
                 icon={
-                    <svg xmlns="http://www.w3.org/2000/svg" width={28} height={28} viewBox="0 0 24 24">
-                        <path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" d="m14 10l-3 3m9.288-9.969a.535.535 0 0 1 .68.681l-5.924 16.93a.535.535 0 0 1-.994.04l-3.219-7.242a.54.54 0 0 0-.271-.271l-7.242-3.22a.535.535 0 0 1 .04-.993z"></path>
-                    </svg>
+                    <Icon
+                        type={'logo'}
+                        size='base'
+                    />
                 }
                 ftn={'/'}
                 className={'p-1 text-primary cursor-pointer'}
@@ -80,9 +91,16 @@ const Sidebar = () => {
             >
                 {/* user btn */}
                 <SidebarBtn
-                    icon={<svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 256 256">
-                        <path fill="currentColor" d="M230.92 212c-15.23-26.33-38.7-45.21-66.09-54.16a72 72 0 1 0-73.66 0c-27.39 8.94-50.86 27.82-66.09 54.16a8 8 0 1 0 13.85 8c18.84-32.56 52.14-52 89.07-52s70.23 19.44 89.07 52a8 8 0 1 0 13.85-8M72 96a56 56 0 1 1 56 56a56.06 56.06 0 0 1-56-56"></path>
-                    </svg>}
+                    icon={
+                        <i
+                            className='text-text'
+                        >
+                            <Icon
+                                type={'user'}
+                                size='base'
+                            />
+                        </i>
+                    }
                 />
 
                 <span className='w-full h-px bg-text/20'></span>
@@ -93,6 +111,7 @@ const Sidebar = () => {
                 >
                     <Icon
                         type='logout'
+                        size='base'
                     />
                 </button>
 

@@ -17,15 +17,18 @@ import {
     RefreshCcwAlt,
     CaretUp,
     Compass,
-    ArrowOutLeftSquareHalf
+    ArrowOutLeftSquareHalf,
+    ChevronDown,
+    EyeClosed,
 } from '@boxicons/react'
 
-export const Icon = ({
+const Icon = ({
     type,
     size='sm',
     color='currentcolor',
     className = '',
-    onClick
+    onClick,
+    pack='basic'
 }) => {
 
     const icons = {
@@ -45,9 +48,11 @@ export const Icon = ({
         filter: Filter,
         user: User,
         update:RefreshCcwAlt,
-        chevron: CaretUp,
+        caret: CaretUp,
         compass: Compass,
-        logout: ArrowOutLeftSquareHalf
+        logout: ArrowOutLeftSquareHalf,
+        chevron: ChevronDown,
+        eyeClosed: EyeClosed
     }
 
     const IconComponent = icons[type];
@@ -60,6 +65,7 @@ export const Icon = ({
     return (
         <IconComponent 
             size={size} 
+            pack={pack}
             color={color} 
             className={className}
             onClick={onClick}
@@ -68,3 +74,5 @@ export const Icon = ({
     );
 
 }
+
+export default Icon

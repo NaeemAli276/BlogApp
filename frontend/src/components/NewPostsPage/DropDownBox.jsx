@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Icon } from '../icon'
+import Icon from '../Icon'
 
 const DropDownBox = ({ children, name = 'field', isRequired }) => {
     
@@ -24,7 +24,7 @@ const DropDownBox = ({ children, name = 'field', isRequired }) => {
                     type='button'
                 >
                     <Icon
-                        type={'chevron'}
+                        type={'caret'}
                         size='base'
                     />
                 </button>

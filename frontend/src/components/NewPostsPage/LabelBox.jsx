@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import DropDownBox from './DropDownBox'
 import TagBtn from '../btns/TagBtn'
 import TextInput from '../inputs/TextInput'
-
+import Icon from '../Icon'
 
 const LabelBox = ({ 
     currentTags = [], 
@@ -92,9 +92,13 @@ const LabelBox = ({
                         onClick={() => setIsCategoryDropdownActive(!isCategoryDropdownActive)}
                     >
                         {selectedCategory}
-                        <svg className={isCategoryDropdownActive ? 'rotate-180 mb-0.5' : 'rotate-0 mb-0.5'} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                            <path fill="none" stroke="currentColor"  strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="m6 9l6 6l6-6"></path>
-                        </svg>
+                        <i 
+                            className={isCategoryDropdownActive ? 'rotate-180 mb-0.5' : 'rotate-0 mb-0.5'}
+                        >
+                            <Icon
+                                type={'caret'}
+                            />
+                        </i>
                     </button>
 
                     <div
