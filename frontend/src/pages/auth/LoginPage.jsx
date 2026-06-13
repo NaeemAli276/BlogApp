@@ -4,7 +4,7 @@ import TextInput from '../../components/inputs/TextInput'
 import SubmitBtn from '../../components/btns/SubmitBtn'
 import { useAuth } from '../../context/AuthContext'
 import { useMutation } from '@tanstack/react-query'
-import Icon from '../../components/Icon'
+import Icon from '../../assets/Icon'
 
 const LoginPage = () => {
 

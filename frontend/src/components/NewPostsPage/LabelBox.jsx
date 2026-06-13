@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import DropDownBox from './DropDownBox'
 import TagBtn from '../btns/TagBtn'
 import TextInput from '../inputs/TextInput'
-import Icon from '../Icon'
+import Icon from '../../assets/Icon'
 
 const LabelBox = ({ 
     currentTags = [], 

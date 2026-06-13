@@ -2,7 +2,7 @@ import React from 'react'
 import { formatCompactNumber, formatDate, truncateText } from '../../utils/textUtils'
 import AuthorBtn from '../btns/AuthorBtn'
 import { Link } from 'react-router-dom'
-import Icon from '../Icon'
+import Icon from '../../assets/Icon'
 
 const VerticalPostCard = ({
     post
@@ -46,7 +46,7 @@ const VerticalPostCard = ({
                                 type={'circle'}
                                 size='xs'
                                 pack='filled'
-                                className='size-3'
+                                className='size-2.5'
                             />
                             {post?.category}
                         </span>

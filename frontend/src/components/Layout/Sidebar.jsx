@@ -2,7 +2,7 @@
 import React, { useEffect } from 'react'
 import SidebarBtn from '../btns/SidebarBtn'
 import { useLocation } from 'react-router-dom'
-import Icon from '../Icon'
+import Icon from '../../assets/Icon'
 
 const Sidebar = () => {
 

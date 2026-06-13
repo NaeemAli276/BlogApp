@@ -21,7 +21,7 @@ class PostResource extends JsonResource
                 'title' => $this->title,
                 'excerpt' => $this->excerpt,
                 'thumbnail' => $this->thumbnail,
-                'date' => $this->created_at->format('d/m/Y'),
+                'date' => $this->created_at,
                 'author' => new UserResource($this->whenLoaded('user')),
                 'category' => $this->whenLoaded('category', function() {
                     // return [
@@ -44,7 +44,7 @@ class PostResource extends JsonResource
             'title' => $this->title,
             'excerpt' => $this->excerpt,
             'thumbnail' => $this->thumbnail,
-            'date' => $this->created_at->format('d/m/Y'),
+            'date' => $this->created_at,
             'author' => new UserResource($this->whenLoaded('user')),
             'category' => $this->whenLoaded('category', function() {
                 // return [

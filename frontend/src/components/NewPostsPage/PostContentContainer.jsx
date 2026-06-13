@@ -9,7 +9,7 @@ import ArticleTab from './ArticleTab'
 import UrlBox from './UrlBox'
 import LabelBox from './LabelBox'
 import { Link } from 'react-router-dom'
-import Icon  from '../Icon'
+import Icon  from '../../assets/Icon'
 
 const PostContentContainer = ({ 
     selectedPost = {},

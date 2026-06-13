@@ -95,7 +95,7 @@ export async function getPostsFromCategory(category) {
             }
         })
 
-        console.log(data)
+        // console.log(data)
         return data.data
 
     }

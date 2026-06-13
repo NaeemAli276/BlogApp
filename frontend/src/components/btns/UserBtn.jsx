@@ -3,7 +3,7 @@
 import React from 'react'
 import { useAuth } from '../../context/AuthContext'
 import { Link } from 'react-router-dom'
-import defaultUserImg from '../../assets/hero.png'
+import defaultUserImg from '../../assets/user.png'
 
 const UserBtn = () => {
     

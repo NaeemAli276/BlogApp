@@ -28,6 +28,18 @@ export function removeDashesAndUnderscores(str) {
 }
 
 export function formatDate(dateString) {
-    const d = new Date(dateString);
-    return `${d.getDate()} ${d.toLocaleString('en', { month: 'short' })} ${d.getFullYear()}`;
+        // Handle if dateString is just "2026-06-06" without time
+    const date = new Date(dateString);
+    
+    if (isNaN(date.getTime())) {
+        return "Invalid Date";
+    }
+    
+    const day = date.getDate();
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", 
+                        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const month = monthNames[date.getMonth()];
+    const year = date.getFullYear();
+    
+    return `${day} ${month} ${year}`;
 };

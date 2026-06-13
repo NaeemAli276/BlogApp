@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import Icon from '../Icon'
+import Icon from '../../assets/Icon'
 
 const DropDownBox = ({ children, name = 'field', isRequired }) => {
     

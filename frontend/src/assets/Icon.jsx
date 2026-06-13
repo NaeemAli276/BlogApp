@@ -20,6 +20,10 @@ import {
     ArrowOutLeftSquareHalf,
     ChevronDown,
     EyeClosed,
+    LoaderLines,
+    Smile,
+    Sad,
+    Bookmark,
 } from '@boxicons/react'
 
 const Icon = ({
@@ -38,7 +42,7 @@ const Icon = ({
         calendar: CalendarAlt,
         circle: Circle,
         arrow: ArrowRight,
-        Clock: Clock,
+        clock: Clock,
         like: Like,
         menu: DotsVerticalRounded,
         cardView: CardView,
@@ -52,7 +56,11 @@ const Icon = ({
         compass: Compass,
         logout: ArrowOutLeftSquareHalf,
         chevron: ChevronDown,
-        eyeClosed: EyeClosed
+        eyeClosed: EyeClosed,
+        spinner: LoaderLines,
+        smile: Smile,
+        sad: Sad,
+        bookmark: Bookmark,
     }
 
     const IconComponent = icons[type];

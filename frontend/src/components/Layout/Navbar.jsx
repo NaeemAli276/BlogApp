@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import Icon from '../icon'
+import Icon from '../../assets/Icon'
 
 const Navbar = () => {
 
