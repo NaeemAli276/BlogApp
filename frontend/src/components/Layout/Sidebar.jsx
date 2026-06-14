@@ -93,7 +93,7 @@ const Sidebar = () => {
                 <SidebarBtn
                     icon={
                         <i
-                            className='text-text'
+                            className='text-text/70'
                         >
                             <Icon
                                 type={'user'}

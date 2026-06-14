@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import Comment from './Comment'
 import Toolbar from '../btns/Toolbar'
 import RichTextInput from '../inputs/RichTextInput'
+import Icon from '../../assets/Icon'
 
 const CommentsSection = ({
     comments = []
@@ -92,7 +93,12 @@ const CommentsSection = ({
                     ?   <div
                             className='flex flex-col gap-5 items-center justify-center w-full h-80 bg-text/10 rounded'
                         >   
-                            <svg className='text-text/70'  xmlns="http://www.w3.org/2000/svg" width={48} height={48} fill={"currentColor"} viewBox={"0 0 24 24"}>{/* Boxicons v3.0.8 https://boxicons.com | License  https://docs.boxicons.com/free */}<path d="M4 19h3v2c0 .36.19.69.51.87a1 1 0 0 0 1-.01L13.27 19h6.72c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2M4 5h16v12h-7c-.18 0-.36.05-.51.14L9 19.23V18c0-.55-.45-1-1-1H4z"></path></svg>
+                            <Icon
+                                type={'comments'}
+                                pack=''
+                                size='lg'
+                                className='text-text/70'
+                            />
                             <div
                                 className='flex flex-col gap-0 items-center justify-center w-fit h-fit text-center'
                             >   

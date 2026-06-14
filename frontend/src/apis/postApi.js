@@ -83,6 +83,27 @@ export async function getRequestedPost(id) {
     }
 }
 
+export async function getSpecifiedPosts(id) {
+    const url = `http://localhost:8000/api/user/${id}/posts`
+
+    try {
+
+        const { data } = await axios(url, {
+            headers: {
+                Accept: 'application/json'
+            }
+        })
+
+        console.log(data?.data)
+        return data.data
+
+    }
+    catch (error) {
+        throw error
+    }
+}
+
+
 export async function getPostsFromCategory(category) {
     
     const url = `http://localhost:8000/api/posts/category/${category}`

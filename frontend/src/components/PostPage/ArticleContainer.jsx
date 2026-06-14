@@ -50,6 +50,7 @@ const ArticleContainer = ({
                 className='flex flex-col gap-4 w-full h-full'
             >
 
+                {/* title and excerpt */}
                 <div
                     className='flex flex-col gap-2'
                 >
@@ -112,68 +113,23 @@ const ArticleContainer = ({
                         </span>
                     </div>
 
-                    {/* likes, dislikes and menu */}
+                    {/* tags */}
                     <div
-                        className='flex flex-row items-center gap-5 w-fit h-fit'
+                        className='flex flex-wrap items-center gap-2 w-fit h-fit'
                     >
-
-                        {/* likes and dislikes */}
-                        <div
-                            className='flex flex-row items-center gap-1'
-                        >
-
+                        {tags?.map((tag) => (
                             <button
-                                className='flex flex-row gap-1.5 items-center text-text/70 font-medium hover:text-primary duration-200 text-base/tight'
+                                key={tag}
+                                className='p-1 px-2 rounded-md bg-text/10 text-text text-sm hover:bg-primary hover:text-background duration-200'
                             >
-                                {formatCompactNumber(post?.likes_count)}
-                                <Icon
-                                    type={''}
-                                />
+                                # {tag}
                             </button>
-
-                            <svg className='text-text' xmlns="http://www.w3.org/2000/svg" width={4} height={4} viewBox="0 0 24 24">
-                                <path fill="currentColor" d="M12.003 21q-1.866 0-3.51-.708q-1.643-.709-2.859-1.924t-1.925-2.856T3 12.003t.709-3.51Q4.417 6.85 5.63 5.634t2.857-1.925T11.997 3t3.51.709q1.643.708 2.859 1.922t1.925 2.857t.709 3.509t-.708 3.51t-1.924 2.859t-2.856 1.925t-3.509.709"></path>
-                            </svg>
-
-                            <button
-                                className='flex flex-row-reverse gap-1.5 items-center text-text/70 font-medium hover:text-primary duration-200 text-base/tight'
-                            >
-                                {formatCompactNumber(post?.dislikes_count)}
-                                <svg className='rotate-180' xmlns="http://www.w3.org/2000/svg" width={18} height={18} fill={"currentColor"} viewBox={"0 0 24 24"}>{/* Boxicons v3.0.8 https://boxicons.com | License  https://docs.boxicons.com/free */}<path d="M4 21h1V8H4c-1.1 0-2 .9-2 2v9c0 1.1.9 2 2 2M20 8h-6.61l1.12-3.37c.2-.61.1-1.28-.27-1.8-.38-.52-.98-.83-1.62-.83h-.61c-.3 0-.58.13-.77.36L7.01 7.44V21h10.31a2 2 0 0 0 1.87-1.3l2.76-7.35c.04-.11.06-.23.06-.35v-2c0-1.1-.9-2-2-2Z"></path></svg>
-                            </button>
-
-                        </div>
-
-                        <div
-                            className='relative'
-                        >
-                            <button
-                                className='p-1 hover:bg-text/20 rounded-full text-text'
-                                onClick={() => setIsDropdownActive(!isDropdownActive)}
-                            >
-                                <svg  xmlns="http://www.w3.org/2000/svg" width={20} height={20} fill={"currentColor"} viewBox={"0 0 24 24"}>{/* Boxicons v3.0.8 https://boxicons.com | License  https://docs.boxicons.com/free */}<path d="M12 10a2 2 0 1 0 0 4 2 2 0 1 0 0-4m0 6a2 2 0 1 0 0 4 2 2 0 1 0 0-4m0-12a2 2 0 1 0 0 4 2 2 0 1 0 0-4"></path></svg>
-                            </button>
-                            <div
-                                className={`${isDropdownActive ? 'flex' : 'hidden'} w-56 h-fit bg-background shadow shadow-text/50 rounded absolute top-8 right-0 z-50 flex-col`}
-                            >
-                                {
-                                    menuBtns.map((btn) => (
-                                        <button
-                                            className='flex flex-row items-center gap-2 justify-start p-2.5 text-sm text-text hover:text-primary hover:bg-secondary/50 duration-200'
-                                            key={btn.name}
-                                        >
-                                            {btn.icon}
-                                            {btn.name}
-                                        </button>
-                                    ))
-                                }
-                            </div>
-                        </div>
-
+                        ))}
                     </div>
 
                 </div>
 
+                {/* image and author btn */}
                 <div
                     className='w-full h-fit aspect-video relative'
                 >
@@ -204,27 +160,75 @@ const ArticleContainer = ({
                 className='flex flex-col gap-4 w-full h-full'
             >
 
-                {/* tags */}
+                {/* likes, dislikes and menu */}
                 <div
-                    className='flex flex-col gap-3 w-full h-fit'
+                    className='flex flex-row items-start gap-5 w-full h-fit justify-between'
                 >
-                    <h2
-                        className='text-text text-sm font-medium'
-                    >
-                        Tags:
-                    </h2>
+
+                    {/* likes and dislikes */}
                     <div
-                        className='flex flex-wrap items-center gap-2 w-full h-fit'
+                        className='flex flex-row items-center gap-1 w-fit'
                     >
-                        {tags?.map((tag) => (
-                            <button
-                                key={tag}
-                                className='p-1 px-2 rounded-md bg-text/10 text-text text-sm hover:bg-primary hover:text-background duration-200'
-                            >
-                                # {tag}
-                            </button>
-                        ))}
+
+                        <button
+                            className='flex flex-row gap-1.5 items-center text-text/70 font-medium hover:text-primary duration-200 text-base/tight'
+                        >
+                            {formatCompactNumber(post?.likes_count)}
+                            <Icon
+                                type={'like'}
+                                pack=''
+                            />
+                        </button>
+
+                        <Icon
+                            type={'circle'}
+                            pack='filled'
+                            className='text-text/70 size-1.5'
+                            size='xs'
+                        />
+
+                        <button
+                            className='flex flex-row-reverse gap-1.5 items-center text-text/70 font-medium hover:text-primary duration-200 text-base/tight'
+                        >
+                            {formatCompactNumber(post?.dislikes_count)}
+                            <Icon
+                                type={'like'}
+                                pack=''
+                                className='rotate-180'
+                            />
+                        </button>
+
                     </div>
+
+                    <div
+                        className='relative w-fit h-fit'
+                    >
+                        <button
+                            className='p-1 hover:bg-text/20 rounded-full text-text'
+                            onClick={() => setIsDropdownActive(!isDropdownActive)}
+                        >
+                            <Icon
+                                type={'menu'}
+                                pack=''
+                            />
+                        </button>
+                        <div
+                            className={`${isDropdownActive ? 'flex' : 'hidden'} w-56 h-fit bg-background shadow shadow-text/50 rounded absolute top-8 right-0 z-50 flex-col`}
+                        >
+                            {
+                                menuBtns.map((btn) => (
+                                    <button
+                                        className='flex flex-row items-center gap-2 justify-start p-2.5 text-sm text-text hover:text-primary hover:bg-secondary/50 duration-200'
+                                        key={btn.name}
+                                    >
+                                        {btn.icon}
+                                        {btn.name}
+                                    </button>
+                                ))
+                            }
+                        </div>
+                    </div>
+
                 </div>
 
                 <RichTextViewer

@@ -1,6 +1,8 @@
 import React from 'react'
-import { truncateText } from '../../utils/textUtils'
+import { formatDate, truncateText } from '../../utils/textUtils'
 import { useNavigate } from 'react-router-dom'
+import Icon from '../../assets/Icon'
+import AuthorBtn from '../btns/AuthorBtn'
 
 const PostCard = ({
     post
@@ -30,42 +32,9 @@ const PostCard = ({
                         className='absolute top-0 left-0 flex flex-row items-center justify-between p-4 w-full h-fit'
                     >
                         {/* user */}
-                        <div
-                            className='w-fit h-fit flex flex-row gap-2 z-50 items-start'
-                        >
-                            {
-                                post?.author?.profileImg === null
-                                ?   <i
-                                        className='p-1 rounded-full border-primary w-fit h-fit bg-background text-text'
-                                    >
-                                        <svg xmlns="http://www.w3.org/2000/svg" width={20} height={20} viewBox="0 0 24 24">
-                                            <g fill="none" stroke="currentColor" strokeWidth={1.5}>
-                                                <circle cx={12} cy={6} r={4}></circle>
-                                                <path d="M20 17.5c0 2.485 0 4.5-8 4.5s-8-2.015-8-4.5S7.582 13 12 13s8 2.015 8 4.5Z"></path>
-                                            </g>
-                                        </svg>
-                                    </i>
-                                :   <img 
-                                        src={post?.author?.profileImg} 
-                                        alt="" 
-                                        className='size-8 rounded-full'
-                                    />
-                            }  
-                            <div
-                            
-                            >
-                                <h2
-                                    className='text-background font-semibold text-sm/tight'
-                                >
-                                    {post?.author?.username}
-                                </h2>
-                                <h3
-                                    className='text-background/70 text-xs'
-                                >
-                                    {post?.author?.email}
-                                </h3>
-                            </div>                                      
-                        </div>
+                        <AuthorBtn
+                            author={post?.author}
+                        />
                         <h3
                             className='text-sm p-1 px-2 rounded font-semibold bg-primary text-background z-50'
                         >
@@ -89,9 +58,12 @@ const PostCard = ({
                     >    
                         {/* date */}
                         <h3
-                            className='text-background/90 text-sm'
+                            className='text-background/90 text-sm flex gap-1.5'
                         >
-                            Date: {post?.date}
+                            <Icon
+                                type={'calendar'}
+                            />
+                            {formatDate(post?.date)}
                         </h3>
                         <div
                             className='flex flex-row items-center gap-2 w-fit h-fit'
