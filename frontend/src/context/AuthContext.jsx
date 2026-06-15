@@ -1,6 +1,7 @@
 // resources/js/contexts/AuthContext.jsx
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import userImage from '../assets/user.png'
+import { useQuery } from '@tanstack/react-query'
 
 const AuthContext = createContext();
 
@@ -16,10 +17,6 @@ export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null)
     // const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        checkAuth();
-    }, []);
 
     // useEffect(() => {
     //     console.log("user: ", user)
@@ -38,13 +35,17 @@ export const AuthProvider = ({ children }) => {
                 
                 if (response.ok) {
                     const userData = await response.json();
+                    console.log(userData)
                     setUser(userData);
+                    return userData
                 } else {
                     localStorage.removeItem('token');
+                    return null
                 }
             } catch (error) {
                 console.error('Auth check failed:', error);
                 localStorage.removeItem('token');
+                throw new error
             }
         }
         setLoading(false);
@@ -144,6 +145,11 @@ export const AuthProvider = ({ children }) => {
             setUser(null);
         }
     };
+
+    const { isLoading, error, data } = useQuery({
+        queryKey: ['get_user'],
+        queryFn: checkAuth
+    })
 
     const value = {
         user,

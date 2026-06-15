@@ -64,12 +64,12 @@ const VerticalPostCard = ({
                         className='text-text font-medium text-base/tight'
                     >
 
-                        {truncateText(post?.title, 90)}
+                        {truncateText(post?.title, 68)}
                     </h3>
                     <p
                         className='text-text/70 text-sm'
                     >
-                        {truncateText(post?.excerpt, 200)}
+                        {truncateText(post?.excerpt, 120)}
                     </p>
                 </div>
                 <div

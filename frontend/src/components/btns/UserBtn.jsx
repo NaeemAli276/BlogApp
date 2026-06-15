@@ -10,14 +10,18 @@ const UserBtn = () => {
     const { user } = useAuth()
 
     return (
-        <Link
-            to={'/user'}
-            className='border-2 border-primary p-1 rounded-full'
+        <div
+            className='relative w-fit h-fit flex items-center'
         >
-            <img className='size-6' src={user.profileImg} alt="" />
-        </Link>
+            <button>
+                <img 
+                    src={user === null ? defaultUserImg : user?.profileImg} 
+                    alt=""
+                    className={`size-8 rounded-full border border-primary`} 
+                />
+            </button>
+        </div>
     )
-
 
 }
 

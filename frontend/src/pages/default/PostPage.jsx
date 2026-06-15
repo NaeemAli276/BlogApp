@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import Layout from '../../components/Layout/Layout'
 import ArticleContainer from '../../components/PostPage/ArticleContainer'
 import CommentsSection from '../../components/PostPage/CommentsSection'
@@ -11,7 +11,6 @@ import Icon from '../../assets/Icon'
 const PostPage = () => {
 
     const location = useLocation()
-    const navigate = useNavigate()
     const post_id = location?.pathname.substring(7)
 
     const { isLoading, error, data } = useQuery({

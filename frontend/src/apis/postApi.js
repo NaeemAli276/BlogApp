@@ -12,7 +12,7 @@ export async function getMostPopularPost() {
             }
         })
 
-        console.log(data.data)
+        // console.log(data.data)
         return data.data
 
     }
@@ -94,7 +94,7 @@ export async function getSpecifiedPosts(id) {
             }
         })
 
-        console.log(data?.data)
+        // console.log(data?.data)
         return data.data
 
     }

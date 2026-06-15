@@ -14,6 +14,8 @@ import Homepage from './pages/default/Homepage'
 // components
 import ProtectedRoute from './components/auth/ProtectedRoute'
 import RegisterPage from './pages/auth/RegisterPage'
+import ExplorePage from './pages/default/ExplorePage'
+import FriendsPage from './pages/default/FriendsPage'
 
 
 const App = () => {
@@ -41,6 +43,16 @@ const App = () => {
         <Route
           path='/'
           element={<Homepage/>}
+        />
+
+        <Route
+          path='/Explore'
+          element={<ExplorePage/>}
+        />
+
+        <Route
+          path='/Friends'
+          element={<FriendsPage/>}
         />
 
         {/* <Route

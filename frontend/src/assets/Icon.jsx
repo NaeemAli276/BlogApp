@@ -24,6 +24,8 @@ import {
     Smile,
     Sad,
     Bookmark,
+    Community,
+    Search,
 } from '@boxicons/react'
 
 const Icon = ({
@@ -61,6 +63,8 @@ const Icon = ({
         smile: Smile,
         sad: Sad,
         bookmark: Bookmark,
+        friends: Community,
+        search: Search
     }
 
     const IconComponent = icons[type];

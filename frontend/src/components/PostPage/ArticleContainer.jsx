@@ -35,7 +35,7 @@ const ArticleContainer = ({
             
             <Link
                 className='flex flex-row items-center gap-1.5 text-text/70 hover:text-primary duration-200'
-                to={-1}
+                to={'/'}
             >
                 <Icon
                     type={'arrow'}
