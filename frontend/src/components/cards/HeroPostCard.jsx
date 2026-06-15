@@ -26,7 +26,7 @@ const HeroPostCard = ({
             >
                 <Icon
                     type={'spinner'}
-                    className='animate-spin'
+                    className='animate-spin text-text'
                 />
             </div>
         )
@@ -39,7 +39,7 @@ const HeroPostCard = ({
                 <Icon
                     type={'sad'}
                     size='xl'
-                    // className=''
+                    className='text-text'
                 />
                 <h3
                     className='w-1/3 text-center'
