@@ -5,7 +5,8 @@ import Icon from '../../assets/Icon'
 import AuthorBtn from '../btns/AuthorBtn'
 
 const PostCard = ({
-    post
+    post,
+    ftn = null
 }) => {
 
     const navigate = useNavigate()
@@ -13,7 +14,7 @@ const PostCard = ({
     return (
         <div
             className='relative aspect-video rounded cursor-pointer shadow shadow-text/30'
-            onClick={() => navigate(`/posts/${post?.id}`)}
+            onClick={ftn === null ? () => navigate(`/posts/${post?.id}`) : ftn}
         >   
             <img 
                 src={post?.thumbnail} 

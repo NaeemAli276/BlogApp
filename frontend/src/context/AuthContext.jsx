@@ -16,8 +16,6 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null)
     // const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(true);
-
     // useEffect(() => {
     //     console.log("user: ", user)
     // }, [user])
@@ -48,7 +46,6 @@ export const AuthProvider = ({ children }) => {
                 throw new error
             }
         }
-        setLoading(false);
     };
 
     const login = async (formDetails) => {
@@ -148,15 +145,16 @@ export const AuthProvider = ({ children }) => {
 
     const { isLoading, error, data } = useQuery({
         queryKey: ['get_user'],
-        queryFn: checkAuth
+        queryFn: checkAuth,
+        refetchInterval: 100000
     })
 
     const value = {
         user,
         login,
         register,
-        logout,
-        loading
+        logout, 
+        isLoading
     };
 
     return (

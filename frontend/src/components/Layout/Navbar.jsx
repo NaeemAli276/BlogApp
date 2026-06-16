@@ -102,8 +102,21 @@ const Navbar = () => {
             >
                 {
                     user === null
-                    ?   <div>
-                        
+                    ?   <div
+                            className='flex items-center gap-2'
+                        >
+                            <Link
+                                className='p-1.25 px-3.5 hover:bg-primary hover:text-background duration-200 rounded text-sm border-2 border-primary'
+                                to={'/Login'}
+                            >
+                                Sign In
+                            </Link>
+                            <Link
+                                className='py-1.5 px-3.5 bg-primary text-background hover:bg-secondary hover:text-text duration-200 rounded text-sm '
+                                to={'/Register'}
+                            >
+                                Register
+                            </Link>
                         </div>
                     :   <UserDropdownMenu/>   
                 }                

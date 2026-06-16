@@ -16,14 +16,11 @@ const Sidebar = () => {
         // },
         {
             name: 'Posts',
-            icon:   <i
+            icon:   <Icon
+                        type={'cardView'}
                         className='text-text'
-                    >
-                        <Icon
-                            type={'cardView'}
-                            size='base'
-                        />
-                    </i>,
+                        size='base'
+                    />,
             path: '/My_posts'
         },
         // {
@@ -34,15 +31,11 @@ const Sidebar = () => {
         // },
         {
             name: 'Comments',
-            icon:   
-                    <i
+            icon:   <Icon
+                        type={'comments'}
+                        size='base'
                         className='text-text'
-                    >
-                        <Icon
-                            type={'comments'}
-                            size='base'
-                        />
-                    </i>,
+                    />,
             path: '/Comments'
         },
 
@@ -92,14 +85,11 @@ const Sidebar = () => {
                 {/* user btn */}
                 <SidebarBtn
                     icon={
-                        <i
+                        <Icon
+                            type={'user'}
+                            size='base'
                             className='text-text/70'
-                        >
-                            <Icon
-                                type={'user'}
-                                size='base'
-                            />
-                        </i>
+                        />
                     }
                 />
 

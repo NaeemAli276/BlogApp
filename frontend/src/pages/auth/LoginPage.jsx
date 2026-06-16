@@ -26,7 +26,7 @@ const LoginPage = () => {
         const response = await mutation.mutateAsync(formDetails)
 
         if (response === true) {
-            navigate('/My_posts')
+            navigate('/')
         }
         else {
             setError(response)
@@ -38,10 +38,6 @@ const LoginPage = () => {
     const mutation = useMutation({
         mutationFn: login,
     })
-
-    useEffect(() => {
-        console.log(formDetails)
-    }, [formDetails])
 
     return (
         <div

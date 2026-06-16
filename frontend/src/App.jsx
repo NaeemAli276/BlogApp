@@ -16,13 +16,13 @@ import ProtectedRoute from './components/auth/ProtectedRoute'
 import RegisterPage from './pages/auth/RegisterPage'
 import ExplorePage from './pages/default/ExplorePage'
 import FriendsPage from './pages/default/FriendsPage'
+import SearchPage from './pages/default/SearchPage'
 
 
 const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-
 
         <Route
           path='/Analytics'
@@ -52,7 +52,11 @@ const App = () => {
 
         <Route
           path='/Friends'
-          element={<FriendsPage/>}
+          element={
+            <ProtectedRoute>
+              <FriendsPage/>
+            </ProtectedRoute>
+          }
         />
 
         {/* <Route
@@ -95,6 +99,11 @@ const App = () => {
           element={
             <RegisterPage/>
           }
+        />
+
+        <Route
+          path='/Search'
+          element={<SearchPage/>}
         />
 
       </Routes>

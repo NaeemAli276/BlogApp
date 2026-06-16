@@ -10,7 +10,7 @@ const TextInput = ({
     type = 'text',
     readOnly = false, 
     children,
-    className = 'placeholder:text-text/50 outline-none w-full p-2 border-2 border-primary rounded ' 
+    className = 'placeholder:text-text/50 outline-none w-full p-2 border-2 border-primary rounded text-text' 
 }) => {
     return (
         <div
