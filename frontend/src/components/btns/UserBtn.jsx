@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import { useAuth } from '../../context/AuthContext'
 import { Link } from 'react-router-dom'
 import defaultUserImg from '../../assets/user.png'
+import Icon from '../../assets/Icon'
 
 const UserBtn = ({
     ftn
@@ -15,11 +16,19 @@ const UserBtn = ({
         <button
             onClick={ftn}
         >
-            <img 
-                src={user === null ? defaultUserImg : user?.profileImg} 
-                alt=""
-                className={`size-8 rounded-full border border-primary`} 
-            />
+
+            {
+                user?.profileImg === null
+                ?   <Icon
+                        type={'user'}
+                        className='size-8 text-text border border-primary rounded-full p-1'
+                    />
+                :   <img 
+                        src={user?.profileImg} 
+                        alt=""
+                        className={`size-8 rounded-full border border-primary`} 
+                    /> 
+            }   
         </button>
     )
 

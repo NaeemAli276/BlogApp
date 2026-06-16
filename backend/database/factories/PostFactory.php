@@ -33,7 +33,8 @@ class PostFactory extends Factory
             'url' => Str::slug($title),
             'thumbnail' => "https://picsum.photos/seed/{$random_num}/960/544",
             'is_published' => fake()->randomElement([true, false]),
-            'view_count' => fake()->numberBetween(0, 100000)
+            'view_count' => fake()->numberBetween(0, 100000),
+            'share_count' => fake()->numberBetween(0, 100000)
         ];
     }
 

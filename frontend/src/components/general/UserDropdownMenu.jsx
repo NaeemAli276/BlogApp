@@ -6,6 +6,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import UserBtn from '../btns/UserBtn'
 import { truncateText } from '../../utils/textUtils'
 import Icon from '../../assets/Icon'
+import defaultUserImg from '../../assets/user.png'
 
 const UserDropdownMenu = () => {
     
@@ -74,20 +75,28 @@ const UserDropdownMenu = () => {
                             <h3
                                 className='text-base/tight font-medium'
                             >
-                                {truncateText(user?.username, 12)}
+                                {truncateText(user?.username, 20)}
                             </h3>
                             <h4
-                                className='text-sm'
+                                className='text-sm text-text/70'
                             >
                                 {truncateText(user?.email, 24)}
                             </h4>
                         </div>
 
-                        <img    
-                            src={user?.profileImg} 
-                            alt="" 
-                            className='size-10 rounded-full border border-text'
-                        />
+                        {
+                            user?.profileImg === null
+                            ?   <Icon
+                                    type={'user'}
+                                    size='base'
+                                    className='size-10 text-text p-1 rounded-full border border-primary'
+                                />
+                            :   <img 
+                                    src={user?.profileImg} 
+                                    alt="" 
+                                    className='size-10 rounded-full border border-primary'    
+                                />
+                        }
 
                     </div>
                     

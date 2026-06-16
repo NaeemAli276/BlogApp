@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\PostResource;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\Post;
 
 class UserController extends Controller
 {
@@ -62,5 +64,30 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         //
+    }
+
+    public function getMyPosts($userId)
+    {
+        // Get ALL posts for this user
+        $posts = Post::with(['user', 'comments.user', 'tags', 'category'])
+            ->withCount(['likes', 'dislikes'])
+            ->where('user_id', $userId) // ← Filter by user
+            ->get(); // ← Get collection
+        
+        // Now sum() works on the collection
+        $total_view_count = $posts->sum('view_count');
+        $total_like_count = $posts->sum('likes_count');
+        $total_dislike_count = $posts->sum('dislikes_count');
+        $total_share_count = $posts->sum('share_count');
+        
+        return [
+            'stats' => [
+                'total_view_count' => $total_view_count,
+                'total_like_count' => $total_like_count,
+                'total_dislike_count' => $total_dislike_count,
+                'total_share_count' => $total_share_count,
+            ],
+            'posts' => PostResource::collection($posts) // ← Use collection, not single resource
+        ];
     }
 }

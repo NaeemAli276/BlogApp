@@ -17,6 +17,7 @@ import RegisterPage from './pages/auth/RegisterPage'
 import ExplorePage from './pages/default/ExplorePage'
 import FriendsPage from './pages/default/FriendsPage'
 import SearchPage from './pages/default/SearchPage'
+import MyProfile from './pages/dashboardPages/MyProfile'
 
 
 const App = () => {
@@ -36,6 +37,15 @@ const App = () => {
           element={
             <ProtectedRoute>
               <MyPosts/>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path='/My_profile'
+          element={
+            <ProtectedRoute>
+              <MyProfile/>
             </ProtectedRoute>
           }
         />

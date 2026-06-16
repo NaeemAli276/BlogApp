@@ -58,22 +58,26 @@ const Navbar = () => {
         >
             
             {/* logo and title */}
-            <Link
-                className='w-1/3 h-full items-center gap-3 flex'
-                to={'/'}
-                viewTransition={true}
+            <div
+                className='w-1/3 h-fit'
             >
-                <Icon
-                    type={'logo'}
-                    className='bg-primary text-background p-1 rounded'
-                    size='md'
-                />
-                <h2
-                    className='text-xl text-text font-semibold'
+                <Link
+                    className='h-full items w-fit items-center gap-3 flex'
+                    to={'/'}
+                    viewTransition={true}
                 >
-                    Swipe
-                </h2>
-            </Link>
+                    <Icon
+                        type={'logo'}
+                        className='bg-primary text-background p-1 rounded'
+                        size='md'
+                    />
+                    <h2
+                        className='text-xl text-text font-semibold'
+                    >
+                        Swipe
+                    </h2>
+                </Link>
+            </div>
 
             {/* navbtns */}
             <div

@@ -4,7 +4,7 @@ import PostsViewer from '../../components/MyPostPage/PostsViewer'
 import AnalyticsCard from '../../components/cards/AnalyticsCard'
 import PostCreator from '../../components/MyPostPage/PostCreator'
 import { useQuery } from '@tanstack/react-query'
-import { getSpecifiedPosts } from '../../apis/postApi'
+import { getMyPosts } from '../../apis/postApi'
 import { useAuth } from '../../context/AuthContext'
 import Icon from '../../assets/Icon'
 
@@ -104,41 +104,6 @@ const MyPosts = () => {
     //         date: '22/01/26'
     //     },
     )
-
-    const [analytics, setAnalytics] = useState([
-        {
-            name: 'Views',
-            icon:   <Icon
-                        type={'eye'}
-                        className='text-primary'
-                        size='base'
-                    />
-        },
-        {
-            name: 'Likes',
-            icon:   <Icon
-                        type={'like'}
-                        className='text-primary'
-                        size='base'
-                    />
-        },
-        {
-            name: 'Dislikes',
-            icon:   <Icon
-                        type={'like'}
-                        className='text-primary rotate-180'
-                        size='base'
-                    />
-        },
-        {
-            name: 'Shares',
-            icon:   <Icon
-                        type={'share'}
-                        className='text-primary'
-                        size='base'
-                    />
-        },
-    ])
     
     /* 
         params
@@ -170,34 +135,113 @@ const MyPosts = () => {
     }
 
     const { isLoading, error, data } = useQuery({
-        queryFn: () => getSpecifiedPosts(user?.id),
+        queryFn: () => getMyPosts(user?.id),
         queryKey: ['get_my_posts', user?.id]
     })
 
-    return (
-        <DashboardLayout>
-            
-            {
-                analytics.map((analytic) => (
-                    <AnalyticsCard
-                        key={analytic.name}
-                        icon={analytic.icon}
-                        name={analytic.name}
-                    />
-                ))
-            }
-            <PostsViewer
-                posts={posts}
-                handlePostSelect={handlePostSelect}
-            />
+    const [analytics, setAnalytics] = useState([
+        {
+            name: 'Views',
+            icon:   <Icon
+                        type={'eye'}
+                        className='text-primary'
+                        size='base'
+                    />,
+            stat:   data?.stats?.total_view_count
+        },
+        {
+            name: 'Likes',
+            icon:   <Icon
+                        type={'like'}
+                        className='text-primary'
+                        size='base'
+                    />,
+            stat:   data?.stats?.total_like_count
+        },
+        {
+            name: 'Dislikes',
+            icon:   <Icon
+                        type={'like'}
+                        className='text-primary rotate-180'
+                        size='base'
+                    />,
+            stat:   data?.stats?.total_dislike_count
+        },
+        {
+            name: 'Shares',
+            icon:   <Icon
+                        type={'share'}
+                        className='text-primary'
+                        size='base'
+                    />,
+            stat:   data?.stats?.total_share_count
+        },
+    ])
 
-            <PostCreator
-                postView={postView}
-                selectedPost={selectedPost}
-            />
+    useEffect(() => {
+        setPosts(data.posts)
+        console.log(data)
+    }, [data])
 
-        </DashboardLayout>   
-    )
+    if (isLoading) {
+        return (
+            <div
+                className='w-full h-screen flex items-center justify-center'
+            >
+                <Icon
+                    type={'spinner'}
+                    size='md'
+                    className='text-text/80 animate-spin'
+                />
+            </div>
+        )
+    }
+    else if (error) {
+        return (
+            <div
+                className='aspect-video rounded items-center justify-center flex shadow shadow-text/50 flex-col gap-2 text-text/80 w-full h-screen'
+            >
+                <Icon
+                    type={'sad'}
+                    size='xl'
+                    className='text-text'
+                />
+                <h3
+                    className='w-1/6 text-center'
+                >
+                    An error has occured, please try reloading the page
+                </h3>
+            </div>
+        )
+    }
+    else {
+        return (
+            <DashboardLayout>
+                
+                {
+                    analytics.map((analytic) => (
+                        <AnalyticsCard
+                            key={analytic.name}
+                            icon={analytic.icon}
+                            name={analytic.name}
+                            stat={analytic.stat}
+                        />
+                    ))
+                }
+                <PostsViewer
+                    posts={posts}
+                    handlePostSelect={handlePostSelect}
+                />
+
+                <PostCreator
+                    postView={postView}
+                    selectedPost={selectedPost}
+                />
+
+            </DashboardLayout>   
+        )
+    }
+
 }
 
 export default MyPosts

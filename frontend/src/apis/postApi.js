@@ -125,3 +125,25 @@ export async function getPostsFromCategory(category) {
     }
 
 }
+
+export async function getMyPosts(id) {
+    
+    const url = `http://localhost:8000/api/user/posts_and_stats/${id}`
+
+    try {
+
+        const { data } = await axios(url, {
+            headers: {
+                Accept: 'application/json'
+            }
+        })
+
+        console.log(data)
+        return data
+
+    }
+    catch (error) {
+        throw error
+    }
+
+}

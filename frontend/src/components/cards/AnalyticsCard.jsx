@@ -3,6 +3,7 @@ import React from 'react'
 const AnalyticsCard = ({ 
     icon,
     name,
+    stat
 }) => {
 
     const data = '20k'
@@ -17,7 +18,7 @@ const AnalyticsCard = ({
                 className='flex flex-row items-start justify-between'
             >
                 <h2
-                    className='text-text'
+                    className='text-text/80'
                 >
                     {name}
                 </h2>
@@ -35,13 +36,13 @@ const AnalyticsCard = ({
                 <h3
                     className='text-text text-2xl font-medium'
                 >
-                    {data}
+                    {stat}
                 </h3>
-                <h4
+                {/* <h4
                     className='text-sm text-text/70'
                 >
                     Last week: <span className='text-primary'>{lastWeekData}</span>
-                </h4>
+                </h4> */}
             </div>
 
         </div>

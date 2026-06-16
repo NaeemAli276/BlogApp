@@ -1,12 +1,17 @@
 // used for user's cms
 import React, { useEffect } from 'react'
 import SidebarBtn from '../btns/SidebarBtn'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import Icon from '../../assets/Icon'
+import { useAuth } from '../../context/AuthContext'
+import UserBtn from '../btns/UserBtn'
 
 const Sidebar = () => {
 
+    const { logout } = useAuth()
+
     const location = useLocation()
+    const navigate = useNavigate()
 
     const sidebarBtns = [
         // {
@@ -83,14 +88,8 @@ const Sidebar = () => {
                 className='w-full h-fit flex flex-col gap-2 items-center'
             >
                 {/* user btn */}
-                <SidebarBtn
-                    icon={
-                        <Icon
-                            type={'user'}
-                            size='base'
-                            className='text-text/70'
-                        />
-                    }
+                <UserBtn
+                    ftn={() => navigate('/My_profile')}
                 />
 
                 <span className='w-full h-px bg-text/20'></span>
@@ -98,6 +97,7 @@ const Sidebar = () => {
                 {/* logout btn */}
                 <button
                     className='text-rose-700 p-1 rounded hover:bg-rose-100 hover:text-rose-900 duration-200 active:bg-rose-200'
+                    onClick={() => logout()}
                 >
                     <Icon
                         type='logout'
