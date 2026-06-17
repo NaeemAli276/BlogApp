@@ -138,7 +138,6 @@ export async function getMyPosts(id) {
             }
         })
 
-        console.log(data)
         return data
 
     }

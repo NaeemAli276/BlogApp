@@ -35,7 +35,7 @@ const LabelBox = ({
     ])
     const [searchInput, setSearchInput] = useState('')
     
-    const [selectedCategory, setSelectedCategory] = useState('None' || currentCategory)
+    const [selectedCategory, setSelectedCategory] = useState(currentCategory)
 
     const handleCategoryClick = (cat) => {
         handleCategoryChange(cat)
@@ -87,13 +87,13 @@ const LabelBox = ({
 
                     {/* btn */}
                     <button
-                        className={`w-full h-fit p-2 rounded border-2 border-primary ${selectedCategory !== 'None' ? 'text-text' : 'text-text/70'} text-start px-3 flex-row flex justify-between items-center font-medium cursor-pointer`}
+                        className={`w-full h-fit p-2 rounded border-2 border-primary ${selectedCategory !== 'None' ? 'text-text' : 'text-text/70'} text-start px-3 flex-row flex justify-between items-center cursor-pointer`}
                         type='button'
                         onClick={() => setIsCategoryDropdownActive(!isCategoryDropdownActive)}
                     >
                         {selectedCategory}
                         <i 
-                            className={isCategoryDropdownActive ? 'rotate-180 mb-0.5' : 'rotate-0 mb-0.5'}
+                            className={isCategoryDropdownActive ? 'rotate-0 mb-0.5' : 'rotate-180 mb-0.5'}
                         >
                             <Icon
                                 type={'caret'}
@@ -109,7 +109,7 @@ const LabelBox = ({
                                 <button
                                     onClick={() => handleCategoryClick(cat)}
                                     key={cat}
-                                    className={`p-2 px-3 text-start duration-200 cursor-pointer font-medium 
+                                    className={`p-2 px-3 text-start duration-200 cursor-pointer 
                                         ${index === 0 && 'rounded-t'} 
                                         ${index === categories.length - 1 && 'rounded-b'}
                                         ${selectedCategory === cat ? 'bg-primary text-background' : 'bg-background text-text  hover:bg-secondary/50 hover:text-primary'}    

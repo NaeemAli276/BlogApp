@@ -3,7 +3,7 @@ import React from 'react'
 const TextInput = ({ 
     text, 
     handleText, 
-    name, 
+    name = '', 
     extraText, 
     isRequired, 
     placeholder = 'Enter some text...', 
@@ -17,7 +17,7 @@ const TextInput = ({
             className='rounded flex flex-col gap-1 w-full relative'
         >
             <h2
-                className='text-text'
+                className={`text-text ${name.length <= 0 ? 'hidden' : 'flex'}`}
             >
                 {name}<span className='text-rose-500'>{isRequired && '*'}</span>
             </h2>

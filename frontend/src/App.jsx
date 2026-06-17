@@ -86,7 +86,9 @@ const App = () => {
         <Route
           path='/Comments'
           element={
-            <CommentsPage/>
+            <ProtectedRoute>
+              <CommentsPage/>              
+            </ProtectedRoute>
           }
         />
 

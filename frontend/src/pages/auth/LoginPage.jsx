@@ -21,7 +21,10 @@ const LoginPage = () => {
 
     const [showPassword, setShowPassword] = useState(false)
 
-    const handleLoginSubmit = async () => {
+    const handleLoginSubmit = async (e) => {
+
+        e.preventDefault()
+
         setError('')
         const response = await mutation.mutateAsync(formDetails)
 
@@ -100,8 +103,9 @@ const LoginPage = () => {
             </div>
 
             {/* form */}
-            <div
+            <form
                 className='col-span-8 w-full h-full row-span-full p-8 px-20 flex flex-col items-center justify-center gap-14'
+                onSubmit={handleLoginSubmit}
             >
 
                 {/* title */}
@@ -203,7 +207,6 @@ const LoginPage = () => {
 
                     <SubmitBtn
                         text={mutation.isPending ? `Loading` : 'Sign In'}
-                        ftn={() => handleLoginSubmit()}
                     />
                     <Link
                         className='text-text/70 text-sm text-center hover:text-primary'
@@ -213,7 +216,7 @@ const LoginPage = () => {
                     </Link>
                 </div>
 
-            </div>
+            </form>
 
         </div>
     )

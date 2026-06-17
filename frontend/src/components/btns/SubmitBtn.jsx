@@ -9,6 +9,7 @@ const SubmitBtn = ({
         <button
             className={className}
             onClick={ftn}
+            type='submit'
         >
             {text}
         </button>

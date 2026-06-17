@@ -33,7 +33,6 @@ export const AuthProvider = ({ children }) => {
                 
                 if (response.ok) {
                     const userData = await response.json();
-                    console.log(userData)
                     setUser(userData);
                     return userData
                 } else {
@@ -65,8 +64,6 @@ export const AuthProvider = ({ children }) => {
             }
 
             const data = await response.json();
-
-            console.log(data)
 
             if (formDetails.remember_me) {
                 localStorage.setItem('token', data.token);
@@ -146,7 +143,7 @@ export const AuthProvider = ({ children }) => {
     const { isLoading, error, data } = useQuery({
         queryKey: ['get_user'],
         queryFn: checkAuth,
-        refetchInterval: 100000
+        refetchInterval: 1000000
     })
 
     const value = {

@@ -11,7 +11,7 @@ const PostCreator = ({
         case(0): // empty state
             return (
                 <div
-                    className='w-full h-full col-span-10 row-span-12 rounded bg-background shadow shadow-text/30 flex items-center justify-center flex-col gap-5'
+                    className='w-full h-full col-span-10 row-span-full rounded bg-background shadow shadow-text/30 flex items-center justify-center flex-col gap-5 col-start-7'
                 >
                     <Icon
                         type={'cardView'}

@@ -50,7 +50,7 @@ const PostCard = ({
                     
                     {/* title */}
                     <h2
-                        className='w-4/5 h-fit text-background font-bold text-xl'
+                        className='w-9/10 h-fit text-background font-bold text-xl'
                     >
                         {truncateText(post?.title, 90)}
                     </h2>

@@ -73,7 +73,7 @@ const PostContentContainer = ({
 
     return (
         <form
-            className='col-span-10 w-full row-span-12 rounded bg-background flex flex-col h-full shadow shadow-text/40 mt-1'
+            className='col-span-10 w-full row-span-16 rounded bg-background flex flex-col h-full shadow shadow-text/40 col-start-7'
             // onClick={(e) => { e.preventDefault() }}
         >
 
@@ -97,7 +97,7 @@ const PostContentContainer = ({
 
             {/* normal wrapper */}
             <div
-                className=' w-full h-full flex flex-col overflow-hidden relative pb-10'
+                className=' w-full h-full flex flex-col overflow-y-scroll relative pb-10'
             >
 
                 {/* featured tab */}
@@ -143,8 +143,8 @@ const PostContentContainer = ({
                     <LabelBox
                         handleCategoryChange={handleCategoryChange}
                         handleTagChange={handleTagChange}
-                        currentCategory={post.category}
-                        currentTags={post.tags}
+                        currentCategory={post?.category}
+                        currentTags={post?.tags}
                     />
 
                     <UrlBox

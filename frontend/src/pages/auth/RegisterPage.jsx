@@ -27,7 +27,10 @@ const RegisterPage = () => {
 
     const [showPassword, setShowPassword] = useState(false)
 
-    const handleRegisterSubmit = async () => {
+    const handleRegisterSubmit = async (e) => {
+        
+        e.preventDefault()
+
         setError({})
         const response = await mutation.mutateAsync(formDetails)
 
@@ -110,8 +113,9 @@ const RegisterPage = () => {
             </div>
 
             {/* form */}
-            <div
+            <form
                 className='col-span-8 w-full h-full row-span-full p-8 px-20 flex flex-col items-center justify-center gap-14'
+                onSubmit={handleRegisterSubmit}
             >
 
                 {/* title */}
@@ -235,7 +239,6 @@ const RegisterPage = () => {
 
                     <SubmitBtn
                         text={mutation.isPending ? `Loading` : 'Sign Up'}
-                        ftn={() => handleRegisterSubmit()}
                     />
                     <Link
                         className='text-text/70 text-sm text-center hover:text-primary'
@@ -245,7 +248,7 @@ const RegisterPage = () => {
                     </Link>
                 </div>
 
-            </div>
+            </form>
 
         </div>
     )

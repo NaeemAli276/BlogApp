@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 const AnalyticsCard = ({ 
     icon,
@@ -6,8 +6,13 @@ const AnalyticsCard = ({
     stat
 }) => {
 
-    const data = '20k'
+    const [data, setData] = useState(0)
     const lastWeekData = '40k'
+
+
+    useEffect(() => {
+        setData(stat)
+    }, [stat])
 
     return (
         <div
@@ -36,7 +41,7 @@ const AnalyticsCard = ({
                 <h3
                     className='text-text text-2xl font-medium'
                 >
-                    {stat}
+                    {data}
                 </h3>
                 {/* <h4
                     className='text-sm text-text/70'

@@ -29,7 +29,7 @@ const PostsViewer = ({
     if (posts?.length <= 0) {
         return (
             <div
-                className='bg-background shadow shadow-text/30 rounded col-span-6 row-span-12 flex items-center justify-center w-full h-full flex-col gap-2'
+                className='bg-background shadow shadow-text/30 rounded col-span-6 row-span-16 flex items-center justify-center w-full h-full flex-col gap-2'
             >
                 
                 <Icon
@@ -69,76 +69,77 @@ const PostsViewer = ({
             </div>  
         )
     }
-
-    return (
-        <div
-            className='flex flex-col gap-2 w-full h-full col-span-6 row-span-12 '
-        >
-
-            {/* search and filter */}
+    else {
+        return (
             <div
-                className='flex flex-row items-center gap-2 w-full h-fit'
+                className='flex flex-col gap-2 w-full h-full col-span-6 row-span-16 col-start-1'
             >
 
-                <TextInput
-                    className={'bg-background shadow shadow-text/20 p-2 rounded outline-none text-text'}
-                    placeholder='Search a post...'
-                    type='input'
-                    text={searchQuery}
-                    handleText={(e) => setSearchQuery(e.target.value)}
-                />
+                {/* search and filter */}
+                <div
+                    className='flex flex-row items-start gap-2 w-full h-fit'
+                >
+                    <TextInput
+                        className={'bg-background shadow shadow-text/20 p-2 rounded outline-none text-text'}
+                        placeholder='Search a post...'
+                        type='input'
+                        text={searchQuery}
+                        handleText={(e) => setSearchQuery(e.target.value)}
+                    />                    
 
-                <DropdownMenu
-                    toggleDropdown={() => setIsDropdownActive(!isDropdownActive)}
-                    isDropdownActive={isDropdownActive} 
-                    icon={
+                    <DropdownMenu
+                        toggleDropdown={() => setIsDropdownActive(!isDropdownActive)}
+                        isDropdownActive={isDropdownActive} 
+                        icon={
+                            <Icon
+                                type={'filter'}
+                                size='base'
+                            />
+                        }
+                    >
+                        {
+                            filterBtns.map((btn) => (
+                                <RadioBtn
+                                    key={btn}
+                                    name={btn}
+                                    isActive={btn === activeFilter}
+                                    onClick={() => handleFilter(btn)}
+                                />
+                            ))
+                        }                    
+                    </DropdownMenu>
+
+                    <button
+                        className='p-2 rounded bg-secondary/50 text-primary hover:bg-primary hover:text-background duration-200 cursor-pointer shadow shadow-text/30'
+                        title='New post'
+                        onClick={() => handlePostSelect(null, true)}
+                    >
                         <Icon
-                            type={'filter'}
+                            type={'plus'}
                             size='base'
                         />
-                    }
+                    </button>
+
+                </div>
+
+                <div
+                    className='flex flex-col gap-2 w-full h-full p-0.5 overflow-y-scroll pb-20 scrollbar-hide'
                 >
                     {
-                        filterBtns.map((btn) => (
-                            <RadioBtn
-                                key={btn}
-                                name={btn}
-                                isActive={btn === activeFilter}
-                                onClick={() => handleFilter(btn)}
+                        posts.map((post) => (
+                            <PostCard   
+                                key={post.id}
+                                post={post} 
+                                ftn={() => handlePostSelect(post)}
                             />
                         ))
-                    }                    
-                </DropdownMenu>
-
-                <button
-                    className='p-2 rounded bg-secondary/50 text-primary hover:bg-primary hover:text-background duration-200 cursor-pointer shadow shadow-text/30'
-                    title='New post'
-                    onClick={() => handlePostSelect(null, true)}
-                >
-                    <Icon
-                        type={'plus'}
-                        size='base'
-                    />
-                </button>
+                    }
+                </div>
 
             </div>
+        )
+    }
 
-            <div
-                className='flex flex-col gap-2 w-full h-full p-0.5 overflow-y-scroll pb-20 scrollbar-hide'
-            >
-                {
-                    posts.map((post) => (
-                        <PostCard   
-                            key={post.id}
-                            post={post} 
-                            ftn={() => handlePostSelect(post)}
-                        />
-                    ))
-                }
-            </div>
-
-        </div>
-    )
 }
 
 export default PostsViewer

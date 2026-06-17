@@ -96,7 +96,7 @@ const Sidebar = () => {
 
                 {/* logout btn */}
                 <button
-                    className='text-rose-700 p-1 rounded hover:bg-rose-100 hover:text-rose-900 duration-200 active:bg-rose-200'
+                    className='text-rose-500 p-1 rounded hover:bg-rose-100  duration-200 active:bg-rose-100'
                     onClick={() => logout()}
                 >
                     <Icon
