@@ -173,6 +173,7 @@ const RegisterPage = () => {
                             <button
                                 className={`right-1 absolute p-2 text-text/70 ${showPassword ? 'top-7.75' : 'top-7'}`}
                                 onClick={() => setShowPassword(!showPassword)}
+                                type='button'
                             >
                                 <Icon
                                     type={showPassword ? 'eye' : 'eyeClosed'}
@@ -191,6 +192,7 @@ const RegisterPage = () => {
                             <button
                                 className={`right-1 absolute p-2 text-text/70 ${showPassword ? 'top-7.75' : 'top-7'}`}
                                 onClick={() => setShowPassword(!showPassword)}
+                                type='button'
                             >
                                 <Icon
                                     type={showPassword ? 'eye' : 'eyeClosed'}

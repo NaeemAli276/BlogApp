@@ -24,7 +24,7 @@ export async function getMostPopularPost() {
 
 export async function getPopularPosts() {
 
-    const url = 'http://localhost:8000/api/posts/featured_posts'
+    const url = 'http://localhost:8000/api/posts/popular'
 
     try {
 
@@ -84,7 +84,7 @@ export async function getRequestedPost(id) {
 }
 
 export async function getSpecifiedPosts(id) {
-    const url = `http://localhost:8000/api/user/${id}/posts`
+    const url = `http://localhost:8000/api/users/${id}/posts`
 
     try {
 
@@ -106,7 +106,7 @@ export async function getSpecifiedPosts(id) {
 
 export async function getPostsFromCategory(category) {
     
-    const url = `http://localhost:8000/api/posts/category/${category}`
+    const url = `http://localhost:8000/api/categories/${category}/posts`
 
     try {
 
@@ -128,7 +128,7 @@ export async function getPostsFromCategory(category) {
 
 export async function getMyPosts(id) {
     
-    const url = `http://localhost:8000/api/user/posts_and_stats/${id}`
+    const url = `http://localhost:8000/api/users/${id}/posts-and-stats`
 
     try {
 

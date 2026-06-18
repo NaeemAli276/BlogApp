@@ -1,22 +1,45 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\TagController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
-
-Route::get('/posts', [PostController::class, 'index'])->name('api.posts.index');
-Route::get('/posts/featured', [PostController::class, 'getMostPopularPost'])->name('api.posts.getMostPopular');
-Route::get('/posts/featured_posts', [PostController::class, 'getPopularPosts'])->name('api.posts.getPopularPosts');
-Route::get('/posts/{id}', [PostController::class, 'show'])->name('api.posts.show');
-Route::get('/user/{user}/posts', [PostController::class, 'showUserPosts']);
-Route::get('/posts/category/{category}', [PostController::class, 'getPostsByCategory'])->name('api.posts.category');    
-Route::get('/user/posts_and_stats/{id}', [UserController::class,'getMyPosts'])->name('api.user.my_posts');
-
+// Public routes
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
+
+// Protected routes
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+});
+
+// API Resources - Tags
+Route::prefix('tags')->group(function () {
+    Route::get('/', [TagController::class, 'index'])->name('api.tags.index');
+});
+
+// API Resources - Categories
+Route::prefix('categories')->group(function () {
+    Route::get('/', [CategoryController::class, 'index'])->name('api.categories.index');
+    Route::get('/{category}/posts', [PostController::class, 'getPostsByCategory'])->name('api.categories.posts');
+});
+
+// API Resources - Posts
+Route::prefix('posts')->group(function () {
+    Route::get('/', [PostController::class, 'index'])->name('api.posts.index');
+    Route::get('/featured', [PostController::class, 'getMostPopularPost'])->name('api.posts.featured');
+    Route::get('/popular', [PostController::class, 'getPopularPosts'])->name('api.posts.popular');
+    Route::get('/{id}', [PostController::class, 'show'])->name('api.posts.show');
+});
+
+// API Resources - Users
+Route::prefix('users')->group(function () {
+    Route::get('/{user}/posts', [PostController::class, 'showUserPosts'])->name('api.users.posts');
+    Route::get('/{id}/posts-and-stats', [UserController::class, 'getMyPosts'])->name('api.users.posts-stats');
+});
