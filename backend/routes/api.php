@@ -22,6 +22,7 @@ Route::middleware('auth:sanctum')->group(function () {
 // API Resources - Tags
 Route::prefix('tags')->group(function () {
     Route::get('/', [TagController::class, 'index'])->name('api.tags.index');
+    Route::get('/search', [TagController::class, 'searchTag'])->name('api.tags.search');
 });
 
 // API Resources - Categories

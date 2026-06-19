@@ -8,7 +8,7 @@ const DashboardLayout = ({
 }) => {
     return (
         <div
-            className='font-poppins w-full bg-slate-200/50 h-screen max-h-screen overflow-hidden flex flex-row'
+            className='font-poppins w-full bg-slate-200/50 h-screen max-h-screen overflow-hidden flex flex-row text-text'
         >
             <Sidebar/>
 

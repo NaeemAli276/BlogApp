@@ -11,14 +11,28 @@ class TagController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Tag $tag)
     {
         //
-        $tags = Tag::all();
+        $tags = $tag::all();
 
         return response()->json([
-            'tags' => $tags
+            'tags' => $tags->pluck('tag_name')
         ]);
+    }
+
+    public function searchTag(Request $request) {
+
+        $searchTerm = $request->input('search');
+
+        $tags = Tag::where('tag_name', 'like', '%'. $searchTerm. '%')
+                ->latest()
+                ->paginate(15);
+
+        return response()->json([
+            'tags' => $tags->pluck('tag_name')
+        ]);
+
     }
 
     /**
