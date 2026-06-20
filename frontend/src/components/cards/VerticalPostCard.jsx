@@ -18,7 +18,7 @@ const VerticalPostCard = ({
                 className='aspect-video h-1/2 w-full object-cover rounded-t'
             />
 
-            <div className='w-full h-1/2 bg-black/10 absolute left-0 top-0'></div>
+            <div className='w-full h-1/2 bg-black/20 absolute left-0 top-0'></div>
 
             <div
                 className='absolute top-2/5 left-3 w-full h-fit z-50'

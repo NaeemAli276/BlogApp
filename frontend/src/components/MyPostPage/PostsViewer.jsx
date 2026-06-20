@@ -31,23 +31,16 @@ const PostsViewer = ({
             <div
                 className='bg-background shadow shadow-text/30 rounded col-span-6 row-span-16 flex items-center justify-center w-full h-full flex-col gap-2'
             >
-                
-                <Icon
-                    type={'cardView'}
-                    size='xl'
-                    className='text-text/30'
-                />
-
                 <div
                     className='flex flex-col gap-1 w-fit h-fit items-center justify-center'
                 >
                     <h2
-                        className='text-lg/tight font-medium text-text'
+                        className='text-xl/tight font-medium text-text'
                     >
                         No posts
                     </h2>
                     <h3
-                        className='text-center w-94 text-text/70'
+                        className='text-center text-sm w-3/4 text-text/70'
                     >
                         You currently have no posts, press the button to start making some
                     </h3>

@@ -58,7 +58,7 @@ const HeroPostCard = ({
 
                 {/* author */}
                 <div
-                    className='absolute top-0 left-0 py-4 p-5 w-full h-fit'
+                    className='absolute top-0 left-0 py-4 p-5 w-full h-fit z-20'
                 >
                     
                     <AuthorBtn
@@ -68,6 +68,13 @@ const HeroPostCard = ({
                 </div>
 
                 {/* overlay */}
+                <div
+                    className='w-full h-full bg-black/10 absolute top-0 left-0'
+                >
+
+                </div>
+
+                {/* overlay with info */}
                 <div 
                     className='w-full h-3/10 bg-black/50 rounded-b z-10 absolute bottom-0 left-0 flex flex-col gap-2 p-5 py-4 text-background'
                 >

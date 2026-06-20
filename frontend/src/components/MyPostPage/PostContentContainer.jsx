@@ -32,7 +32,7 @@ const PostContentContainer = ({
     }  
 
     const handleExcerpt = (contentHTML) => {
-        // setPost({ ...post, excerpt: contentHTML })
+        setPost({ ...post, excerpt: contentHTML })
     }
 
     // content tab
@@ -120,7 +120,7 @@ const PostContentContainer = ({
 
                 {/* featured */}
                 <div
-                    className={`${currentTab === 'Featured' ? 'flex' : 'hidden'} flex flex-col gap-3 px-5  overflow-y-scroll pb-10`}
+                    className={`${currentTab === 'Featured' ? 'flex' : 'hidden'} flex flex-col gap-3 px-5  overflow-y-scroll scrollbar-hide pb-10`}
                 >
                     
                     <TitleBlock
@@ -131,6 +131,25 @@ const PostContentContainer = ({
                     <FeaturedImageBlock
                         image={post?.thumbnail}
                         handleThumbnail={handleThumbnail}
+                    />
+
+                    <RichTextEditorBlock
+                        wordLimit={512}
+                        content={post?.excerpt}
+                        handleChangeContent={handleExcerpt}
+                        hiddenComm={['headings', 'align', 'code', 'lists']}
+                    />
+
+                </div>
+
+                {/* Content */}
+                <div
+                    className={`${currentTab === 'Content' ? 'flex' : 'hidden'} flex flex-col gap-3 px-5  overflow-y-scroll scrollbar-hide pb-10`}
+                >
+                    
+                    <ArticleTab
+                        content={post?.mainContent}
+                        handleChangeContent={handleArticleChange}
                     />
 
                 </div>

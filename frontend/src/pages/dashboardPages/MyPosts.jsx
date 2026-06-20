@@ -18,7 +18,7 @@ const MyPosts = () => {
         queryKey: ['get_my_posts', user?.id]
     })
 
-    const [postView, setPostView] = useState(false) // 0: empty state, 1: new post, 2: editing post not related to the component PostsView
+    const [postView, setPostView] = useState(0) // 0: empty state, 1: new post, 2: editing post not related to the component PostsView
     const [selectedPost, setSelectedPost] = useState(
     {
         id: null,
@@ -31,43 +31,7 @@ const MyPosts = () => {
         metaDesc: '',
         category: '',
         date: ''
-    }
-    // {
-    //         id: 0,
-    //         title: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Lorem ipsum dolor sit, amet consectetur adipisicing elit.',
-    //         thumbnail: 'https://picsum.photos/seed/2/960/544',
-    //         excerpt: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Error animi dolores nostrum natus unde atque consectetur nobis ut, porro sit esse dolorum quaerat doloremque vel aut? Voluptatibus quam quasi deserunt.',
-    //         mainContent: `<p>hi this is a post</p>`,
-    //         url: 'Lorem-ipsum-dolor-sit-amet-consectetur-adipisicing-elit.',
-    //         tags: [],
-    //         metaDesc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus nulla beatae voluptates odit necessitatibus officiis soluta architecto vitae dolorem. Amet sit excepturi commodi itaque natus consectetur dignissimos. Veritatis, quaerat vero!',
-    //         category: 'Tech',
-    //         date: '22/01/26'
-    //     },
-    )
-
-    // const analytics = useMemo(() => [
-    //     {
-    //         name: 'Views',
-    //         icon: <Icon type={'eye'} className='text-primary' size='base' />,
-    //         stat: data?.stats?.total_view_count || 0
-    //     },
-    //     {
-    //         name: 'Likes',
-    //         icon: <Icon type={'like'} className='text-primary' size='base' />,
-    //         stat: data?.stats?.total_like_count || 0
-    //     },
-    //     {
-    //         name: 'Dislikes',
-    //         icon: <Icon type={'like'} className='text-primary rotate-180' size='base' />,
-    //         stat: data?.stats?.total_dislike_count || 0
-    //     },
-    //     {
-    //         name: 'Shares',
-    //         icon: <Icon type={'share'} className='text-primary' size='base' />,
-    //         stat: data?.stats?.total_share_count || 0
-    //     },
-    // ], [data?.stats])
+    })
     
     /* 
         params
