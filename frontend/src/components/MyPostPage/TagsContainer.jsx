@@ -8,7 +8,8 @@ import { useDebounce } from "@uidotdev/usehooks";
 
 
 const TagsContainer = ({
-    tags = ['autum', 'porro', 'sed']
+    tags = [],
+    handleTagChange = {}
 }) => {
 
     const [isDropdownActive, setIsDropdownActive] = useState(false)
@@ -29,6 +30,7 @@ const TagsContainer = ({
             {/* selected tags box */}
             <div
                 className='flex flex-col gap-1 w-full h-full relative'
+                // onClick={() => setIsDropdownActive(!isDropdownActive)}
             >
 
                 <h2
@@ -39,27 +41,33 @@ const TagsContainer = ({
 
                 {/* selected tags */}
                 <div
-                    className='flex flex-row w-full h-fit p-2 rounded border-2 border-primary gap-2 pr-4 overflow-y-scroll scrollbar-hide'
+                    className='flex flex-row w-full h-fit p-2 rounded border-2 border-primary gap-2 pr-4 overflow-y-scroll scrollbar-hide z-20'
                 >
 
                     {
-                        tags?.map((tag) => (
-                            <TagBtn
-                                name={tag}
-                                key={tag}
-                                handleSelectTag={() => {}}
-                            />
-                        ))
+                        tags?.length <= 0
+                        ?   <h2
+                                className='p-px text-text/70'
+                            >
+                                No tags selected
+                            </h2>
+                        :   tags?.map((tag) => (
+                                <TagBtn
+                                    name={tag}
+                                    key={tag}
+                                    handleSelectTag={() => handleTagChange(tag)}
+                                />
+                            ))
                     }
                     <button
-                        className='bg-background rounded top-8 right-0.5 absolute p-2 z-10 cursor-pointer'
+                        className='bg-background rounded top-8 right-0.5 absolute p-1.5 px-2 z-10 cursor-pointer'
                         onClick={() => setIsDropdownActive(!isDropdownActive)}
                         type='button'
                     >
                         <Icon
                             size='base'
                             type={'chevron'}
-                            className={`text-primary ${isDropdownActive ? 'rotate-180' : 'rotate-0'}`}
+                            className={`text-primary ${isDropdownActive ? 'rotate-180' : 'rotate-0'} cursor-pointer`}
                         />
                     </button>
                 </div>
@@ -143,7 +151,7 @@ const TagsContainer = ({
                                         isAlreadySelected={tags?.includes(tag)}
                                         key={tag}
                                         name={tag}
-                                        handleSelectTag={() => {}}
+                                        handleTagChange={() => handleTagChange(tag)}
                                     />
                                 ))
                             }

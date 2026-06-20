@@ -3,13 +3,13 @@ import Icon from '../../assets/Icon'
 
 const TagBtn = ({ 
     name, 
-    handleSelectTag, 
+    handleTagChange, 
     isAlreadySelected = false 
 }) => {
     return (
         <button
             className={`p-1 px-2 rounded bg-accent/60 text-primary w-fit h-fit text-sm hover:text-background hover:bg-primary flow-row gap-1 duration-200 cursor-pointer items-center group ${isAlreadySelected ? 'hidden' : 'flex'}`}
-            onClick={handleSelectTag}
+            onClick={handleTagChange}
             type='button'
         >
             <Icon

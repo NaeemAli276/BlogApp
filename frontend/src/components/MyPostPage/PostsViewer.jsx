@@ -130,7 +130,7 @@ const PostsViewer = ({
                             <PostCard   
                                 key={post.id}
                                 post={post} 
-                                ftn={() => handlePostSelect(post)}
+                                ftn={() => handlePostSelect(post, false)}
                             />
                         ))
                     }

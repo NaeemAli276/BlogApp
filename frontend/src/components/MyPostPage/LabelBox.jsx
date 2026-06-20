@@ -1,11 +1,12 @@
 import React from 'react'
-import DropDownBox from '../../components/NewPostsPage/DropDownBox'
-import TagsContainer from '../MyPostPage/TagsContainer'
+import DropDownBox from './DropDownBox'
+import TagsContainer from './TagsContainer'
 
 
 const LabelBox = ({
     category = '',
-    tags = []
+    tags = [],
+    handleTagChange
 }) => {
 
     return (
@@ -14,7 +15,9 @@ const LabelBox = ({
             <div
                 className='flex flex-col gap-4 w-full h-full p-3 rounded bg-background'
             >
-                <TagsContainer/>
+                <TagsContainer
+                    handleTagChange={handleTagChange}
+                />
             </div>
 
         </DropDownBox>

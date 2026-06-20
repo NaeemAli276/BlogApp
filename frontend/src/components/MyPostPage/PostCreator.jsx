@@ -1,10 +1,10 @@
 import React from 'react'
-import PostContentContainer from '../../components/NewPostsPage/PostContentContainer'
+import PostContentContainer from './PostContentContainer'
 import Icon from '../../assets/Icon'
 
 const PostCreator = ({ 
     postView, 
-    selectedPost = {}
+    selectedPost = {},
 }) => {
     
     switch(postView) {

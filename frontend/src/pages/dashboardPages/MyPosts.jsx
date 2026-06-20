@@ -7,6 +7,7 @@ import { useQuery } from '@tanstack/react-query'
 import { getMyPosts } from '../../apis/postApi'
 import { useAuth } from '../../context/AuthContext'
 import Icon from '../../assets/Icon'
+import PostContentContainer from '../../components/MyPostPage/PostContentContainer'
 
 const MyPosts = () => {
 
@@ -17,9 +18,7 @@ const MyPosts = () => {
         queryKey: ['get_my_posts', user?.id]
     })
 
-    const [posts, setPosts] = useState(data?.posts)
-
-    const [postView, setPostView] = useState(0) // 0: empty state, 1: new post, 2: editing post not related to the component PostsView
+    const [postView, setPostView] = useState(false) // 0: empty state, 1: new post, 2: editing post not related to the component PostsView
     const [selectedPost, setSelectedPost] = useState(
     {
         id: null,
@@ -86,7 +85,7 @@ const MyPosts = () => {
                 excerpt: '',
                 mainContent: ``,
                 url: '',
-                tags: ['javascript', 'programming'],
+                tags: [],
                 metaDesc: '',
                 category: '',
                 date: ''
@@ -94,10 +93,14 @@ const MyPosts = () => {
             setPostView(1)
         }
         else {
-            setPostView(2)
             setSelectedPost({...post})
+            setPostView(2)
         }
     }
+
+    useEffect(() => {
+        console.log(selectedPost)
+    }, [selectedPost])
 
     if (isLoading) {
         return (
@@ -151,7 +154,7 @@ const MyPosts = () => {
                     handlePostSelect={handlePostSelect}
                 />
 
-                <PostCreator
+                <PostContentContainer
                     postView={postView}
                     selectedPost={selectedPost}
                 />

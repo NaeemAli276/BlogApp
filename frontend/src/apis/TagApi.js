@@ -34,7 +34,7 @@ export async function getSearchedTags(searchTerm) {
             }
         })
 
-        console.log(data.tags)
+        // console.log(data.tags)
         return data.tags
 
     }
