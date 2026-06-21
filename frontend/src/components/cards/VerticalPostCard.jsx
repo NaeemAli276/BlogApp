@@ -44,7 +44,7 @@ const VerticalPostCard = ({
 
                             <Icon
                                 type={'circle'}
-                                size='xs'
+                                size='16'
                                 pack='filled'
                                 className='size-2.5'
                             />
@@ -55,7 +55,7 @@ const VerticalPostCard = ({
                         >
                             <Icon
                                 type={'calendar'}
-                                size='xs'
+                                size='16'
                             />
                             {formatDate(post?.date)}
                         </h3>
@@ -80,6 +80,7 @@ const VerticalPostCard = ({
                     >
                         <Icon
                             type={'eye'}
+                            size='20'
                         />
                         {formatCompactNumber(post?.view_count)}
                     </span>
@@ -91,6 +92,7 @@ const VerticalPostCard = ({
                         View more
                         <Icon
                             type={'arrow'}
+                            size='20'
                         />
                     </Link>
                 </div>

@@ -12,11 +12,15 @@ const ProtectedRoute = ({ children }) => {
             <div
                 className='w-full h-screen flex items-center justify-center'
             >
-                <Icon
-                    type={'spinner'}
-                    className='animate-spin text-text'
-                    size='base'
-                />
+                <div
+                    className='w-fit h-fit'
+                >
+                    <Icon
+                        type={'spinner'}
+                        className='animate-spin text-text'
+                        size='24'
+                    />
+                </div>
             </div> // Or a loading spinner
         )
     }

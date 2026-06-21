@@ -55,7 +55,7 @@ const TagsContainer = ({
                                 <TagBtn
                                     name={tag}
                                     key={tag}
-                                    handleSelectTag={() => handleTagChange(tag)}
+                                    handleTagChange={() => handleTagChange(tag)}
                                 />
                             ))
                     }
@@ -65,7 +65,7 @@ const TagsContainer = ({
                         type='button'
                     >
                         <Icon
-                            size='base'
+                            size='24'
                             type={'chevron'}
                             className={`text-primary ${isDropdownActive ? 'rotate-180' : 'rotate-0'} cursor-pointer`}
                         />
@@ -119,7 +119,7 @@ const TagsContainer = ({
                         className='w-full h-40 flex items-center justify-center flex-col gap-2'
                     >
                         <Icon
-                            size='xl'
+                            size='36'
                             type={'sad'}
                             className='text-text'
                         />

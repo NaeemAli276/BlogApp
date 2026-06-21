@@ -32,11 +32,10 @@ import { Icon as IconifyIcon } from '@iconify/react'
 
 const Icon = ({
     type,
-    size='sm',
+    size='24',
     color='currentcolor',
     className = '',
     onClick,
-    pack='basic',
     ...restProps
 }) => {
 
@@ -67,8 +66,10 @@ const Icon = ({
         smile: 'mynaui:smile',
         sad: 'mynaui:sad',
         bookmark: 'mynaui:bookmark',
-        friends: 'fluent:people-community-28-regular',
-        search: 'mynaui:search'
+        friends: 'mynaui:users-group',
+        search: 'mynaui:search',
+        imageStack: 'ph:images-square-light',
+        trash: 'mynaui:trash'
     }
 
     const iconName = icons[type] || type; 

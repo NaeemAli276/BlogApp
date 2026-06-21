@@ -86,7 +86,7 @@ const PostsViewer = ({
                         icon={
                             <Icon
                                 type={'filter'}
-                                size='base'
+                                size='24'
                             />
                         }
                     >
@@ -109,7 +109,7 @@ const PostsViewer = ({
                     >
                         <Icon
                             type={'plus'}
-                            size='base'
+                            size='24'
                         />
                     </button>
 

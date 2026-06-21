@@ -38,7 +38,7 @@ const HeroPostCard = ({
             >
                 <Icon
                     type={'sad'}
-                    size='xl'
+                    size='80'
                     className='text-text'
                 />
                 <h3
@@ -105,7 +105,7 @@ const HeroPostCard = ({
                         >
                             <Icon
                                 type={'calendar'}
-                                size={'sm'}
+                                size={'20'}
                             />
                             {formatDate(data?.date)}
                         </h4>

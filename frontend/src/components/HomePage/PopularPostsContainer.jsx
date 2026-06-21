@@ -14,7 +14,7 @@ const PopularPostsContainer = ({}) => {
     if (isLoading) {
         return (
             <div
-                className='w-full h-full col-span-4 row-span-full flex flex-col gap-4 bg-black/20 shadow shadow-text/50 rounded items-center justify-center text-background'
+                className='w-full h-full col-span-4 row-span-full flex flex-col gap-4 bg-black/20 shadow shadow-text/50 rounded items-center justify-center '
             >
                 <Icon
                     type={'spinner'}
@@ -31,7 +31,7 @@ const PopularPostsContainer = ({}) => {
                 <Icon
                     type={'sad'}
                     className='text-text'
-                    size='xl'
+                    size='80'
                 />
                 <h3
                     className='w-4/5 text-center'

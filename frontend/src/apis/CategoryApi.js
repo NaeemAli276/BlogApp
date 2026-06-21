@@ -2,7 +2,7 @@ import axios from "axios"
 
 export async function getCategories() {
     
-    const url = `http://localhost:8000/api/category`
+    const url = `http://localhost:8000/api/categories`
 
     try {
 
@@ -12,7 +12,7 @@ export async function getCategories() {
             }
         })
 
-        return data.data
+        return data.categories
 
     }
     catch (error) {

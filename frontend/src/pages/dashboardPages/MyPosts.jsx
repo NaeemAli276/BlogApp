@@ -18,7 +18,7 @@ const MyPosts = () => {
         queryKey: ['get_my_posts', user?.id]
     })
 
-    const [postView, setPostView] = useState(0) // 0: empty state, 1: new post, 2: editing post not related to the component PostsView
+    const [postView, setPostView] = useState(1) // 0: empty state, 1: new post, 2: editing post not related to the component PostsView
     const [selectedPost, setSelectedPost] = useState(
     {
         id: null,
@@ -73,7 +73,7 @@ const MyPosts = () => {
             >
                 <Icon
                     type={'spinner'}
-                    size='md'
+                    size='20'
                     className='text-text/80 animate-spin'
                 />
             </div>
@@ -86,7 +86,7 @@ const MyPosts = () => {
             >
                 <Icon
                     type={'sad'}
-                    size='xl'
+                    size='80'
                     className='text-text'
                 />
                 <h3

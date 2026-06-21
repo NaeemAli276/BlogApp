@@ -34,7 +34,7 @@ const SmallPostCard = ({
                     >
                         <Icon
                             type={'calendar'}
-                            size='xs'
+                            size='16'
                         />
                         {formatDate(post?.date)}
                     </h3>
@@ -60,7 +60,7 @@ const SmallPostCard = ({
                         >
                             <Icon
                                 type={'circle'}
-                                size='xs'
+                                size='16'
                                 pack='filled'
                                 className='size-2.5'
                             />

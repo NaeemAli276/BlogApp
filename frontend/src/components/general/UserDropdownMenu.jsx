@@ -17,7 +17,7 @@ const UserDropdownMenu = () => {
         {
             name: 'My posts',
             icon:   <Icon
-                        size={'sm'}
+                        size={'20'}
                         type={'cardView'}
                     />,
             path: '/My_posts'
@@ -25,7 +25,7 @@ const UserDropdownMenu = () => {
         {
             name: 'Comments',
             icon:   <Icon
-                        size={'sm'}
+                        size={'20'}
                         type={'comments'}
                     />,
             path: '/Comments'
@@ -33,7 +33,7 @@ const UserDropdownMenu = () => {
         {
             name: 'My profile',
             icon:   <Icon
-                        size={'sm'}
+                        size={'20'}
                         type={'user'}
                     />,
             path: '/My_profile'
@@ -73,7 +73,7 @@ const UserDropdownMenu = () => {
                             className='flex flex-col gap-0 w-fit h-fit'
                         >   
                             <h3
-                                className='text-base/tight font-medium'
+                                className='text-base/tight font-medium text-text'
                             >
                                 {truncateText(user?.username, 20)}
                             </h3>
@@ -131,7 +131,7 @@ const UserDropdownMenu = () => {
                     >
                         <Icon
                             type={'logout'}
-                            size={'sm'}
+                            size={'20'}
                         />
                         Logout
                     </button>

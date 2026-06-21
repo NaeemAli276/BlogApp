@@ -32,7 +32,7 @@ const RecentPostsContainer = () => {
                 <Icon
                     type={'sad'}
                     className='text-text'
-                    size='xl'
+                    size='80'
                 />
                 <h3
                     className='w-1/3 text-center'

@@ -49,19 +49,74 @@ const PostContentContainer = ({
 
     const handleTagChange = (tag) => {
 
-        // if (post.tags.includes(tag)) {
-        //     const filterTags = post.tags.filter((currentTag) => currentTag !== tag)
-        //     setPost({...post, tags: filterTags })
-        // }
-        // else {
-        //     setPost({...post, tags: [...post.tags, tag]})
-        // }
+        if (post.tags.includes(tag)) {
+            const filterTags = post.tags.filter((currentTag) => currentTag !== tag)
+            setPost({...post, tags: filterTags })
+        }
+        else {
+            setPost({...post, tags: [...post.tags, tag]})
+        }
 
     }
 
     const handleCategoryChange = (cat) => {
-        // setPost({...post, category: cat})
+        setPost({...post, category: cat})
     }
+
+    const handlePreviewPost = () => {
+
+    }
+
+    const handleUpdatePost = (id, post) => {
+
+    }
+
+    const handleCreatePost = (post) => {
+
+    }
+
+    const handleDeletePost = (id) => {
+
+    }
+
+    useEffect(() => {
+        console.log(post?.tags)
+    }, [post])
+
+    const bottomBtns = [
+        {
+            name: 'Delete',
+            icon:   <Icon
+                        type={'trash'}
+                        size='20'
+                    />,
+            ftn: () => handleDeletePost(0),
+        },
+        {
+            name: 'Preview',
+            icon:   <Icon
+                        type={'eye'}
+                        size='20'
+                    />,
+            ftn: () => handlePreviewPost(),
+        },
+        {
+            name: 'Update',
+            icon:   <Icon
+                        type={'update'}
+                        size='20'
+                    />,
+            ftn: () => handleDeletePost(0, {}),
+        },
+        {
+            name: 'Create',
+            icon:   <Icon
+                        type={'plus'}
+                        size='20'
+                    />,
+            ftn: () => handleDeletePost(0),
+        },
+    ] 
 
     if (postView === 0) {
         return (
@@ -69,11 +124,14 @@ const PostContentContainer = ({
                 className='w-full h-full col-span-10 row-span-full col-start-7 bg-background shadow shadow-text/50 rounded flex flex-col gap-2 items-center justify-center'
             >
                 
-                <Icon
-                    type={'cardView'}
-                    size='2xl'
+                <i
                     className='text-text/50'
-                />
+                >
+                    <Icon
+                        type={'cardView'}
+                        size='80'
+                    />
+                </i>
 
                 <div
                     className='flex flex-col gap-1 items-center justify-center text-center'
@@ -120,7 +178,7 @@ const PostContentContainer = ({
 
                 {/* featured */}
                 <div
-                    className={`${currentTab === 'Featured' ? 'flex' : 'hidden'} flex flex-col gap-3 px-5  overflow-y-scroll scrollbar-hide pb-10`}
+                    className={`${currentTab === 'Featured' ? 'flex' : 'hidden'} flex flex-col gap-3 px-5  overflow-y-scroll scrollbar-hide pb-10 w-full h-full`}
                 >
                     
                     <TitleBlock
@@ -144,13 +202,74 @@ const PostContentContainer = ({
 
                 {/* Content */}
                 <div
-                    className={`${currentTab === 'Content' ? 'flex' : 'hidden'} flex flex-col gap-3 px-5  overflow-y-scroll scrollbar-hide pb-10`}
+                    className={`${currentTab === 'Content' ? 'flex' : 'hidden'} flex flex-col gap-3 px-5  overflow-y-scroll scrollbar-hide pb-10 w-full h-full`}
                 >
                     
                     <ArticleTab
                         content={post?.mainContent}
                         handleChangeContent={handleArticleChange}
                     />
+
+                </div>
+
+                {/* Content */}
+                <div
+                    className={`${currentTab === 'SEO' ? 'flex' : 'hidden'} flex flex-col gap-3 px-5  overflow-y-scroll scrollbar-hide pb-10 w-full h-full`}
+                >
+                    
+                    <LabelBox
+                        tags={post?.tags}
+                        category={post?.category}
+                        handleTagChange={handleTagChange}
+                        handleCategoryChange={handleCategoryChange}
+                    />
+
+                </div>
+
+                {/* delete, preview and update btns */}
+                <div
+                    className={`w-full h-fit absolute left-0 bottom-0 bg-background rounded-b flex flex-row items-center ${postView === 1 ? 'justify-end' : 'justify-between'} p-2`}
+                >
+                    
+                        <div
+                            className='w-full h-fit flex'
+                        >
+                            <button
+                                className={`flex pl-2.5 flex-row items-center gap-1 rounded p-2 px-3 bg-rose-100 text-rose-500 hover:bg-rose-500 hover:text-background duration-200 text-sm w-fit h-fit ${postView === 1 ? 'hidden' : 'flex'}`}
+                            >
+                                {bottomBtns[0].icon}
+                                {bottomBtns[0].name}
+                            </button>
+                        </div>
+                        
+
+                    <div
+                        className='w-fit h-fit flex flex-row items-center gap-2'
+                    >
+
+                        <button
+                            className='flex pl-2.5 flex-row items-center gap-1 rounded p-2 px-3 bg-secondary text-primary hover:bg-primary hover:text-background duration-200 text-sm w-fit h-fit'
+                        >
+                            {bottomBtns[1].icon}
+                            {bottomBtns[1].name}
+                        </button>
+
+                        <button
+                            className='flex pl-2.5 flex-row items-center gap-1 rounded p-2 px-3 bg-primary text-background hover:bg-blue-900 duration-200 text-sm w-fit h-fit'
+                        >
+                            {
+                                postView === 1
+                                ? bottomBtns[2].icon
+                                : bottomBtns[3].icon
+                            }
+                            {
+                                postView === 1
+                                ? bottomBtns[2].name
+                                : bottomBtns[3].name
+                            }
+                        </button>
+
+                    </div>
 
                 </div>
 

@@ -24,7 +24,7 @@ const Sidebar = () => {
             icon:   <Icon
                         type={'cardView'}
                         className='text-text'
-                        size='base'
+                        size='24'
                     />,
             path: '/My_posts'
         },
@@ -38,7 +38,7 @@ const Sidebar = () => {
             name: 'Comments',
             icon:   <Icon
                         type={'comments'}
-                        size='base'
+                        size='24'
                         className='text-text'
                     />,
             path: '/Comments'
@@ -56,7 +56,7 @@ const Sidebar = () => {
                 icon={
                     <Icon
                         type={'logo'}
-                        size='base'
+                        size='24'
                     />
                 }
                 ftn={'/'}
@@ -101,7 +101,7 @@ const Sidebar = () => {
                 >
                     <Icon
                         type='logout'
-                        size='base'
+                        size='24'
                     />
                 </button>
 

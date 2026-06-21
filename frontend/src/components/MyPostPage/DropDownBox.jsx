@@ -25,7 +25,8 @@ const DropDownBox = ({ children, name = 'field', isRequired }) => {
                 >
                     <Icon
                         type={'caret'}
-                        size='base'
+                        size='20'
+                        className='cursor-pointer'
                     />
                 </button>
             </div>

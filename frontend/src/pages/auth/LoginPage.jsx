@@ -61,7 +61,7 @@ const LoginPage = () => {
                     >
                         <Icon
                             type={'logo'}
-                            size='lg'
+                            size='36'
                             className='p-1 rounded border border-white'
                         />
                         <h2
@@ -77,7 +77,7 @@ const LoginPage = () => {
                         <Icon
                             type={'arrow'}
                             className='rotate-180'
-                            size='base'
+                            size='20'
                         />
                         Back to posts
                     </Link>
@@ -150,7 +150,7 @@ const LoginPage = () => {
                             placeholder='Enter your password...'
                         >
                             <button
-                                className={`right-1 absolute p-2 text-text/70 ${showPassword ? 'top-7.75' : 'top-7'}`}
+                                className={`right-1 absolute p-2 text-text/70 top-7.25`}
                                 onClick={() => setShowPassword(!showPassword)}
                                 type='button'
                             >

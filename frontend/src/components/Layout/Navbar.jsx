@@ -15,7 +15,7 @@ const Navbar = () => {
             icon:   <Icon
                         type='home'
                         pack={`filled`}
-                        size='xs'
+                        size='16'
                     />,
             path: '/'
         },
@@ -24,7 +24,7 @@ const Navbar = () => {
             icon:   <Icon
                         type='compass'
                         pack={`filled`}
-                        size='xs'
+                        size='16'
                     />,
             path: '/Explore'
         },
@@ -33,7 +33,7 @@ const Navbar = () => {
             icon:   <Icon
                         type='friends'
                         pack={`filled`}
-                        size='xs'
+                        size='16'
                     />,
             path: '/Friends'
         },
@@ -42,7 +42,7 @@ const Navbar = () => {
             icon:   <Icon
                         type='search'
                         pack={`filled`}
-                        size='xs'
+                        size='16'
                     />,
             path: '/Search'
         },
@@ -54,7 +54,7 @@ const Navbar = () => {
 
     return (
         <div
-            className='h-fit w-full bg-background shadow shadow-text/20 p-3 flex flex-row items-center text-text fixed top-0 left-0 px-20 z-60'
+            className='h-fit w-full bg-background shadow shadow-text/20 p-3 flex flex-row items-center  fixed top-0 left-0 px-20 z-60'
         >
             
             {/* logo and title */}
@@ -62,14 +62,13 @@ const Navbar = () => {
                 className='w-1/3 h-fit'
             >
                 <Link
-                    className='h-full items w-fit items-center gap-3 flex'
+                    className='h-full items w-fit items-center gap-3 flex text-background rounded'
                     to={'/'}
-                    viewTransition={true}
                 >
                     <Icon
                         type={'logo'}
-                        className='bg-primary text-background p-1 rounded'
-                        size='md'
+                        className='p-1 rounded bg-primary'
+                        size='36'
                     />
                     <h2
                         className='text-xl text-text font-semibold'
