@@ -14,10 +14,15 @@ class CategoryController extends Controller
     public function index()
     {
         //
-        $categories = Category::paginate(20);
+        $categories = Category::all();
         
+        // return response()->json([
+        //     'category_id' => $categories->pluck('category_id'), 
+        //     'categories' => $categories->pluck('category_name')
+        // ]);
+
         return response()->json([
-            'categories' => $categories->pluck('category_name')
+            'categories' => $categories
         ]);
 
     }

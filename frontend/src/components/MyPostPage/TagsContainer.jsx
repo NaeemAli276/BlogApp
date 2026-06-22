@@ -19,7 +19,7 @@ const TagsContainer = ({
     const { isLoading, error, data } = useQuery({
         queryKey: ['get_searchedTags', searchQuery],
         queryFn: () => getSearchedTags(searchQuery),
-        enabled: debouncedSearch.length > 0
+        // enabled: debouncedSearch.length > 0
     })
 
     return (
@@ -36,7 +36,7 @@ const TagsContainer = ({
                 <h2
                     className=''
                 >
-                    Selected Tags:
+                    Selected tags:
                 </h2>
 
                 {/* selected tags */}
@@ -53,8 +53,8 @@ const TagsContainer = ({
                             </h2>
                         :   tags?.map((tag) => (
                                 <TagBtn
-                                    name={tag}
-                                    key={tag}
+                                    name={tag?.tag_name}
+                                    key={tag?.tag_name}
                                     handleTagChange={() => handleTagChange(tag)}
                                 />
                             ))
@@ -135,7 +135,7 @@ const TagsContainer = ({
                 {
                     data?.length > 0 &&
                     <div
-                        className='flex flex-col w-full h-full gap-1 p-3'
+                        className='flex flex-col w-full max-h-56 gap-1 p-3 overflow-y-scroll'
                     >
                         <h2
                             className='text-text text-sm'
@@ -148,9 +148,9 @@ const TagsContainer = ({
                             {
                                 data.map((tag) => (
                                     <TagBtn
-                                        isAlreadySelected={tags?.includes(tag)}
-                                        key={tag}
-                                        name={tag}
+                                        isAlreadySelected={tags?.tag_name?.includes(tag)}
+                                        key={tag?.id}
+                                        name={tag?.tag_name}
                                         handleTagChange={() => handleTagChange(tag)}
                                     />
                                 ))
@@ -168,7 +168,7 @@ const TagsContainer = ({
                     >
                         <Icon
                             type={'sad'}
-                            size='xl'
+                            size='48'
                         />
                         <h2
                             className='text-text/70 w-3/4 text-center'

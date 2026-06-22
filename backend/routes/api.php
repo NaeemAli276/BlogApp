@@ -44,3 +44,12 @@ Route::prefix('users')->group(function () {
     Route::get('/{user}/posts', [PostController::class, 'showUserPosts'])->name('api.users.posts');
     Route::get('/{id}/posts-and-stats', [UserController::class, 'getMyPosts'])->name('api.users.posts-stats');
 });
+
+Route::middleware('auth:sanctum')->group(function() {
+
+    // posts
+    Route::prefix('posts-crud')->group(function() {
+        Route::post('/create', []);
+    });
+
+});

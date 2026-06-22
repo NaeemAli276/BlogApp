@@ -44,13 +44,13 @@ const PostContentContainer = ({
     // SEO tab
 
     const handleSEOChange = (data, attr) => {
-        // setPost({ ...post, [attr]: data })
+        setPost({ ...post, [attr]: data })
     }
 
     const handleTagChange = (tag) => {
 
         if (post.tags.includes(tag)) {
-            const filterTags = post.tags.filter((currentTag) => currentTag !== tag)
+            const filterTags = post?.tags?.filter((currentTag) => currentTag !== tag)
             setPost({...post, tags: filterTags })
         }
         else {
@@ -106,7 +106,7 @@ const PostContentContainer = ({
                         type={'update'}
                         size='20'
                     />,
-            ftn: () => handleDeletePost(0, {}),
+            ftn: () => handleUpdatePost(0, {}),
         },
         {
             name: 'Create',
@@ -114,7 +114,7 @@ const PostContentContainer = ({
                         type={'plus'}
                         size='20'
                     />,
-            ftn: () => handleDeletePost(0),
+            ftn: () => handleCreatePost(0),
         },
     ] 
 
@@ -224,6 +224,11 @@ const PostContentContainer = ({
                         handleCategoryChange={handleCategoryChange}
                     />
 
+                    <UrlBox
+                        titleStr={post?.title}
+                        handleUrlChange={handleSEOChange}
+                    />
+
                 </div>
 
                 {/* delete, preview and update btns */}
@@ -259,13 +264,13 @@ const PostContentContainer = ({
                         >
                             {
                                 postView === 1
-                                ? bottomBtns[2].icon
-                                : bottomBtns[3].icon
+                                ? bottomBtns[3].icon
+                                : bottomBtns[2].icon
                             }
                             {
                                 postView === 1
-                                ? bottomBtns[2].name
-                                : bottomBtns[3].name
+                                ? bottomBtns[3].name
+                                : bottomBtns[2].name
                             }
                         </button>
 

@@ -48,7 +48,7 @@ const VerticalPostCard = ({
                                 pack='filled'
                                 className='size-2.5'
                             />
-                            {post?.category}
+                            {post?.category?.category_name}
                         </span>
                         <h3
                             className='text-text/80 text-xs flex-row flex gap-1 items-center'

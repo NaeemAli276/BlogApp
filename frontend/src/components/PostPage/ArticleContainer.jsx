@@ -39,7 +39,7 @@ const ArticleContainer = ({
             >
                 <Icon
                     type={'arrow'}
-                    // size='xs'
+                    size='16'
                     className='rotate-180'
                 />
                 Back to posts
@@ -93,8 +93,7 @@ const ArticleContainer = ({
                         >
                             <Icon
                                 type={'calendar'}
-                                size='xs'
-                                className='size-3.5'
+                                size='16'
                                 pack='filled'
                             />
                             {formatDate(post?.date)}
@@ -105,7 +104,7 @@ const ArticleContainer = ({
                         >
                             <Icon
                                 type={'clock'}
-                                size='xs'
+                                size='16'
                                 // className='size-2.5'
                                 pack='filled'
                             />

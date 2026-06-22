@@ -21,18 +21,25 @@ class TagController extends Controller
         ]);
     }
 
-    public function searchTag(Request $request) {
-
-        $searchTerm = $request->input('search');
-
-        $tags = Tag::where('tag_name', 'like', '%'. $searchTerm. '%')
-                ->latest()
-                ->paginate(15);
-
+    public function searchTag(Request $request)
+    {
+        $searchTerm = $request->input('search', ''); // Default to empty string
+        
+        $query = Tag::query();
+        
+        if (!empty($searchTerm)) {
+            $query->where('tag_name', 'like', '%' . $searchTerm . '%');
+        }
+        
+        $tags = $query->latest()->get();
+        
         return response()->json([
-            'tags' => $tags->pluck('tag_name')
+            'tags' => $tags,
+            // 'meta' => [
+            //     'total' => $tags->total(),
+            //     'search_term' => $searchTerm ?: 'Latest tags'
+            // ]
         ]);
-
     }
 
     /**

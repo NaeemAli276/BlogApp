@@ -69,7 +69,8 @@ const Icon = ({
         friends: 'mynaui:users-group',
         search: 'mynaui:search',
         imageStack: 'ph:images-square-light',
-        trash: 'mynaui:trash'
+        trash: 'mynaui:trash',
+        repeat: 'mynaui:repeat'
     }
 
     const iconName = icons[type] || type; 

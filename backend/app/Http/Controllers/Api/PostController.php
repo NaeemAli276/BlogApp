@@ -8,6 +8,8 @@ use App\Models\Category;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
 {
@@ -54,6 +56,34 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+
+        $validator = Validator::make($request->all(), [
+            'title' => 'required|string',
+            'excerpt' => 'required|string',
+            'thumbnail' => 'required|string',
+            'category' => 'required|string',
+            'url' => 'required|string',
+            'tags' => 'sometimes|array',
+            'tags.*' => 'exists:tags,id', // Each tag must exist
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $validated = $validator->validated();
+
+        $post = Post::create([
+            'title' => $request->title,
+            'excerpt' => $request->excerpt,
+            // thumbn
+        ]);
+        
+        // Handle many-to-many tags (if present)
+        if (isset($validated['tags'])) {
+            $post->tags()->sync($validated['tags']);
+        }
+
     }
 
     /**

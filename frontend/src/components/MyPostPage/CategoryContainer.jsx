@@ -35,7 +35,7 @@ const CategoryContainer = ({
                 <h2
                     className=''
                 >
-                    Selected Tags:
+                    Selected category:
                 </h2>
 
                 {/* selected tags */}
@@ -44,12 +44,12 @@ const CategoryContainer = ({
                 >
 
                     <h2
-                        className={`${category?.length <= 0 ? 'text-text/70' : 'text-text'}`}
+                        className={`${category?.category_name?.length <= 0 ? 'text-text/70' : 'text-text'}`}
                     >
                         {
-                            category?.length <= 0
+                            category?.category_name?.length <= 0
                             ?   'None' 
-                            :   category
+                            :   category?.category_name
                         }
                     </h2>
 
@@ -117,7 +117,7 @@ const CategoryContainer = ({
                                         `}
                                         onClick={() => handleCategory(cat)}
                                     >
-                                        {cat}
+                                        {cat?.category_name}
                                     </button>
                                 ))
                             }                            

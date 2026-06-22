@@ -88,7 +88,7 @@ const HeroPostCard = ({
                             size='xs'
                             pack='filled'
                         />
-                        {data?.category}
+                        {data?.category?.category_name}
                     </span>
 
                     {/* title */}

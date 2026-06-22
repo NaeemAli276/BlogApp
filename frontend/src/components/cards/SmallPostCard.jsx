@@ -64,7 +64,7 @@ const SmallPostCard = ({
                                 pack='filled'
                                 className='size-2.5'
                             />
-                            {post?.category}
+                            {post?.category?.category_name}
                         </span>
                     </div>
 

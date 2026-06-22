@@ -29,7 +29,10 @@ const MyPosts = () => {
         url: '',
         tags: [],
         metaDesc: '',
-        category: '',
+        category: {
+            id: null,
+            category_name: ''
+        },
         date: ''
     })
     
@@ -51,7 +54,10 @@ const MyPosts = () => {
                 url: '',
                 tags: [],
                 metaDesc: '',
-                category: '',
+                category: {
+                    id: null,
+                    category_name: ''
+                },
                 date: ''
             })    
             setPostView(1)
