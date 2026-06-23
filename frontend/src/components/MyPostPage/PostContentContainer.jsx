@@ -8,7 +8,7 @@ import Toolbar from '../btns/Toolbar'
 import ArticleTab from './ArticleTab'
 import UrlBox from './UrlBox'
 import LabelBox from './LabelBox'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import Icon  from '../../assets/Icon'
 
 const PostContentContainer = ({ 
@@ -19,6 +19,8 @@ const PostContentContainer = ({
     const tabs = ['Featured', 'Content', 'SEO']
     const [currentTab, setCurrentTab] = useState('Featured')
     const [post, setPost] = useState(selectedPost)
+
+    const navigate = useNavigate()
 
     // featured tab
 
@@ -64,7 +66,7 @@ const PostContentContainer = ({
     }
 
     const handlePreviewPost = () => {
-
+        navigate(`/preview/${post?.url}`, { state: post })
     }
 
     const handleUpdatePost = (id, post) => {
@@ -80,7 +82,7 @@ const PostContentContainer = ({
     }
 
     useEffect(() => {
-        console.log(post?.tags)
+        console.log(post)
     }, [post])
 
     const bottomBtns = [
@@ -169,6 +171,7 @@ const PostContentContainer = ({
                                     ${index <= 0 && 'rounded-tl'}
                                     ${currentTab === tab ? 'bg-background text-primary' : 'bg-secondary text-text'}    
                                 `}
+                                key={tab}
                             >
                                 {tab}
                             </button>
@@ -254,6 +257,7 @@ const PostContentContainer = ({
 
                         <button
                             className='flex pl-2.5 flex-row items-center gap-1 rounded p-2 px-3 bg-secondary text-primary hover:bg-primary hover:text-background duration-200 text-sm w-fit h-fit'
+                            onClick={bottomBtns[1].ftn}
                         >
                             {bottomBtns[1].icon}
                             {bottomBtns[1].name}

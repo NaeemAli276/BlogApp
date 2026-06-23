@@ -3,7 +3,7 @@ import TagBtn from '../../components/btns/TagBtn'
 import Icon from '../../assets/Icon'
 import TextInput from '../../components/inputs/TextInput'
 import { useQuery } from '@tanstack/react-query'
-import { getSearchedTags } from '../../apis/TagApi'
+import { getSearchedTags } from '../../apis/tagApi'
 import { useDebounce } from "@uidotdev/usehooks";
 
 

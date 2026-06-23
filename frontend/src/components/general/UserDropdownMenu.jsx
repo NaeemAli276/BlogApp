@@ -112,6 +112,7 @@ const UserDropdownMenu = () => {
                             <Link
                                 to={btn.path}
                                 className='p-2 px-3 rounded text-text/80 hover:bg-text/10 cursor-pointer active:bg-primary active:text-background duration-200 w-full h-fit flex gap-2.5 font-medium items-center text-sm'
+                                key={btn.name}
                             >   
                                 {btn.icon}
                                 {btn.name}

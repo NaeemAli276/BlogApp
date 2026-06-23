@@ -76,7 +76,7 @@ const SimilarPostsContainer = ({
 
     
     const { isLoading, error, data } = useQuery({
-        queryFn: () => getPostsFromCategory(category),
+        queryFn: () => getPostsFromCategory(category?.category_name),
         queryKey: ['posts_from_category', category]
     })
 
@@ -104,7 +104,7 @@ const SimilarPostsContainer = ({
                 <Icon
                     type={'sad'}
                     className='text-text'
-                    size='xl'
+                    size='80'
                 />
                 <h3
                     className='w-3/5 text-center'

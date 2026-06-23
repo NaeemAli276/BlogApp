@@ -68,9 +68,9 @@ const MyPosts = () => {
         }
     }
 
-    useEffect(() => {
-        console.log(selectedPost)
-    }, [selectedPost])
+    // useEffect(() => {
+    //     console.log(selectedPost)
+    // }, [selectedPost])
 
     if (isLoading) {
         return (

@@ -19,7 +19,7 @@ const UrlBox = ({ titleStr, handleUrlChange }) => {
             .replace(/--+/g, '-')           // Replace multiple hyphens with a single one
             .replace(/^-+|-+$/g, '');       // Trim hyphens from the start and end
     
-        handleUrlChange(slugifed, url)
+        handleUrlChange(slugifed, 'url')
         setUrl(slugifed)
 
     }

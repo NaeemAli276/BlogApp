@@ -116,6 +116,7 @@ const CategoryContainer = ({
                                             ${index === data?.length - 1 && 'rounded-b'}
                                         `}
                                         onClick={() => handleCategory(cat)}
+                                        key={cat?.id}
                                     >
                                         {cat?.category_name}
                                     </button>

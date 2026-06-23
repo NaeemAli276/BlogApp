@@ -10,6 +10,7 @@ import CommentsPage from './pages/dashboardPages/CommentsPage'
 import PostPage from './pages/default/PostPage'
 import LoginPage from './pages/auth/LoginPage'
 import Homepage from './pages/default/Homepage'
+import PreviewPage from './pages/dashboardPages/PreviewPage'
 
 // components
 import ProtectedRoute from './components/auth/ProtectedRoute'
@@ -116,6 +117,15 @@ const App = () => {
         <Route
           path='/Search'
           element={<SearchPage/>}
+        />
+
+        <Route
+          path='/preview/:url'
+          element={
+            <ProtectedRoute>
+              <PreviewPage/>
+            </ProtectedRoute>
+          }
         />
 
       </Routes>

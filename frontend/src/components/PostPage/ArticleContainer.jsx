@@ -84,7 +84,7 @@ const ArticleContainer = ({
                                 className='size-2.5'
                                 pack='filled'
                             />
-                            {post?.category}
+                            {post?.category?.category_name}
                         </span>
 
                         {/* date */}
