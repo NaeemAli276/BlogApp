@@ -3,10 +3,13 @@ import Comment from './Comment'
 import Toolbar from '../btns/Toolbar'
 import RichTextInput from '../inputs/RichTextInput'
 import Icon from '../../assets/Icon'
+import { useLocation } from 'react-router-dom'
 
 const CommentsSection = ({
     comments = []
 }) => {
+
+    const location = useLocation()
 
     // const [comments, setComments] = useState([
     //     {
@@ -59,6 +62,7 @@ const CommentsSection = ({
                     wordLimit={1024}
                     content={comment}
                     handleChangeContent={(e) => setComment(e.target.value)}
+                    enabled={location.pathname.includes('preview') ? false : true}
                 />
                 {/* submit btn */}
                 <button
@@ -91,12 +95,12 @@ const CommentsSection = ({
 
                     comments.length <= 0 
                     ?   <div
-                            className='flex flex-col gap-5 items-center justify-center w-full h-80 bg-text/10 rounded'
+                            className='flex flex-col gap-5 items-center justify-center w-full h-80 bg-black/10 rounded'
                         >   
                             <Icon
                                 type={'comments'}
                                 pack=''
-                                size='lg'
+                                size='80'
                                 className='text-text/70'
                             />
                             <div

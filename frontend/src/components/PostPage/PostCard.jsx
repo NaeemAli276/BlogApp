@@ -39,7 +39,7 @@ const PostCard = ({
                         <h3
                             className='text-sm p-1 px-2 rounded font-semibold bg-primary text-background z-50'
                         >
-                            {post?.category}
+                            {post?.category?.category_name}
                         </h3>
                     </div>
                 </div>

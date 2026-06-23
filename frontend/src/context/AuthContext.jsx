@@ -45,6 +45,9 @@ export const AuthProvider = ({ children }) => {
                 throw new error
             }
         }
+        else {
+            return null
+        }
     };
 
     const login = async (formDetails) => {

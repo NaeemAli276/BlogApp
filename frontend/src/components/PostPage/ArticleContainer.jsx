@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { formatCompactNumber, formatDate } from '../../utils/textUtils'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import RichTextViewer from './RichTextViewer'
 import AuthorBtn from '../btns/AuthorBtn'
 import Icon from '../../assets/Icon'
@@ -11,7 +11,8 @@ const ArticleContainer = ({
 }) => {
 
     const tags = ['tech', 'food', 'future']
-    const content = "<h2>Lorem ipsum dolor sit amet consectetur adipisicing elit. Error animi dolores nostrum natus unde atque consectetur nobis ut.</h2><p></p><p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Error animi dolores nostrum natus unde atque consectetur nobis ut, porro sit esse dolorum quaerat doloremque vel aut? Voluptatibus quam quasi deserunt.</p><p></p><img src=\"https://fastly.picsum.photos/id/573/960/544.jpg?hmac=ofppTMc_sLbA_7etXmTBDKoPgfyDrFeq1GYykJfuAys\" alt=\"https://fastly.picsum.photos/id/573/960/544.jpg?hmac=ofppTMc_sLbA_7etXmTBDKoPgfyDrFeq1GYykJfuAys\"><p></p><blockquote class=\"pl-4 max-w-none \"><p>this is a blockquote</p></blockquote><p></p><ol><li><p>this is a point</p></li><li><p>this is another point</p></li></ol><p></p><ul><li><p>this is an ordered point</p></li><li><p>this is another ordered point</p></li></ul><p></p><pre><code>Blockquote.configure({\n  HTMLAttributes: {\n    class: 'pl-4 max-w-none bg-background/0'\n  }\n}),</code></pre><p></p><p></p><p></p><p></p>"
+    const location = useLocation()
+    
     const [isDropdownActive, setIsDropdownActive] = useState(false)
     const menuBtns = [
         {
@@ -42,7 +43,11 @@ const ArticleContainer = ({
                     size='16'
                     className='rotate-180'
                 />
-                Back to posts
+                {
+                    location.pathname.includes('preview')
+                    ?   'Exit preview'
+                    :   'Back to posts'
+                }
             </Link>
 
             {/* title, details and thumbnails */}
@@ -80,8 +85,7 @@ const ArticleContainer = ({
                         >
                             <Icon
                                 type={'circle'}
-                                size='xs'
-                                className='size-2.5'
+                                size='10'
                                 pack='filled'
                             />
                             {post?.category?.category_name}
@@ -144,10 +148,12 @@ const ArticleContainer = ({
                     <div
                         className='absolute left-0 top-0 w-full rounded h-full bg-black/20'
                     >
-
                     </div>
                     <img 
-                        src={post?.thumbnail} 
+                        src={
+                            Object.prototype.toString.call(post?.thumbnail) === '[object String]'
+                            ?   post?.thumbnail 
+                            :   URL.createObjectURL(post?.thumbnail)} 
                         alt="" 
                         className='rounded w-full h-full'
                     />

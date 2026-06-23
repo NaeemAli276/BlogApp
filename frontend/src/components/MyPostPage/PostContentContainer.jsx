@@ -40,7 +40,7 @@ const PostContentContainer = ({
     // content tab
 
     const handleArticleChange = (contentHTML) => {
-        // setPost({ ...post , mainContent: contentHTML })
+        setPost({ ...post , mainContent: contentHTML })
     }
 
     // SEO tab

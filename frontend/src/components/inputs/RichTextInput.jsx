@@ -24,7 +24,8 @@ const RichTextInput = ({
   handleChangeContent, 
   hiddenComm,
   wordLimit=256,
-  className="prose prose-lg max-w-none focus:outline-none min-h-50 flex flex-col flex-1 h-full p-2 bg-background rounded text-text placeholder:text-text/50"
+  className="prose prose-lg max-w-none focus:outline-none min-h-50 flex flex-col flex-1 h-full p-2 bg-background rounded text-text placeholder:text-text/50",
+  enabled=true
 }) => {
 
   const [newContent, setNewContent] = useState(content) // used to make sure the content updates
@@ -119,6 +120,7 @@ const RichTextInput = ({
     },
     onUpdate: () => handleChangeContent(editor.getHTML()),
     immediatelyRender: true,
+    editable: enabled
   });
 
   const providerValue = useMemo(() => ({ editor }), [editor])

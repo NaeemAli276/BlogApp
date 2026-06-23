@@ -28,17 +28,9 @@ class PostResource extends JsonResource
                         'id'=> $this->category->id, 
                         'category_name'=> $this->category->category_name,
                     ];
-                    // return $this->category->category_name;
                 }),
                 'view_count' => $this->view_count,
                 'url' => $this->url,
-                'tags' => $this->whenLoaded('tags', function() {
-                    // return $this->tags->pluck('tag_name')->toArray();
-                    return [
-                        'id'=> $this->tags->id, 
-                        'tag_name'=> $this->tags->tag_name,
-                    ];
-                }, []),
             ];
         }
         
@@ -51,17 +43,16 @@ class PostResource extends JsonResource
             'date' => $this->created_at,
             'author' => new UserResource($this->whenLoaded('user')),
             'category' => $this->whenLoaded('category', function() {
-                // return [
-                //     // 'id'=> $this->category->id, 
-                //     // 'name'=> $this->category->category_name,
-                // ];
-                return $this->category->category_name;
+                return [
+                    'id'=> $this->category->id, 
+                    'category_name'=> $this->category->category_name,
+                ];
+                // return $this->category->category_name;
             }),
             'mainContent' => $this->mainContent,
             'tags' => $this->whenLoaded('tags', function() {
-                return $this->tags->pluck('tag_name')->toArray();
+                return $this->tags->isEmpty() ? [] : [ 'id' => $this->tags->id, 'tag_name' => $this->tags->tag_name ];
             }, []), // Return empty array if not loaded
-            // 'tags' => TagResource::collection($this->whenLoaded('tags')),
             'likes_count' => $this->whenCounted('likes'),
             'dislikes_count' => $this->whenCounted('dislikes'),       
             'url' => $this->url,
