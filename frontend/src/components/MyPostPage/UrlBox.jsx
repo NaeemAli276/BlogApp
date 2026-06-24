@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import TextInput from '../inputs/TextInput'
 import DropDownBox from './DropDownBox'
 import Icon from '../../assets/Icon'
 
-const UrlBox = ({ titleStr, handleUrlChange }) => {
+const UrlBox = ({ titleStr, handleUrlChange, currentUrl }) => {
     
-    const [url, setUrl] = useState('' || titleStr)
+    const [url, setUrl] = useState('')
 
     function slugify(text) {
         const slugifed = text
@@ -24,6 +24,9 @@ const UrlBox = ({ titleStr, handleUrlChange }) => {
 
     }
     
+    useEffect(() => {
+        setUrl(currentUrl)
+    }, [currentUrl])
 
     return (
         <DropDownBox

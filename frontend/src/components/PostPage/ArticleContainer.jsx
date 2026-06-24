@@ -165,14 +165,25 @@ const ArticleContainer = ({
                         className='absolute left-0 top-0 w-full rounded h-full bg-black/20'
                     >
                     </div>
-                    <img 
-                        src={
-                            Object.prototype.toString.call(post?.thumbnail) === '[object String]'
-                            ?   post?.thumbnail 
-                            :   URL.createObjectURL(post?.thumbnail)} 
-                        alt="" 
-                        className='rounded w-full h-full'
-                    />
+                    {
+                        post?.thumbnail === null || post?.thumbnail === undefined
+                        ?   <div
+                                className='w-full h-full flex items-center justify-center text-text'
+                            >
+                                <Icon
+                                    type={'imageStack'}
+                                    size='80'
+                                />
+                            </div>
+                        :   <img 
+                                src={
+                                    Object.prototype.toString.call(post?.thumbnail) === '[object String]'
+                                    ?   post?.thumbnail 
+                                    :   URL.createObjectURL(post?.thumbnail)} 
+                                alt="" 
+                                className='rounded w-full h-full'
+                            /> 
+                    }
                 </div>
             </div>
 
@@ -192,7 +203,8 @@ const ArticleContainer = ({
                     >
 
                         <button
-                            className='flex flex-row gap-1.5 items-center text-text/70 font-medium hover:text-primary duration-200 text-base/tight'
+                            className={`flex flex-row gap-1.5 items-center text-text/70 font-medium  duration-200 text-base/tight ${location.pathname.includes('preview') ? '' : 'hover:text-primary'}`}
+                            disabled={location.pathname.includes('preview') ? true : false}
                         >
                             {formatCompactNumber(post?.likes_count)}
                             <Icon
@@ -209,7 +221,8 @@ const ArticleContainer = ({
                         />
 
                         <button
-                            className='flex flex-row-reverse gap-1.5 items-center text-text/70 font-medium hover:text-primary duration-200 text-base/tight'
+                            className={`flex flex-row-reverse gap-1.5 items-center text-text/70 font-medium  duration-200 text-base/tight ${location.pathname.includes('preview') ? '' : 'hover:text-primary'}`}
+                            disabled={location.pathname.includes('preview') ? true : false}
                         >
                             {formatCompactNumber(post?.dislikes_count)}
                             <Icon

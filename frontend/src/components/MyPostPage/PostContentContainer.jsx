@@ -230,6 +230,7 @@ const PostContentContainer = ({
                     />
 
                     <UrlBox
+                        currentUrl={post?.url}
                         titleStr={post?.title}
                         handleUrlChange={handleSEOChange}
                     />
@@ -270,9 +271,9 @@ const PostContentContainer = ({
                         <button
                             className={`flex pl-2.5 flex-row items-center gap-1 rounded p-2 px-3 bg-primary text-background hover:bg-blue-900 duration-200 text-sm w-fit h-fit
                                 ${
-                                    post?.url?.length <= 1  &&
-                                    post?.thumbnail === null || post?.thumbnail === undefined &&
-                                    post?.category?.category_id === null &&
+                                    post?.url?.length <= 1  ||
+                                    post?.thumbnail === null || post?.thumbnail === undefined ||
+                                    post?.category?.category_id === null ||
                                     post?.title?.length <= 1 
 
                                     ?   'hidden'

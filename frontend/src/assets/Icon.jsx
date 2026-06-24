@@ -56,7 +56,7 @@ const Icon = ({
         plus: 'mynaui:plus',
         filter: 'mynaui:filter-one',
         user: 'mynaui:user',
-        update:'material-symbols-light:update-rounded',
+        update:'mynaui:upload',
         caret: 'tabler:caret-up-filled',
         compass: 'mynaui:compass',
         logout: 'mynaui:logout',
