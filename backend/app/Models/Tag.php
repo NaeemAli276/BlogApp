@@ -15,8 +15,8 @@ class Tag extends Model
         'tag_name'
     ];
 
-    public function post() {
-        return $this->belongsToMany(Post::class, 'post_tags', 'post_id', 'tag_id');
+    public function posts() {  // Should be plural 'posts'
+        return $this->belongsToMany(Post::class, 'post_tags', 'tag_id', 'post_id');
     }
 
 

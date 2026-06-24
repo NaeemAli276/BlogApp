@@ -74,13 +74,13 @@ const PostCard = ({
                                 post?.tags?.map((tag) => (
                                     <button
                                         className='text-xs bg-secondary text-primary px-2 p-1 rounded font-medium flex flex-row items-center gap-1'
-                                        key={tag}
+                                        key={tag?.id}
                                     >
                                         <Icon
                                             type={'circle'}
                                             size='8'
                                         /> 
-                                        {tag}
+                                        {tag?.tag_name}
                                     </button>
                                 ))
                             }

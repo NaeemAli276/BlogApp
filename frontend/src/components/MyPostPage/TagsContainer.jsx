@@ -135,7 +135,7 @@ const TagsContainer = ({
                 {
                     data?.length > 0 &&
                     <div
-                        className='flex flex-col w-full max-h-56 gap-1 p-3 overflow-y-scroll'
+                        className='flex flex-col w-full max-h-56 gap-1 p-3 overflow-y-scroll scrollbar-hide'
                     >
                         <h2
                             className='text-text text-sm'
@@ -148,7 +148,7 @@ const TagsContainer = ({
                             {
                                 data.map((tag) => (
                                     <TagBtn
-                                        isAlreadySelected={tags?.tag_name?.includes(tag)}
+                                        isAlreadySelected={tags?.includes(tag)}
                                         key={tag?.id}
                                         name={tag?.tag_name}
                                         handleTagChange={() => handleTagChange(tag)}

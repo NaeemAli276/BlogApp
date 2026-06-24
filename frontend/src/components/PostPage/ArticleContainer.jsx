@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { formatCompactNumber, formatDate } from '../../utils/textUtils'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import RichTextViewer from './RichTextViewer'
 import AuthorBtn from '../btns/AuthorBtn'
 import Icon from '../../assets/Icon'
@@ -12,6 +12,7 @@ const ArticleContainer = ({
 
     const tags = ['tech', 'food', 'future']
     const location = useLocation()
+    const navigation = useNavigate()
     
     const [isDropdownActive, setIsDropdownActive] = useState(false)
     const menuBtns = [
@@ -29,15 +30,26 @@ const ArticleContainer = ({
         }
     ]
 
+    const date = new Date().toISOString()
+
+    useEffect(() => {
+        console.log(date)
+    }, [])
+
     return (
         <div
             className='w-3/5 h-full rounded overflow-y-scroll scrollbar-hide flex items-start justify-start p-1 flex-col gap-4'
         >
-            
+
             <Link
                 className='flex flex-row items-center gap-1.5 text-text/70 hover:text-primary duration-200'
-                to={'/'}
+                to={
+                    location.pathname.includes('preview')
+                    ? navigation('/My_posts')
+                    : '/'
+                }
             >
+                
                 <Icon
                     type={'arrow'}
                     size='16'
@@ -100,7 +112,11 @@ const ArticleContainer = ({
                                 size='16'
                                 pack='filled'
                             />
-                            {formatDate(post?.date)}
+                            {
+                                post?.date === ""
+                                ?   formatDate(date)
+                                :   formatDate(post?.date)
+                            }
                         </span>
 
                         <span
@@ -120,12 +136,12 @@ const ArticleContainer = ({
                     <div
                         className='flex flex-wrap items-center gap-2 w-fit h-fit'
                     >
-                        {tags?.map((tag) => (
+                        {post?.tags?.map((tag) => (
                             <button
-                                key={tag}
+                                key={tag?.tag_name}
                                 className='p-1 px-2 rounded-md bg-text/10 text-text text-sm hover:bg-primary hover:text-background duration-200'
                             >
-                                # {tag}
+                                # {tag?.tag_name}
                             </button>
                         ))}
                     </div>

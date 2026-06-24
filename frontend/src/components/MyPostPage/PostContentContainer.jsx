@@ -8,7 +8,7 @@ import Toolbar from '../btns/Toolbar'
 import ArticleTab from './ArticleTab'
 import UrlBox from './UrlBox'
 import LabelBox from './LabelBox'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import Icon  from '../../assets/Icon'
 
 const PostContentContainer = ({ 
@@ -21,6 +21,7 @@ const PostContentContainer = ({
     const [post, setPost] = useState(selectedPost)
 
     const navigate = useNavigate()
+    const location = useLocation()
 
     // featured tab
 
@@ -82,8 +83,9 @@ const PostContentContainer = ({
     }
 
     useEffect(() => {
-        console.log(post)
-    }, [post])
+        setPost(selectedPost)
+        console.log(selectedPost)
+    }, [selectedPost])
 
     const bottomBtns = [
         {
@@ -238,7 +240,7 @@ const PostContentContainer = ({
                 <div
                     className={`w-full h-fit absolute left-0 bottom-0 bg-background rounded-b flex flex-row items-center ${postView === 1 ? 'justify-end' : 'justify-between'} p-2`}
                 >
-                    
+                        {/* delete btn */}
                         <div
                             className='w-full h-fit flex'
                         >
@@ -253,18 +255,30 @@ const PostContentContainer = ({
 
                     <div
                         className='w-fit h-fit flex flex-row items-center gap-2'
-                    >
+                    >   
 
+                        {/* preview btn */}
                         <button
-                            className='flex pl-2.5 flex-row items-center gap-1 rounded p-2 px-3 bg-secondary text-primary hover:bg-primary hover:text-background duration-200 text-sm w-fit h-fit'
+                            className={`${post?.url !== '' ? 'flex' : 'hidden'} pl-2.5 flex-row items-center gap-1 rounded p-2 px-3 bg-secondary text-primary hover:bg-primary hover:text-background duration-200 text-sm w-fit h-fit`}
                             onClick={bottomBtns[1].ftn}
                         >
                             {bottomBtns[1].icon}
                             {bottomBtns[1].name}
                         </button>
 
+                        {/* create or update btn */}
                         <button
-                            className='flex pl-2.5 flex-row items-center gap-1 rounded p-2 px-3 bg-primary text-background hover:bg-blue-900 duration-200 text-sm w-fit h-fit'
+                            className={`flex pl-2.5 flex-row items-center gap-1 rounded p-2 px-3 bg-primary text-background hover:bg-blue-900 duration-200 text-sm w-fit h-fit
+                                ${
+                                    post?.url?.length <= 1  &&
+                                    post?.thumbnail === null || post?.thumbnail === undefined &&
+                                    post?.category?.category_id === null &&
+                                    post?.title?.length <= 1 
+
+                                    ?   'hidden'
+                                    :   'flex'
+                                }    
+                            `}
                         >
                             {
                                 postView === 1

@@ -91,7 +91,7 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        $post = Post::with('user', 'comments.user', 'tags', 'category')
+        $post = Post::with(['user', 'comments.user', 'tags', 'category'])
                 ->withCount(['likes', 'dislikes'])
                 ->findOrFail($id)
                 ->recordView();
