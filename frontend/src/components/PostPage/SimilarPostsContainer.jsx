@@ -13,10 +13,6 @@ const SimilarPostsContainer = ({
         queryKey: ['posts_from_category', category?.category_name]
     })
 
-    useEffect(() => (
-        console.log(data)
-    ), [data])
-
     if (isLoading) {
         return (
             <div

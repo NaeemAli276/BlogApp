@@ -8,7 +8,7 @@ import Toolbar from '../btns/Toolbar'
 import ArticleTab from './ArticleTab'
 import UrlBox from './UrlBox'
 import LabelBox from './LabelBox'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { data, Link, useLocation, useNavigate } from 'react-router-dom'
 import Icon  from '../../assets/Icon'
 
 const PostContentContainer = ({ 
@@ -67,7 +67,16 @@ const PostContentContainer = ({
     }
 
     const handlePreviewPost = () => {
-        navigate(`/preview/${post?.url}`, { state: post })
+        navigate(
+            `/preview/${post?.url}`, 
+            { 
+                state:{
+                    from: 'My_posts',
+                    data: post,
+                    scrollPosition: window.scrollY
+                }
+            }
+        )
     }
 
     const handleUpdatePost = (id, post) => {

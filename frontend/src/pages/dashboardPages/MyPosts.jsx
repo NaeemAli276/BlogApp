@@ -8,6 +8,7 @@ import { getMyPosts } from '../../apis/postApi'
 import { useAuth } from '../../context/AuthContext'
 import Icon from '../../assets/Icon'
 import PostContentContainer from '../../components/MyPostPage/PostContentContainer'
+import { useLocation } from 'react-router-dom'
 
 const MyPosts = () => {
 
@@ -18,23 +19,26 @@ const MyPosts = () => {
         queryKey: ['get_my_posts', user?.id]
     })
 
+    const location = useLocation()
+
     const [postView, setPostView] = useState(0) // 0: empty state, 1: new post, 2: editing post not related to the component PostsView
     const [selectedPost, setSelectedPost] = useState(
-    {
-        id: null,
-        title: '',
-        thumbnail: null,
-        excerpt: '',
-        mainContent: ``,
-        url: '',
-        tags: [],
-        metaDesc: '',
-        category: {
+        {
             id: null,
-            category_name: ''
-        },
-        date: ''
-    })
+            title: '',
+            thumbnail: null,
+            excerpt: '',
+            mainContent: ``,
+            url: '',
+            tags: [],
+            metaDesc: '',
+            category: {
+                id: null,
+                category_name: ''
+            },
+            date: ''
+        }
+    )
     
     /* 
         params
@@ -71,6 +75,22 @@ const MyPosts = () => {
     // useEffect(() => {
     //     console.log(selectedPost)
     // }, [selectedPost])
+
+    // used to remember state when coming back from preview
+    useEffect(() => {
+        const state = location.state;
+        console.log(state)
+        if (state) {
+            if (state?.data?.id !== null) {
+                setSelectedPost(state?.data)
+                setPostView(2)
+            }
+            else {
+                setSelectedPost(state?.data)
+                setPostView(1)
+            }
+        }
+    }, [location.state]);
 
     if (isLoading) {
         return (

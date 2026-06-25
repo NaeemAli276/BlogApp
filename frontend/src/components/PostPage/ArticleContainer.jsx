@@ -30,6 +30,12 @@ const ArticleContainer = ({
         }
     ]
 
+    const handleNavigateBack = () => {
+
+        
+
+    }
+
     const date = new Date().toISOString()
 
     useEffect(() => {
@@ -45,10 +51,13 @@ const ArticleContainer = ({
                 className='flex flex-row items-center gap-1.5 text-text/70 hover:text-primary duration-200'
                 to={
                     location.pathname.includes('preview')
-                    ? navigation('/My_posts')
+                    ? navigation('/My_posts',
+                        { state: post }
+                    )
                     : '/'
                 }
             >
+                
                 
                 <Icon
                     type={'arrow'}
@@ -153,13 +162,33 @@ const ArticleContainer = ({
                     className='w-full h-fit aspect-video relative'
                 >
                     <div
-                        className='absolute bottom-3 left-3 z-20'
+                        className='absolute top-0 left-0 z-20 w-full h-fit'
                     >
-                        <AuthorBtn
-                            author={post?.author}
-                            textTheme='light'
-                            // hideEmail={true}
-                        />
+                        <div
+                            className='w-full h-fit p-3 px-4 flex items-start justify-between'
+                        >
+
+                            <AuthorBtn
+                                author={post?.author}
+                                textTheme='light'
+                                // hideEmail={true}
+                            />
+
+                            <span
+                                className='text-background flex items-center gap-1'
+                            >
+                                <Icon
+                                    type={'eye'}
+                                    size='20'
+                                />
+                                {
+                                    post?.view_count !== null || post?.view_count !== undefined
+                                    ?   formatCompactNumber(post?.view_count)
+                                    :   0
+                                }
+                            </span>
+                        </div>
+
                     </div>
                     <div
                         className='absolute left-0 top-0 w-full rounded h-full bg-black/20'

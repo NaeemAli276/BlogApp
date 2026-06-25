@@ -10,7 +10,7 @@ const PreviewPage = () => {
     
     const location = useLocation()
 
-    const post = location.state
+    const post = location?.state?.data
 
     useEffect(() => {
         console.log(post)

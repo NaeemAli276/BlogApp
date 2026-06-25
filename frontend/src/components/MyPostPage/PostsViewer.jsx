@@ -29,7 +29,7 @@ const PostsViewer = ({
     if (posts?.length <= 0) {
         return (
             <div
-                className='bg-background shadow shadow-text/30 rounded col-span-6 row-span-16 flex items-center justify-center w-full h-full flex-col gap-2'
+                className='bg-background shadow shadow-text/50 rounded col-span-6 row-span-16 flex items-center justify-center w-full h-full flex-col gap-2'
             >
                 <div
                     className='flex flex-col gap-1 w-fit h-fit items-center justify-center'
