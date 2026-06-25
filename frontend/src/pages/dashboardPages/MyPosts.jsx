@@ -80,17 +80,18 @@ const MyPosts = () => {
     useEffect(() => {
         const state = location.state;
         console.log(state)
-        if (state) {
-            if (state?.data?.id !== null) {
-                setSelectedPost(state?.data)
+        if (state?.from === 'preview') {
+            if (state?.post?.id !== null) {
+                setSelectedPost(state?.post)
                 setPostView(2)
             }
             else {
-                setSelectedPost(state?.data)
+                setSelectedPost(state?.post)
                 setPostView(1)
             }
         }
-    }, [location.state]);
+    
+    }, [location]);
 
     if (isLoading) {
         return (
@@ -119,6 +120,7 @@ const MyPosts = () => {
                     className='w-1/6 text-center'
                 >
                     An error has occured, please try reloading the page
+                    
                 </h3>
             </div>
         )

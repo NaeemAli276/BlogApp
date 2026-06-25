@@ -32,7 +32,14 @@ const ArticleContainer = ({
 
     const handleNavigateBack = () => {
 
-        
+        const selectedPost = post 
+
+        navigation('/My_posts', { state: 
+            {
+                from: 'preview',
+                post: selectedPost
+            } 
+        })
 
     }
 
@@ -47,17 +54,14 @@ const ArticleContainer = ({
             className='w-3/5 h-full rounded overflow-y-scroll scrollbar-hide flex items-start justify-start p-1 flex-col gap-4'
         >
 
-            <Link
+            <button
                 className='flex flex-row items-center gap-1.5 text-text/70 hover:text-primary duration-200'
-                to={
+                onClick={
                     location.pathname.includes('preview')
-                    ? navigation('/My_posts',
-                        { state: post }
-                    )
-                    : '/'
+                    ?   () => handleNavigateBack()
+                    :   navigation('/')
                 }
             >
-                
                 
                 <Icon
                     type={'arrow'}
@@ -69,7 +73,7 @@ const ArticleContainer = ({
                     ?   'Exit preview'
                     :   'Back to posts'
                 }
-            </Link>
+            </button>
 
             {/* title, details and thumbnails */}
             <div
