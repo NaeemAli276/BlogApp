@@ -72,6 +72,7 @@ class PostController extends Controller
             'is_published' => 'required|boolean',
             'mainContent' => 'required|string',
             'category_id' => 'required|exists:categories,id', 
+            'user_id' => 'required|exists:users,id'
         ]);
 
         if ($validator->fails()) {
@@ -86,16 +87,27 @@ class PostController extends Controller
             Log::info('Thumbnail uploaded', ['path' => $thumbnailPath]);
         }
 
-        $post = Post::create([
-            'title' => $request->title,
-            'excerpt' => $request->excerpt,
-            'thumbnail' => $thumbnailPath,
-            'mainContent' => $request->mainContent,
-            'url' => $request->url,
-            'is_published' => $request->is_published,
-            'user_id' => Auth::id(),
-            'category_id' => $request->category_id,
-        ]);
+        // $post = Post::create([
+        //     'title' => $request->title,
+        //     'excerpt' => $request->excerpt,
+        //     'thumbnail' => $thumbnailPath,
+        //     'mainContent' => $request->mainContent,
+        //     'url' => $request->url,
+        //     'is_published' => $request->is_published,
+        //     'user_id' => $request->user()->id,
+        //     'category_id' => $request->category_id,
+        // ]);
+
+        // Create the post with user_id
+        $post = new Post();
+        $post->user_id = Auth::id(); // or $request->user()->id
+        $post->title = $validated['title'];
+        $post->excerpt = $validated['excerpt'] ?? null;
+        $post->thumbnail = $validated['thumbnail'] ?? null;
+        $post->mainContent = $validated['mainContent'];
+        $post->url = $validated['url'] ?? null;
+        $post->category_id = $validated['category_id'];
+        $post->save();
         
         // Handle many-to-many tags (if present)
         if (isset($validated['tags'])) {
@@ -103,6 +115,10 @@ class PostController extends Controller
         }
 
         $post->load('user', 'tags', 'category');
+
+        if ($post->thumbnail) {
+            $post->thumbnail = asset('storage/' . $post->thumbnail);
+        }
 
         return response()->json([
             'message' => 'Post created successfully',

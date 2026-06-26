@@ -153,7 +153,7 @@ const MyPosts = () => {
                     postView={postView}
                     selectedPost={selectedPost}
                 />
-
+    
             </DashboardLayout>   
         )
     }

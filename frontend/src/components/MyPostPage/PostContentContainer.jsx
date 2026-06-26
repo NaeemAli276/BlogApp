@@ -34,7 +34,7 @@ const PostContentContainer = ({
 
     const createPostMutation = useMutation({
         mutationFn: () => createPost(post),
-        mutationKey: ['create_post'],
+        mutationKey: ['create_post', post],
         onMutate: async (data) => {
 
             await queryClient.cancelQueries({ querykey: ['get_my_posts'] })

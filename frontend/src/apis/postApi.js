@@ -4,8 +4,9 @@ const apiClient = axios.create({
     baseURL: 'http://localhost:8000/api',
     timeout: 10000,
     headers: {
-        'Content-Type': 'application/json',
-        'X-Requested-With': 'XMLHttpRequest',
+        // 'Content-Type': 'application/json',
+        // 'X-Requested-With': 'XMLHttpRequest',
+        'Accept': 'application/json'
     },
     withCredentials: true
 });
@@ -195,34 +196,47 @@ export async function getMyPosts(id) {
 
 export async function createPost(post) {
 
-    // Debug: Check if thumbnail is a File object
-    console.log('🔍 THUMBNAIL DEBUG:');
-    console.log('Type:', typeof post.thumbnail);
-    console.log('Is File?', post.thumbnail instanceof File);
-    console.log('Is Blob?', post.thumbnail instanceof Blob);
-    console.log('Value:', post.thumbnail);
-    
-    if (post.thumbnail instanceof File) {
-        console.log('File name:', post.thumbnail.name);
-        console.log('File size:', post.thumbnail.size);
-        console.log('File type:', post.thumbnail.type);
+    const formData = new FormData();
+
+    // Append simple text/numeric values
+    formData.append('title', post?.title || '');
+    formData.append('excerpt', post?.excerpt || '');
+    formData.append('category_id', post?.category?.id || '');
+    formData.append('url', post?.url || '');
+    formData.append('mainContent', post?.mainContent || '');
+    formData.append('user_id', post?.author?.id || '');
+
+    // Convert boolean to 1 or 0 (Laravel handles this best in FormData)
+    formData.append('is_published', post?.is_published ? '1' : '0');
+
+    // Append the file/blob object
+    if (post?.thumbnail) {
+        formData.append('thumbnail', post?.thumbnail); 
     }
 
-    const formattedPost = {
-        id: null,
-        title: post?.title,
-        excerpt: post?.excerpt,
-        thumbnail: post?.thumbnail,
-        category_id: post?.category?.id,
-        tags: post?.tags?.map((tag) => (tag?.id)),
-        url: post?.url,
-        is_published: post?.is_published,
-        mainContent: post?.mainContent
+    // Append arrays by using square brackets 'tags[]'
+    if (post?.tags) {
+        post.tags.forEach((tag) => {
+            if (tag?.id) {
+                formData.append('tags[]', tag.id);
+            }
+        });
     }
 
-    console.log(formattedPost)
+    // // Log FormData content to verify (you cannot console.log(formData) directly)
+    // for (let [key, value] of formData.entries()) {
+    //     console.log(`${key}:`, value);
+    // }
 
-    const response = await apiClient.post('/posts-crud/create', formattedPost)
+    // Send the FormData object directly
+    const response = await apiClient.post('/posts-crud/create', formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
+    });
+
+    console.log(response.data)
     return response.data;
+
 
 }
