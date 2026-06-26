@@ -36,9 +36,9 @@ const App = () => {
         <Route
           path='/My_posts'
           element={
-            // <ProtectedRoute>
+            <ProtectedRoute>
               <MyPosts/>
-            // </ProtectedRoute>
+            </ProtectedRoute>
           }
         />
 

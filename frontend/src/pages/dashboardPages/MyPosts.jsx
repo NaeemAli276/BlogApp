@@ -32,11 +32,13 @@ const MyPosts = () => {
             url: '',
             tags: [],
             metaDesc: '',
+            author: user,
             category: {
                 id: null,
                 category_name: ''
             },
-            date: ''
+            date: '',
+            is_published: false
         }
     )
     
@@ -58,11 +60,13 @@ const MyPosts = () => {
                 url: '',
                 tags: [],
                 metaDesc: '',
+                author: user,
                 category: {
                     id: null,
                     category_name: ''
                 },
-                date: ''
+                date: '',
+                is_published: false
             })    
             setPostView(1)
         }
@@ -120,7 +124,6 @@ const MyPosts = () => {
                     className='w-1/6 text-center'
                 >
                     An error has occured, please try reloading the page
-                    
                 </h3>
             </div>
         )

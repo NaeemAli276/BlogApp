@@ -9,6 +9,7 @@ use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
@@ -57,14 +58,20 @@ class PostController extends Controller
     public function store(Request $request)
     {
 
+        Log::info('request received', [
+            $request->all()
+        ]);
+
         $validator = Validator::make($request->all(), [
             'title' => 'required|string',
             'excerpt' => 'required|string',
-            'thumbnail' => 'required|string',
-            'category' => 'required|string',
+            'thumbnail' => 'required|image|mimes:jpeg,png,jpg,gif,bmp|max:2048',
             'url' => 'required|string',
             'tags' => 'sometimes|array',
-            'tags.*' => 'exists:tags,id', // Each tag must exist
+            'tags.*' => 'exists:tags,id', // Each tag must exist,
+            'is_published' => 'required|boolean',
+            'mainContent' => 'required|string',
+            'category_id' => 'required|exists:categories,id', 
         ]);
 
         if ($validator->fails()) {
@@ -73,16 +80,34 @@ class PostController extends Controller
 
         $validated = $validator->validated();
 
+        $thumbnailPath = null;
+        if ($request->hasFile('thumbnail')) {
+            $thumbnailPath = $this->uploadThumbnail($request->file('thumbnail'));
+            Log::info('Thumbnail uploaded', ['path' => $thumbnailPath]);
+        }
+
         $post = Post::create([
             'title' => $request->title,
             'excerpt' => $request->excerpt,
-            // thumbn
+            'thumbnail' => $thumbnailPath,
+            'mainContent' => $request->mainContent,
+            'url' => $request->url,
+            'is_published' => $request->is_published,
+            'user_id' => Auth::id(),
+            'category_id' => $request->category_id,
         ]);
         
         // Handle many-to-many tags (if present)
         if (isset($validated['tags'])) {
             $post->tags()->sync($validated['tags']);
         }
+
+        $post->load('user', 'tags', 'category');
+
+        return response()->json([
+            'message' => 'Post created successfully',
+            'post' => $post,
+        ], 201);
 
     }
 
@@ -158,6 +183,13 @@ class PostController extends Controller
             // ->paginate(15);
     
         return PostResource::collection($posts);
+    }
+
+    protected function uploadThumbnail($file)
+    {
+        $filename = time() . '_' . $file->getClientOriginalName();
+        $path = $file->storeAs('thumbnails', $filename, 'public');
+        return $path;
     }
 
 }

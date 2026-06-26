@@ -13,6 +13,11 @@ const Sidebar = () => {
     const location = useLocation()
     const navigate = useNavigate()
 
+    const handleLogout = () => {
+        logout()
+        navigate('/login')
+    }
+
     const sidebarBtns = [
         // {
         //     name: 'Analytics',
@@ -97,7 +102,7 @@ const Sidebar = () => {
                 {/* logout btn */}
                 <button
                     className='text-rose-500 p-1 rounded hover:bg-rose-100  duration-200 active:bg-rose-100'
-                    onClick={() => logout()}
+                    onClick={() => handleLogout()}
                 >
                     <Icon
                         type='logout'

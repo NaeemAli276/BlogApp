@@ -5,10 +5,10 @@ import { getCategories } from '../../apis/categoryApi'
 
 const CategoryContainer = ({ 
     category = '',
-    handleCategoryChange
+    handleCategoryChange,
+    isCategoryDropdownActive,
+    handleChangeDropDown
 }) => {
-
-    const [isDropdownActive, setIsDropdownActive] = useState(false)
 
     const { isLoading, error, data } = useQuery({
         queryKey: ['get_categories'],
@@ -16,7 +16,7 @@ const CategoryContainer = ({
     })
 
     const handleCategory = (category) => {
-        setIsDropdownActive(false)
+        handleChangeDropDown('category', false)
         handleCategoryChange(category)
     }
 
@@ -29,7 +29,7 @@ const CategoryContainer = ({
             {/* selected tags box */}
             <div
                 className='flex flex-col gap-1 w-full h-full relative'
-                onClick={() => setIsDropdownActive(!isDropdownActive)}
+                onClick={() => handleChangeDropDown('category' ,!isCategoryDropdownActive)}
             >
 
                 <h2
@@ -55,20 +55,20 @@ const CategoryContainer = ({
 
                     <button
                         className='bg-background rounded top-8 right-0.5 absolute p-1.5 px-2 z-10 cursor-pointer'
-                        // onClick={() => setIsDropdownActive(!isDropdownActive)}
+                        // onClick={() => setisCategoryDropdownActive(!isCategoryDropdownActive)}
                         type='button'
                     >
                         <Icon
                             size='24'
                             type={'chevron'}
-                            className={`text-primary ${isDropdownActive ? 'rotate-180' : 'rotate-0'} cursor-pointer`}
+                            className={`text-primary ${isCategoryDropdownActive ? 'rotate-180' : 'rotate-0'} cursor-pointer`}
                         />
                     </button>
                 </div>
 
                 {/* dropdown */}
                 <div
-                    className={`${isDropdownActive ? 'flex' : 'hidden'} flex-col gap-0 min-h-56 min-w-80 max-w-80 bg-background absolute top-20 rounded right-0 shadow z-60 shadow-text/70`}
+                    className={`${isCategoryDropdownActive ? 'flex' : 'hidden'} flex-col gap-0 min-h-56 min-w-80 max-w-80 bg-background absolute top-20 rounded right-0 shadow z-60 shadow-text/70`}
                 >
                     {/* loading state */}
                     {

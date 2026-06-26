@@ -10,20 +10,94 @@ import UrlBox from './UrlBox'
 import LabelBox from './LabelBox'
 import { data, Link, useLocation, useNavigate } from 'react-router-dom'
 import Icon  from '../../assets/Icon'
+import { slugify } from '../../utils/textUtils'
+import IsPublishedBox from '../MyPostPage/IsPublishedBox'
+import { QueryClient, useMutation, useQueryClient } from '@tanstack/react-query'
+import { createPost } from '../../apis/postApi'
+import { useAuth } from '../../context/AuthContext'
 
 const PostContentContainer = ({ 
     postView = 0,
     selectedPost = {}
 }) => {
 
-    const tabs = ['Featured', 'Content', 'SEO']
-    const [currentTab, setCurrentTab] = useState('Featured')
+    const { user } = useAuth()
+
+    const tabs = ['Main', 'Content', 'SEO']
+    const [currentTab, setCurrentTab] = useState('Main')
     const [post, setPost] = useState(selectedPost)
 
     const navigate = useNavigate()
     const location = useLocation()
 
+    const queryClient = useQueryClient()
+
+    const createPostMutation = useMutation({
+        mutationFn: () => createPost(post),
+        mutationKey: ['create_post'],
+        onMutate: async (data) => {
+
+            await queryClient.cancelQueries({ querykey: ['get_my_posts'] })
+
+            const previousPosts = queryClient.getQueryData(['get_my_posts']);
+
+            const optimisticPost = {
+                id: new Date().toLocaleDateString(),
+                title: data?.title,
+                excerpt: data?.excerpt,
+                thumbnail: data?.thumbnail,
+                author: user,
+                category: data?.category,
+                tags: data?.tags,
+                url: data?.url,
+                mainContent: data?.mainContent,
+                date: data?.date,
+                isOptimistic: true
+            }
+
+            queryClient.setQueryData(['get_my_posts'], (old) => {
+                return old ? [optimisticPost, ...old] : [optimisticPost]
+            })
+
+            return { previousPosts }
+
+        },
+        onSuccess: (data) => {
+
+            queryClient.setQueryData(['get_my_posts'], (old) => {
+                return old.map(post => 
+                    post?.id === `temp-${new Date().toLocaleDateString()}`
+                    ?   { ...data?.data, isOptimistic:false }
+                    :   post
+                )
+            })
+
+        },
+        onError: (error, variables, context) => {
+            // Rollback to previous state on error
+            if (context?.previousPosts) {
+                queryClient.setQueryData(['get_my_posts'], context.previousPosts);
+            }
+            console.error('Failed to add post:', error);
+        },  
+        onSettled: (data, error, variables, context) => {
+            // Always refetch to ensure consistency
+            queryClient.invalidateQueries({ queryKey: ['get_my_posts'] });
+        },
+
+    })
+
     // featured tab
+
+    const handleTitleChange = (e) => {
+
+        const title = e.target.value
+
+        const url = slugify(title)
+
+        setPost({ ...post, title: title, url: url })
+
+    }
 
     const handleThumbnail = (image) => {
         if (post.thumbnail === image) {
@@ -66,7 +140,12 @@ const PostContentContainer = ({
         setPost({...post, category: cat})
     }
 
+    const handlePublishChange = () => {
+        setPost({ ...post, is_published: !post?.is_published })
+    }
+
     const handlePreviewPost = () => {
+
         navigate(
             `/preview/${post?.url}`, 
             { 
@@ -83,8 +162,8 @@ const PostContentContainer = ({
 
     }
 
-    const handleCreatePost = (post) => {
-
+    const handleCreatePost = () => {
+        createPostMutation.mutate(post)
     }
 
     const handleDeletePost = (id) => {
@@ -93,8 +172,12 @@ const PostContentContainer = ({
 
     useEffect(() => {
         setPost(selectedPost)
-        console.log(selectedPost)
     }, [selectedPost])
+
+    // useEffect(() => {
+    //     console.log(post)
+    // }, [post])
+    
 
     const bottomBtns = [
         {
@@ -192,12 +275,12 @@ const PostContentContainer = ({
 
                 {/* featured */}
                 <div
-                    className={`${currentTab === 'Featured' ? 'flex' : 'hidden'} flex flex-col gap-3 px-5  overflow-y-scroll scrollbar-hide pb-10 w-full h-full`}
+                    className={`${currentTab === 'Main' ? 'flex' : 'hidden'} flex flex-col gap-3 px-5  overflow-y-scroll scrollbar-hide pb-10 w-full h-full`}
                 >
                     
                     <TitleBlock
                         title={post?.title}
-                        setTitle={(e) => setPost({...post, title: e.target.value})}
+                        setTitle={handleTitleChange}
                     />
 
                     <FeaturedImageBlock
@@ -226,7 +309,7 @@ const PostContentContainer = ({
 
                 </div>
 
-                {/* Content */}
+                {/* SEO */}
                 <div
                     className={`${currentTab === 'SEO' ? 'flex' : 'hidden'} flex flex-col gap-3 px-5  overflow-y-scroll scrollbar-hide pb-10 w-full h-full`}
                 >
@@ -238,10 +321,15 @@ const PostContentContainer = ({
                         handleCategoryChange={handleCategoryChange}
                     />
 
-                    <UrlBox
+                    {/* <UrlBox
                         currentUrl={post?.url}
                         titleStr={post?.title}
                         handleUrlChange={handleSEOChange}
+                    /> */}
+
+                    <IsPublishedBox
+                        isPublished={post?.isPublished}
+                        handleChangePublish={() => handlePublishChange()}
                     />
 
                 </div>
@@ -269,7 +357,7 @@ const PostContentContainer = ({
 
                         {/* preview btn */}
                         <button
-                            className={`${post?.url !== '' ? 'flex' : 'hidden'} pl-2.5 flex-row items-center gap-1 rounded p-2 px-3 bg-secondary text-primary hover:bg-primary hover:text-background duration-200 text-sm w-fit h-fit`}
+                            className={`${post?.title === "" ? 'hidden' : 'flex'} pl-2.5 flex-row items-center gap-1 rounded p-2 px-3 bg-secondary text-primary hover:bg-primary hover:text-background duration-200 text-sm w-fit h-fit`}
                             onClick={bottomBtns[1].ftn}
                         >
                             {bottomBtns[1].icon}
@@ -280,7 +368,7 @@ const PostContentContainer = ({
                         <button
                             className={`flex pl-2.5 flex-row items-center gap-1 rounded p-2 px-3 bg-primary text-background hover:bg-blue-900 duration-200 text-sm w-fit h-fit
                                 ${
-                                    post?.url?.length <= 1  ||
+                                    // post?.url?.length <= 1  ||
                                     post?.thumbnail === null || post?.thumbnail === undefined ||
                                     post?.category?.category_id === null ||
                                     post?.title?.length <= 1 
@@ -289,6 +377,11 @@ const PostContentContainer = ({
                                     :   'flex'
                                 }    
                             `}
+                            onClick={
+                                postView === 1
+                                ? bottomBtns[3].ftn
+                                : bottomBtns[2].ftn
+                            }
                         >
                             {
                                 postView === 1

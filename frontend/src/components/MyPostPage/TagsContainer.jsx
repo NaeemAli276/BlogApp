@@ -9,18 +9,32 @@ import { useDebounce } from "@uidotdev/usehooks";
 
 const TagsContainer = ({
     tags = [],
-    handleTagChange = {}
+    handleTagChange = {},
+    handleChangeDropDown,
+    isTagsDropdownActive
 }) => {
 
-    const [isDropdownActive, setIsDropdownActive] = useState(false)
     const [searchQuery, setSearchQuery] = useState('')
     const debouncedSearch = useDebounce(searchQuery, 1000)
 
     const { isLoading, error, data } = useQuery({
         queryKey: ['get_searchedTags', searchQuery],
-        queryFn: () => getSearchedTags(searchQuery),
+        queryFn: () => handleGetSearchedTags(searchQuery),
         // enabled: debouncedSearch.length > 0
+        refetchInterval: 7500,
     })
+
+    const handleGetSearchedTags = async (query) => {
+
+        const tagsFromQuery = await getSearchedTags(query)
+
+        const availableTags = tagsFromQuery.filter((tagQ) => 
+            !tags.some(tag => tag?.id === tagQ?.id)
+        )
+
+        return availableTags
+
+    }
 
     return (
         <div
@@ -30,7 +44,7 @@ const TagsContainer = ({
             {/* selected tags box */}
             <div
                 className='flex flex-col gap-1 w-full h-full relative'
-                // onClick={() => setIsDropdownActive(!isDropdownActive)}
+                // onClick={() => setisTagsDdopDownActive(!isTagsDropdownActive)}
             >
 
                 <h2
@@ -61,13 +75,13 @@ const TagsContainer = ({
                     }
                     <button
                         className='bg-background rounded top-8 right-0.5 absolute p-1.5 px-2 z-10 cursor-pointer'
-                        onClick={() => setIsDropdownActive(!isDropdownActive)}
+                        onClick={() => handleChangeDropDown('tags', !isTagsDropdownActive)}
                         type='button'
                     >
                         <Icon
                             size='24'
                             type={'chevron'}
-                            className={`text-primary ${isDropdownActive ? 'rotate-180' : 'rotate-0'} cursor-pointer`}
+                            className={`text-primary ${isTagsDropdownActive ? 'rotate-180' : 'rotate-0'} cursor-pointer`}
                         />
                     </button>
                 </div>
@@ -75,7 +89,7 @@ const TagsContainer = ({
 
             {/* tags dropdown */}
             <div
-                className={`${isDropdownActive ? 'flex' : 'hidden'} flex-col gap-0 min-h-56 min-w-80 max-w-80 bg-background absolute top-20 rounded right-0 shadow z-60 shadow-text/70`}
+                className={`${isTagsDropdownActive ? 'flex' : 'hidden'} flex-col gap-0 min-h-56 min-w-80 max-w-80 bg-background absolute top-20 rounded right-0 shadow z-60 shadow-text/70`}
             >
 
                 <div

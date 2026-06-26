@@ -1,10 +1,10 @@
-export function slugify(str) {
-    str.toLowerCase()
-        .trim()
-        .replace(/[^\w\s-]/g, '')
-        .replace(/[\s_-]+/g, '-')
-        .replace(/^-+|-+$/g, '');
-}
+// export function slugify(str) {
+//     str.toLowerCase()
+//         .trim()
+//         .replace(/[^\w\s-]/g, '')
+//         .replace(/[\s_-]+/g, '-')
+//         .replace(/^-+|-+$/g, '');
+// }
 
 export function truncateText(str, maxLength) {
     if (str.length > maxLength) {
@@ -43,3 +43,19 @@ export function formatDate(dateString) {
     
     return `${day} ${month} ${year}`;
 };
+
+export function slugify(text) {
+    const slugifed = text
+        .toString()                     // Ensure input is a string
+        .normalize('NFD')               // Separate base letters from their accents
+        .replace(/[\u0300-\u036f]/g, '') // Remove the separated accent marks
+        .toLowerCase()                  // Convert to lowercase
+        .trim()                         // Remove whitespace from both ends
+        .replace(/\s+/g, '-')           // Replace spaces with hyphens
+        .replace(/[^\w-]+/g, '')        // Remove all non-word chars (except hyphens)
+        .replace(/--+/g, '-')           // Replace multiple hyphens with a single one
+        .replace(/^-+|-+$/g, '');       // Trim hyphens from the start and end
+
+    return slugifed
+
+}

@@ -6,7 +6,7 @@ const AuthorBtn = ({
     author = {
         username: '',
         email: '',
-        profileImg: ''
+        profileImg: null
     },
     hideEmail = false,
     disabled = false,
