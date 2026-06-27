@@ -20,7 +20,8 @@ const PostContentContainer = ({
     postView = 0,
     selectedPost = {},
     handleToggleModal,
-    handleCreatePost
+    handleCreatePost,
+    handleUpdatePost
 }) => {
 
     const { user } = useAuth()
@@ -33,8 +34,6 @@ const PostContentContainer = ({
     const location = useLocation()
 
     const queryClient = useQueryClient()
-
-    
 
     // featured tab 
 
@@ -107,10 +106,6 @@ const PostContentContainer = ({
         )
     }
 
-    const handleUpdatePost = (id, post) => {
-
-    }
-
     useEffect(() => {
         setPost(selectedPost)
     }, [selectedPost])
@@ -143,7 +138,7 @@ const PostContentContainer = ({
                         type={'update'}
                         size='20'
                     />,
-            ftn: () => handleUpdatePost(0, {}),
+            ftn: () => handleUpdatePost(post),
         },
         {
             name: 'Create',

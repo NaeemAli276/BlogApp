@@ -236,7 +236,6 @@ export async function createPost(post) {
         },
     });
 
-    console.log(response.data)
     return response.data;
 
 
@@ -245,4 +244,50 @@ export async function createPost(post) {
 export async function deletePost(id) {
     const response = await apiClient.delete(`/posts-crud/delete/${id}`);
     return response.data; // or response.status for success confirmation
+}
+
+export async function updatePost(post) {
+    
+    const formData = new FormData();
+
+    // Append simple text/numeric values
+    formData.append('title', post?.title || '');
+    formData.append('excerpt', post?.excerpt || '');
+    formData.append('category_id', post?.category?.id || '');
+    formData.append('url', post?.url || '');
+    formData.append('mainContent', post?.mainContent || '');
+    formData.append('user_id', post?.author?.id || '');
+
+    // Convert boolean to 1 or 0 (Laravel handles this best in FormData)
+    formData.append('is_published', post?.is_published ? '1' : '0');
+
+    // Append the file/blob object
+    if (post?.thumbnail) {
+        formData.append('thumbnail', post?.thumbnail); 
+    }
+
+    // Append arrays by using square brackets 'tags[]'
+    if (post?.tags) {
+        post.tags.forEach((tag) => {
+            if (tag?.id) {
+                formData.append('tags[]', tag.id);
+            }
+        });
+    }
+
+    // // Log FormData content to verify (you cannot console.log(formData) directly)
+    // for (let [key, value] of formData.entries()) {
+    //     console.log(`${key}:`, value);
+    // }
+
+    // Send the FormData object directly
+    const response = await apiClient.put(`/posts-crud/update/${post?.id}`, formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
+    });
+
+    console.log(response.data)
+    return response.data;
+
 }

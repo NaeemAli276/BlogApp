@@ -4,7 +4,7 @@ import PostsViewer from '../../components/MyPostPage/PostsViewer'
 import AnalyticsCard from '../../components/cards/AnalyticsCard'
 import PostCreator from '../../components/MyPostPage/PostCreator'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { deletePost, getMyPosts, createPost } from '../../apis/postApi'
+import { deletePost, getMyPosts, createPost, updatePost } from '../../apis/postApi'
 import { useAuth } from '../../context/AuthContext'
 import Icon from '../../assets/Icon'
 import PostContentContainer from '../../components/MyPostPage/PostContentContainer'
@@ -149,6 +149,26 @@ const MyPosts = () => {
         },
 
     })
+
+    const updatePostMutation = useMutation({
+        mutationFn: updatePost,
+        mutationKey: ['update_post'],
+        onSuccess: (updatedPost) => {
+
+            queryClient.setQueryData(['get_my_posts'], (oldData) => {
+                return oldData?.posts.map((post) => 
+                    post?.id === updatedPost?.id ? updatedPost : post 
+                )
+            })
+
+            // Also update individual post query if it exists
+            queryClient.setQueryData(['post', updatedPost.id], updatedPost);
+
+        },
+        onError: (error) => {
+            console.error('Update error:', error);
+        }
+    })
     
     /* 
         params
@@ -213,6 +233,10 @@ const MyPosts = () => {
 
     const handleCreatePost = (post) => {
         createPostMutation.mutate(post)
+    }
+
+    const handleUpdatePost = (post) => {
+        updatePostMutation.mutate(post)
     }
 
     // useEffect(() => {
@@ -293,6 +317,7 @@ const MyPosts = () => {
                     selectedPost={selectedPost}
                     handleToggleModal={handleToggleModal}
                     handleCreatePost={handleCreatePost}
+                    handleUpdatePost={handleUpdatePost}
                 />
 
                 <ConfirmationModal

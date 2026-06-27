@@ -45,10 +45,6 @@ const ArticleContainer = ({
 
     const date = new Date().toISOString()
 
-    useEffect(() => {
-        console.log(date)
-    }, [])
-
     return (
         <div
             className='w-3/5 h-full rounded overflow-y-scroll scrollbar-hide flex items-start justify-start p-1 flex-col gap-4'
@@ -71,7 +67,7 @@ const ArticleContainer = ({
                 {
                     location.pathname.includes('preview')
                     ?   'Exit preview'
-                    :   'Back to posts'
+                    :   'Previous'
                 }
             </button>
 
@@ -126,7 +122,7 @@ const ArticleContainer = ({
                                 pack='filled'
                             />
                             {
-                                post?.date === ""
+                                post?.date === "" || post?.date === null
                                 ?   formatDate(date)
                                 :   formatDate(post?.date)
                             }
