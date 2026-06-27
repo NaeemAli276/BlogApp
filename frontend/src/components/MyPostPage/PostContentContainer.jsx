@@ -19,7 +19,8 @@ import { useAuth } from '../../context/AuthContext'
 const PostContentContainer = ({ 
     postView = 0,
     selectedPost = {},
-    handleToggleModal
+    handleToggleModal,
+    handleCreatePost
 }) => {
 
     const { user } = useAuth()
@@ -33,60 +34,7 @@ const PostContentContainer = ({
 
     const queryClient = useQueryClient()
 
-    const createPostMutation = useMutation({
-        mutationFn: () => createPost(post),
-        mutationKey: ['create_post', post],
-        onMutate: async (data) => {
-
-            await queryClient.cancelQueries({ querykey: ['get_my_posts'] })
-
-            const previousPosts = queryClient.getQueryData(['get_my_posts']);
-
-            const optimisticPost = {
-                id: new Date().toLocaleDateString(),
-                title: data?.title,
-                excerpt: data?.excerpt,
-                thumbnail: data?.thumbnail,
-                author: user,
-                category: data?.category,
-                tags: data?.tags,
-                url: data?.url,
-                mainContent: data?.mainContent,
-                date: data?.date,
-                isOptimistic: true
-            }
-
-            queryClient.setQueryData(['get_my_posts'], (old) => {
-                return old ? [optimisticPost, ...old] : [optimisticPost]
-            })
-
-            return { previousPosts }
-
-        },
-        onSuccess: (data) => {
-
-            queryClient.setQueryData(['get_my_posts'], (old) => {
-                return old.map(post => 
-                    post?.id === `temp-${new Date().toLocaleDateString()}`
-                    ?   { ...data?.data, isOptimistic:false }
-                    :   post
-                )
-            })
-
-        },
-        onError: (error, variables, context) => {
-            // Rollback to previous state on error
-            if (context?.previousPosts) {
-                queryClient.setQueryData(['get_my_posts'], context.previousPosts);
-            }
-            console.error('Failed to add post:', error);
-        },  
-        onSettled: (data, error, variables, context) => {
-            // Always refetch to ensure consistency
-            queryClient.invalidateQueries({ queryKey: ['get_my_posts'] });
-        },
-
-    })
+    
 
     // featured tab 
 
@@ -163,10 +111,6 @@ const PostContentContainer = ({
 
     }
 
-    const handleCreatePost = () => {
-        createPostMutation.mutate(post)
-    }
-
     useEffect(() => {
         setPost(selectedPost)
     }, [selectedPost])
@@ -207,7 +151,7 @@ const PostContentContainer = ({
                         type={'plus'}
                         size='20'
                     />,
-            ftn: () => handleCreatePost(0),
+            ftn: () => handleCreatePost(post),
         },
     ] 
 

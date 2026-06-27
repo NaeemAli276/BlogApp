@@ -4,7 +4,7 @@ import PostsViewer from '../../components/MyPostPage/PostsViewer'
 import AnalyticsCard from '../../components/cards/AnalyticsCard'
 import PostCreator from '../../components/MyPostPage/PostCreator'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { deletePost, getMyPosts } from '../../apis/postApi'
+import { deletePost, getMyPosts, createPost } from '../../apis/postApi'
 import { useAuth } from '../../context/AuthContext'
 import Icon from '../../assets/Icon'
 import PostContentContainer from '../../components/MyPostPage/PostContentContainer'
@@ -14,6 +14,31 @@ import ConfirmationModal from '../../components/modals/ConfirmationModal'
 const MyPosts = () => {
 
     const { user } = useAuth()
+
+    const location = useLocation()
+
+    const [isConfirmationModalActive, setIsConfirmationModalActive] = useState(false)
+
+    const [postView, setPostView] = useState(0) // 0: empty state, 1: new post, 2: editing post not related to the component PostsView
+    const [selectedPost, setSelectedPost] = useState(
+        {
+            id: null,
+            title: '',
+            thumbnail: null,
+            excerpt: '',
+            mainContent: ``,
+            url: '',
+            tags: [],
+            metaDesc: '',
+            author: user,
+            category: {
+                id: null,
+                category_name: ''
+            },
+            date: '',
+            is_published: false
+        }
+    )
 
     const { isLoading, error, data } = useQuery({
         queryFn: () => getMyPosts(user?.id),
@@ -67,30 +92,63 @@ const MyPosts = () => {
         },
     })
 
-    const location = useLocation()
+    const createPostMutation = useMutation({
+        mutationFn: createPost,
+        mutationKey: ['create_post'],
+        onMutate: async (data) => {
 
-    const [isConfirmationModalActive, setIsConfirmationModalActive] = useState(false)
+            await queryClient.cancelQueries({ querykey: ['get_my_posts', user?.id] })
 
-    const [postView, setPostView] = useState(0) // 0: empty state, 1: new post, 2: editing post not related to the component PostsView
-    const [selectedPost, setSelectedPost] = useState(
-        {
-            id: null,
-            title: '',
-            thumbnail: null,
-            excerpt: '',
-            mainContent: ``,
-            url: '',
-            tags: [],
-            metaDesc: '',
-            author: user,
-            category: {
-                id: null,
-                category_name: ''
-            },
-            date: '',
-            is_published: false
-        }
-    )
+            const previousPosts = queryClient.getQueryData(['get_my_posts', user?.id]);
+
+            const optimisticPost = {
+                id: new Date().toLocaleDateString(),
+                title: data?.title,
+                excerpt: data?.excerpt,
+                thumbnail: data?.thumbnail,
+                author: user,
+                category: data?.category,
+                tags: data?.tags,
+                url: data?.url,
+                mainContent: data?.mainContent,
+                date: data?.date,
+                isOptimistic: true
+            }
+
+            queryClient.setQueryData(['get_my_posts', user?.id], (old) => {
+                return old ? [optimisticPost, ...old] : [optimisticPost]
+            })
+
+            return { previousPosts }
+
+        },
+        onSuccess: (data) => {
+
+            queryClient.setQueryData(['get_my_posts', user?.id], (old) => {
+                return old.map(post => 
+                    post?.id === `temp-${new Date().toLocaleDateString()}`
+                    ?   { ...data?.data, isOptimistic:false }
+                    :   post
+                )
+            })
+
+            setPostView(2)
+            setSelectedPost(data?.post)
+
+        },
+        onError: (error, variables, context) => {
+            // Rollback to previous state on error
+            if (context?.previousPosts) {
+                queryClient.setQueryData(['get_my_posts', user?.id], context.previousPosts);
+            }
+            console.error('Failed to add post:', error);
+        },  
+        onSettled: (data, error, variables, context) => {
+            // Always refetch to ensure consistency
+            queryClient.invalidateQueries({ queryKey: ['get_my_posts', user?.id] });
+        },
+
+    })
     
     /* 
         params
@@ -151,6 +209,10 @@ const MyPosts = () => {
             is_published: false
         })
         setPostView(0)
+    }
+
+    const handleCreatePost = (post) => {
+        createPostMutation.mutate(post)
     }
 
     // useEffect(() => {
@@ -230,6 +292,7 @@ const MyPosts = () => {
                     postView={postView}
                     selectedPost={selectedPost}
                     handleToggleModal={handleToggleModal}
+                    handleCreatePost={handleCreatePost}
                 />
 
                 <ConfirmationModal

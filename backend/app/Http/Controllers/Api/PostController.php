@@ -159,52 +159,47 @@ class PostController extends Controller
         $post = Post::findOrFail($id);
 
         $validator = Validator::make($request->all(), [
-            'title' => 'required|string',
-            'excerpt' => 'required|string',
-            'thumbnail' => 'required|image|mimes:jpeg,png,jpg,gif,bmp|max:2048',
-            'url' => 'required|string',
+            'title' => 'sometimes|string|max:255',
+            'excerpt' => 'sometimes|string',
+            'mainContent' => 'sometimes|string',
+            'thumbnail' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'category_id' => 'sometimes|exists:categories,id',
+            'url' => 'sometimes|string|unique:posts,url,' . $id,
             'tags' => 'sometimes|array',
-            'tags.*' => 'exists:tags,id', // Each tag must exist,
-            'is_published' => 'required|boolean',
-            'mainContent' => 'required|string',
-            'category_id' => 'required|exists:categories,id', 
-            'user_id' => 'required|exists:users,id'
+            'tags.*' => 'exists:tags,id',
+            'is_published' => 'sometimes|boolean',
         ]);
 
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
         try {
-
+            // Handle thumbnail upload (old one will be auto-deleted by model event)
             if ($request->hasFile('thumbnail')) {
-                
-                if ($post->thumbnail) {
-                    $this->deleteThumbnail($post->thumbnail);
-                }
-
-                // Upload new thumbnail
                 $file = $request->file('thumbnail');
                 $filename = time() . '_' . Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . $file->getClientOriginalExtension();
                 $thumbnailPath = $file->storeAs('thumbnails', $filename, 'public');
                 
+                // Set the new thumbnail - the updating event will handle deletion
                 $post->thumbnail = $thumbnailPath;
-
-                // Update other fields
-                $post->fill($request->except(['thumbnail', 'tags']));
-                $post->save();
-
-                // Update tags if provided
-                if ($request->has('tags')) {
-                    $post->tags()->sync($request->tags);
-                }
-
-                $post->load(['user', 'tags', 'category']);
-                $post->thumbnail_url = $post->thumbnail ? asset('storage/' . $post->thumbnail) : null;
-
-                return response()->json([
-                    'message' => 'Post updated successfully',
-                    'post' => $post,
-                ], 200);
-
             }
 
+            // Update other fields
+            $post->fill($request->except(['thumbnail', 'tags']));
+            $post->save(); // This triggers the updating event
+
+            // Update tags if provided
+            if ($request->has('tags')) {
+                $post->tags()->sync($request->tags);
+            }
+
+            $post->load(['user', 'tags', 'category']);
+
+            return response()->json([
+                'message' => 'Post updated successfully',
+                'post' => $post,
+            ], 200);
         }
         catch (Exception $e) {
             Log::error('Update error:', ['error' => $e->getMessage()]);
@@ -227,9 +222,9 @@ class PostController extends Controller
             return response()->json(['message' => 'Post not found'], 404);
         }
 
-        if ($post->thumbnail) {
-            $this->deleteThumbnail($post->thumbnail);
-        }
+        // if ($post->thumbnail) {
+        //     $this->deleteThumbnail($post->thumbnail);
+        // }
 
         $post->delete();
         return response()->json(['message' => 'Post deleted successfully']);
