@@ -30,6 +30,77 @@ class Post extends Model
 
     ];
 
+        protected $appends = ['thumbnail_url'];
+
+    // ✅ Boot method to register model events
+    protected static function boot()
+    {
+        parent::boot();
+
+        // Delete old thumbnail when updating
+        static::updating(function ($post) {
+            if ($post->isDirty('thumbnail')) {
+                $oldThumbnail = $post->getOriginal('thumbnail');
+                if ($oldThumbnail) {
+                    $post->deleteThumbnailFile($oldThumbnail);
+                }
+            }
+        });
+
+        // Delete thumbnail when deleting the post
+        static::deleting(function ($post) {
+            if ($post->thumbnail) {
+                $post->deleteThumbnailFile($post->thumbnail);
+            }
+        });
+    }
+
+    // Method to delete thumbnail file
+    public function deleteThumbnailFile($thumbnailPath)
+    {
+        try {
+            // Skip if it's a URL (external image)
+            if (filter_var($thumbnailPath, FILTER_VALIDATE_URL)) {
+                Log::info('External URL, skipping deletion', ['url' => $thumbnailPath]);
+                return;
+            }
+
+            // Clean the path
+            $path = ltrim($thumbnailPath, '/');
+            if (str_starts_with($path, 'storage/')) {
+                $path = str_replace('storage/', '', $path);
+            }
+
+            // Delete if exists
+            if (Storage::disk('public')->exists($path)) {
+                Storage::disk('public')->delete($path);
+                Log::info('Thumbnail deleted:', ['path' => $path]);
+            } else {
+                Log::warning('Thumbnail not found for deletion:', ['path' => $path]);
+            }
+
+        } catch (\Exception $e) {
+            Log::error('Error deleting thumbnail:', [
+                'path' => $thumbnailPath,
+                'error' => $e->getMessage()
+            ]);
+        }
+    }
+
+    // Accessor for thumbnail URL
+    public function getThumbnailUrlAttribute()
+    {
+        if (!$this->thumbnail) {
+            return null;
+        }
+
+        if (filter_var($this->thumbnail, FILTER_VALIDATE_URL)) {
+            return $this->thumbnail;
+        }
+
+        return asset('storage/' . $this->thumbnail);
+    }
+
     public function user() {
         return $this->belongsTo(User::class);
     }

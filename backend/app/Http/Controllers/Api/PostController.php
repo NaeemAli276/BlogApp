@@ -7,6 +7,7 @@ use App\Http\Resources\PostResource;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -152,9 +153,67 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Post $post)
+    public function update(Request $request, $id)
     {
-        //
+
+        $post = Post::findOrFail($id);
+
+        $validator = Validator::make($request->all(), [
+            'title' => 'required|string',
+            'excerpt' => 'required|string',
+            'thumbnail' => 'required|image|mimes:jpeg,png,jpg,gif,bmp|max:2048',
+            'url' => 'required|string',
+            'tags' => 'sometimes|array',
+            'tags.*' => 'exists:tags,id', // Each tag must exist,
+            'is_published' => 'required|boolean',
+            'mainContent' => 'required|string',
+            'category_id' => 'required|exists:categories,id', 
+            'user_id' => 'required|exists:users,id'
+        ]);
+
+        try {
+
+            if ($request->hasFile('thumbnail')) {
+                
+                if ($post->thumbnail) {
+                    $this->deleteThumbnail($post->thumbnail);
+                }
+
+                // Upload new thumbnail
+                $file = $request->file('thumbnail');
+                $filename = time() . '_' . Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . $file->getClientOriginalExtension();
+                $thumbnailPath = $file->storeAs('thumbnails', $filename, 'public');
+                
+                $post->thumbnail = $thumbnailPath;
+
+                // Update other fields
+                $post->fill($request->except(['thumbnail', 'tags']));
+                $post->save();
+
+                // Update tags if provided
+                if ($request->has('tags')) {
+                    $post->tags()->sync($request->tags);
+                }
+
+                $post->load(['user', 'tags', 'category']);
+                $post->thumbnail_url = $post->thumbnail ? asset('storage/' . $post->thumbnail) : null;
+
+                return response()->json([
+                    'message' => 'Post updated successfully',
+                    'post' => $post,
+                ], 200);
+
+            }
+
+        }
+        catch (Exception $e) {
+            Log::error('Update error:', ['error' => $e->getMessage()]);
+            return response()->json([
+                'message' => 'Failed to update post',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+
     }
 
     /**
@@ -166,6 +225,10 @@ class PostController extends Controller
 
         if (!$post) {
             return response()->json(['message' => 'Post not found'], 404);
+        }
+
+        if ($post->thumbnail) {
+            $this->deleteThumbnail($post->thumbnail);
         }
 
         $post->delete();
@@ -209,11 +272,48 @@ class PostController extends Controller
         return PostResource::collection($posts);
     }
 
+    // useful functions
+
     protected function uploadThumbnail($file)
     {
         $filename = time() . '_' . $file->getClientOriginalName();
         $path = $file->storeAs('thumbnails', $filename, 'public');
         return $path;
+    }
+
+    protected function deleteThumbnail($thumbnailPath)
+    {
+        try {
+            // Check if it's a URL or stored path
+            if (filter_var($thumbnailPath, FILTER_VALIDATE_URL)) {
+                // It's a URL - you might want to handle external URLs differently
+                // For external URLs, you usually don't delete them
+                Log::info('External URL, skipping deletion', ['url' => $thumbnailPath]);
+                return;
+            }
+            
+            // Remove any leading slashes
+            $path = ltrim($thumbnailPath, '/');
+            
+            // Check if it's a storage path
+            if (str_starts_with($path, 'storage/')) {
+                $path = str_replace('storage/', '', $path);
+            }
+            
+            // Delete the file if it exists
+            if (Storage::disk('public')->exists($path)) {
+                Storage::disk('public')->delete($path);
+                Log::info('Thumbnail deleted:', ['path' => $path]);
+            } else {
+                Log::warning('Thumbnail not found:', ['path' => $path]);
+            }
+            
+        } catch (\Exception $e) {
+            Log::error('Failed to delete thumbnail:', [
+                'path' => $thumbnailPath,
+                'error' => $e->getMessage()
+            ]);
+        }
     }
 
 }
