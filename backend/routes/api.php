@@ -50,6 +50,7 @@ Route::middleware('auth:sanctum')->group(function() {
     // posts
     Route::prefix('posts-crud')->group(function() {
         Route::post('/create', [PostController::class, 'store']);
+        Route::delete('/delete/{id}', [PostController::class, 'destroy']);
     });
 
 });

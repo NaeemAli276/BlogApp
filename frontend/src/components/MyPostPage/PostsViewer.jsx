@@ -119,7 +119,7 @@ const PostsViewer = ({
                     className='flex flex-col gap-2 w-full h-full p-0.5 overflow-y-scroll pb-20 scrollbar-hide'
                 >
                     {
-                        posts.map((post) => (
+                        posts?.map((post) => (
                             <PostCard   
                                 key={post.id}
                                 post={post} 

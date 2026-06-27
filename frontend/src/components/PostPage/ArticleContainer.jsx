@@ -59,7 +59,7 @@ const ArticleContainer = ({
                 onClick={
                     location.pathname.includes('preview')
                     ?   () => handleNavigateBack()
-                    :   navigation('/')
+                    :   () => navigation(-1)
                 }
             >
                 

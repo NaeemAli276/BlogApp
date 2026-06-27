@@ -185,7 +185,8 @@ export async function getMyPosts(id) {
             }
         })
 
-        return data
+        console.log(data.data)
+        return data.data
 
     }
     catch (error) {
@@ -239,4 +240,9 @@ export async function createPost(post) {
     return response.data;
 
 
+}
+
+export async function deletePost(id) {
+    const response = await apiClient.delete(`/posts-crud/delete/${id}`);
+    return response.data; // or response.status for success confirmation
 }

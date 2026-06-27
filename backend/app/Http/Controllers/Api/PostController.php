@@ -160,9 +160,17 @@ class PostController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Post $post)
+    public function destroy($id)
     {
-        //
+        $post = Post::find($id);
+
+        if (!$post) {
+            return response()->json(['message' => 'Post not found'], 404);
+        }
+
+        $post->delete();
+        return response()->json(['message' => 'Post deleted successfully']);
+        
     }
 
     // gets the most popular post

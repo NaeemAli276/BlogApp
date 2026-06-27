@@ -3,6 +3,7 @@ import { formatCompactNumber, formatDate, truncateText } from '../../utils/textU
 import AuthorBtn from '../btns/AuthorBtn'
 import { Link } from 'react-router-dom'
 import Icon from '../../assets/Icon'
+import RichTextViewer from '../PostPage/RichTextViewer'
 
 const VerticalPostCard = ({
     post
@@ -66,11 +67,10 @@ const VerticalPostCard = ({
 
                         {truncateText(post?.title, 68)}
                     </h3>
-                    <p
+                    <RichTextViewer
+                        content={post?.excerpt}
                         className='text-text/70 text-sm'
-                    >
-                        {truncateText(post?.excerpt, 120)}
-                    </p>
+                    />
                 </div>
                 <div
                     className='flex flex-row items-end justify-between w-full h-fit'

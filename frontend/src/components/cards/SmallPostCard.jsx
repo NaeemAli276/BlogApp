@@ -75,7 +75,7 @@ const SmallPostCard = ({
             <img 
                 src={post?.thumbnail} 
                 alt="" 
-                className='rounded z-0'
+                className='rounded z-0 aspect-video w-full h-full'
             />
 
         </div>

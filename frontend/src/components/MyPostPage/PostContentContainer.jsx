@@ -18,7 +18,8 @@ import { useAuth } from '../../context/AuthContext'
 
 const PostContentContainer = ({ 
     postView = 0,
-    selectedPost = {}
+    selectedPost = {},
+    handleToggleModal
 }) => {
 
     const { user } = useAuth()
@@ -166,10 +167,6 @@ const PostContentContainer = ({
         createPostMutation.mutate(post)
     }
 
-    const handleDeletePost = (id) => {
-
-    }
-
     useEffect(() => {
         setPost(selectedPost)
     }, [selectedPost])
@@ -186,7 +183,7 @@ const PostContentContainer = ({
                         type={'trash'}
                         size='20'
                     />,
-            ftn: () => handleDeletePost(0),
+            ftn: () => handleToggleModal(),
         },
         {
             name: 'Preview',
@@ -344,6 +341,7 @@ const PostContentContainer = ({
                         >
                             <button
                                 className={`flex pl-2.5 flex-row items-center gap-1 rounded p-2 px-3 bg-rose-100 text-rose-500 hover:bg-rose-500 hover:text-background duration-200 text-sm w-fit h-fit ${postView === 1 ? 'hidden' : 'flex'}`}
+                                onClick={bottomBtns[0].ftn}
                             >
                                 {bottomBtns[0].icon}
                                 {bottomBtns[0].name}

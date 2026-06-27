@@ -3,12 +3,13 @@ import DashboardLayout from '../../components/Layout/DashboardLayout'
 import PostsViewer from '../../components/MyPostPage/PostsViewer'
 import AnalyticsCard from '../../components/cards/AnalyticsCard'
 import PostCreator from '../../components/MyPostPage/PostCreator'
-import { useQuery } from '@tanstack/react-query'
-import { getMyPosts } from '../../apis/postApi'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { deletePost, getMyPosts } from '../../apis/postApi'
 import { useAuth } from '../../context/AuthContext'
 import Icon from '../../assets/Icon'
 import PostContentContainer from '../../components/MyPostPage/PostContentContainer'
 import { useLocation } from 'react-router-dom'
+import ConfirmationModal from '../../components/modals/ConfirmationModal'
 
 const MyPosts = () => {
 
@@ -19,7 +20,56 @@ const MyPosts = () => {
         queryKey: ['get_my_posts', user?.id]
     })
 
+    const queryClient = useQueryClient()
+
+    const deleteMutation = useMutation({
+        mutationFn: deletePost,
+        mutationKey: ['delete_post'],
+        onMutate: async (deletedId) => {
+            if (!user?.id) return { previousPosts: [] };
+
+            await queryClient.cancelQueries({ 
+                queryKey: ['get_my_posts', user?.id] 
+            });
+
+            // Get previous data with fallback
+            const previousPosts = queryClient.getQueryData(['get_my_posts', user?.id]) || [];
+
+            // Update the cache with safety checks
+            queryClient.setQueryData(['get_my_posts', user?.id], (oldData) => {
+                // If oldData is undefined or null, return empty array
+                if (!oldData) return [];
+                
+                // Filter out the deleted post
+                return oldData?.posts?.filter((post) => post.id !== deletedId);
+            });
+
+            return { previousPosts };
+        },
+
+        onError: (error, deletedId, context) => {
+            // Restore previous data
+            if (user?.id) {
+                queryClient.setQueryData(
+                    ['get_my_posts', user?.id], 
+                    context?.previousPosts || []
+                );
+            }
+            console.error('Delete error:', error);
+        },
+
+        onSettled: () => {
+            if (user?.id) {
+                queryClient.invalidateQueries({ 
+                    queryKey: ['get_my_posts', user?.id] 
+                });
+            }
+        },
+    })
+
     const location = useLocation()
+
+    const [isConfirmationModalActive, setIsConfirmationModalActive] = useState(false)
 
     const [postView, setPostView] = useState(0) // 0: empty state, 1: new post, 2: editing post not related to the component PostsView
     const [selectedPost, setSelectedPost] = useState(
@@ -74,6 +124,33 @@ const MyPosts = () => {
             setSelectedPost({...post})
             setPostView(2)
         }
+    }
+
+    const handleToggleModal = () => {
+        setIsConfirmationModalActive(!isConfirmationModalActive)
+    }  
+    
+    const handleDeletePost = (id) => {
+        deleteMutation.mutate(id)
+        setIsConfirmationModalActive(false)
+        setSelectedPost({
+            id: null,
+            title: '',
+            thumbnail: null,
+            excerpt: '',
+            mainContent: ``,
+            url: '',
+            tags: [],
+            metaDesc: '',
+            author: user,
+            category: {
+                id: null,
+                category_name: ''
+            },
+            date: '',
+            is_published: false
+        })
+        setPostView(0)
     }
 
     // useEffect(() => {
@@ -145,13 +222,20 @@ const MyPosts = () => {
                     ))
                 } */}
                 <PostsViewer
-                    posts={data?.posts}
+                    posts={data}
                     handlePostSelect={handlePostSelect}
                 />
 
                 <PostContentContainer
                     postView={postView}
                     selectedPost={selectedPost}
+                    handleToggleModal={handleToggleModal}
+                />
+
+                <ConfirmationModal
+                    isActive={isConfirmationModalActive}
+                    cancelFtn={() => handleToggleModal()}
+                    ftn={() => handleDeletePost(selectedPost?.id)}
                 />
     
             </DashboardLayout>   
