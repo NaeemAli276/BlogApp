@@ -119,7 +119,7 @@ const MyPosts = () => {
                     type={'sad'}
                     size='80'
                     className='text-text'
-                />
+                />  
                 <h3
                     className='w-1/6 text-center'
                 >

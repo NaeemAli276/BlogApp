@@ -34,13 +34,20 @@ class PostResource extends JsonResource
 
         //     ];
         // }
-        
+
+        $thumbnail = $this->thumbnail;
+
+        if (!filter_var($thumbnail, FILTER_VALIDATE_URL)) {
+            // String is not a valid URL
+            $thumbnail = asset('storage/'. $this->thumbnail);
+        }
+
         // Full response for show route
         return [
             'id' => $this->id,
             'title' => $this->title,
             'excerpt' => $this->excerpt,
-            'thumbnail' => $this->thumbnail,
+            'thumbnail' => $thumbnail,
             'date' => $this->created_at,
             'view_count' => $this->view_count,
             'mainContent' => $this->mainContent,
@@ -59,3 +66,4 @@ class PostResource extends JsonResource
         ];
     }
 }
+

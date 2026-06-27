@@ -103,7 +103,7 @@ class PostController extends Controller
         $post->user_id = Auth::id(); // or $request->user()->id
         $post->title = $validated['title'];
         $post->excerpt = $validated['excerpt'] ?? null;
-        $post->thumbnail = $validated['thumbnail'] ?? null;
+        $post->thumbnail = $thumbnailPath ?? null;
         $post->mainContent = $validated['mainContent'];
         $post->url = $validated['url'] ?? null;
         $post->category_id = $validated['category_id'];
