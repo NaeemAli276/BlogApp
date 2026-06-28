@@ -287,7 +287,6 @@ export async function updatePost(post) {
         },
     });
 
-    console.log(response.data)
     return response.data;
 
 }

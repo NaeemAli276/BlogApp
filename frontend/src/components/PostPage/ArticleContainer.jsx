@@ -122,9 +122,9 @@ const ArticleContainer = ({
                                 pack='filled'
                             />
                             {
-                                post?.date === "" || post?.date === null
+                                post?.created_at === "" || post?.created_at === null
                                 ?   formatDate(date)
-                                :   formatDate(post?.date)
+                                :   formatDate(post?.created_at)
                             }
                         </span>
 

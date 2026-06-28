@@ -65,7 +65,7 @@ const PostCard = ({
                                 type={'calendar'}
                                 size='20'
                             />
-                            {formatDate(post?.date)}
+                            {formatDate(post?.created_at)}
                         </h3>
                         <div
                             className='flex flex-row items-center gap-2 w-fit h-fit'

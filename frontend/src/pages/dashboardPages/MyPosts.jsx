@@ -35,7 +35,7 @@ const MyPosts = () => {
                 id: null,
                 category_name: ''
             },
-            date: '',
+            created_at: '',
             is_published: false
         }
     )
@@ -111,7 +111,7 @@ const MyPosts = () => {
                 tags: data?.tags,
                 url: data?.url,
                 mainContent: data?.mainContent,
-                date: data?.date,
+                created_at: data?.created_at,
                 isOptimistic: true
             }
 
@@ -155,14 +155,21 @@ const MyPosts = () => {
         mutationKey: ['update_post'],
         onSuccess: (updatedPost) => {
 
-            queryClient.setQueryData(['get_my_posts'], (oldData) => {
-                return oldData?.posts.map((post) => 
-                    post?.id === updatedPost?.id ? updatedPost : post 
+            // console.log('updated post: ', updatedPost)
+
+            queryClient.setQueryData(['get_my_posts', user?.id], (oldData) => {
+                
+                // console.log('old data: ', oldData)    
+
+                return oldData?.map((post) => 
+                    post?.id === updatedPost?.post?.id ? updatedPost?.post : post 
                 )
             })
 
             // Also update individual post query if it exists
-            queryClient.setQueryData(['post', updatedPost.id], updatedPost);
+            // queryClient.setQueryData(['get_my_posts', updatedPost.id], updatedPost);
+
+
 
         },
         onError: (error) => {
@@ -193,7 +200,7 @@ const MyPosts = () => {
                     id: null,
                     category_name: ''
                 },
-                date: '',
+                created_at: '',
                 is_published: false
             })    
             setPostView(1)
@@ -225,7 +232,7 @@ const MyPosts = () => {
                 id: null,
                 category_name: ''
             },
-            date: '',
+            created_at: '',
             is_published: false
         })
         setPostView(0)

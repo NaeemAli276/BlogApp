@@ -110,9 +110,9 @@ const PostContentContainer = ({
         setPost(selectedPost)
     }, [selectedPost])
 
-    // useEffect(() => {
-    //     console.log(post)
-    // }, [post])
+    useEffect(() => {
+        console.log(post)
+    }, [post])
     
 
     const bottomBtns = [

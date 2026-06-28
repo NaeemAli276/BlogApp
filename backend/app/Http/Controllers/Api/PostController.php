@@ -163,12 +163,42 @@ class PostController extends Controller
             'title' => 'sometimes|string|max:255',
             'excerpt' => 'sometimes|string',
             'mainContent' => 'sometimes|string',
-            'thumbnail' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'thumbnail' => [
+                'sometimes',
+                function ($attribute, $value, $fail) use ($post) {
+                    // Skip validation if thumbnail hasn't changed
+                    if ($value === $post->thumbnail) {
+                        return;
+                    }
+                    
+                    // Check if it's a URL
+                    if (filter_var($value, FILTER_VALIDATE_URL)) {
+                        // It's a URL, skip image validation
+                        return;
+                    }
+                    
+                    // Only validate as image if it's a file upload
+                    if (request()->hasFile('thumbnail')) {
+                        $validator = validator(
+                            ['thumbnail' => request()->file('thumbnail')],
+                            ['thumbnail' => 'image|mimes:jpeg,png,jpg,gif|max:2048']
+                        );
+                        
+                        if ($validator->fails()) {
+                            $fail('The thumbnail must be an image file.');
+                        }
+                    }
+                },
+            ],
             'category_id' => 'sometimes|exists:categories,id',
             'url' => 'sometimes|string|unique:posts,url,' . $id,
             'tags' => 'sometimes|array',
             'tags.*' => 'exists:tags,id',
             'is_published' => 'sometimes|boolean',
+        ]);
+
+        Log::info('post: ', [
+            $request->all()
         ]);
 
         if ($validator->fails()) {
@@ -197,9 +227,15 @@ class PostController extends Controller
 
             $post->load(['user', 'tags', 'category']);
 
+            if ($post->thumbnail) {
+                $post->thumbnail = asset('storage/' . $post->thumbnail);
+            }
+
+            
+
             return response()->json([
                 'message' => 'Post updated successfully',
-                'post' => $post,
+                'post' => new PostResource($post),
             ], 200);
         }
         catch (Exception $e) {

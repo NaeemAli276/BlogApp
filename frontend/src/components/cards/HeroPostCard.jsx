@@ -107,7 +107,7 @@ const HeroPostCard = ({
                                 type={'calendar'}
                                 size={'20'}
                             />
-                            {formatDate(data?.date)}
+                            {formatDate(data?.created_at)}
                         </h4>
                     </div>
 

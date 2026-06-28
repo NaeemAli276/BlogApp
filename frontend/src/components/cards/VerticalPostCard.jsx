@@ -58,7 +58,7 @@ const VerticalPostCard = ({
                                 type={'calendar'}
                                 size='16'
                             />
-                            {formatDate(post?.date)}
+                            {formatDate(post?.created_at)}
                         </h3>
                     </div>
                     <h3
