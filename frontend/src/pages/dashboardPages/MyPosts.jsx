@@ -171,7 +171,7 @@ const MyPosts = () => {
 
 
 
-        },
+        },  
         onError: (error) => {
             console.error('Update error:', error);
         }

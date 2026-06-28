@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\TagController;
@@ -37,6 +38,12 @@ Route::prefix('posts')->group(function () {
     Route::get('/featured', [PostController::class, 'getMostPopularPost'])->name('api.posts.featured');
     Route::get('/popular', [PostController::class, 'getPopularPosts'])->name('api.posts.popular');
     Route::get('/{id}', [PostController::class, 'show'])->name('api.posts.show');
+    Route::get('/{id}/comments', [CommentController::class, 'index']);
+});
+
+// API Resources - Comments
+Route::prefix('comments')->group(function() {
+
 });
 
 // API Resources - Users
@@ -55,6 +62,7 @@ Route::middleware('auth:sanctum')->group(function() {
     });
 
 });
+
 
 // Route::post('/test-upload', function (Request $request) {
 //     Log::info('=== TEST UPLOAD ===');

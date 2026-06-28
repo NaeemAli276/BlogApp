@@ -73,6 +73,7 @@ const PostPage = () => {
                     >
                         <CommentsSection
                             comments={data?.comments}
+                            post_id={post_id}
                         />
                         <SimilarPostsContainer
                             category={data?.category}
