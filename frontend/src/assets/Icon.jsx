@@ -70,7 +70,9 @@ const Icon = ({
         search: 'mynaui:search',
         imageStack: 'ph:images-square-light',
         trash: 'mynaui:trash',
-        repeat: 'mynaui:repeat'
+        repeat: 'mynaui:repeat',
+        edit: 'mynaui:edit',
+        edit_filled: 'mynaui:edit-solid'
     }
 
     const iconName = icons[type] || type; 

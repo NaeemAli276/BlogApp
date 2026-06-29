@@ -7,6 +7,9 @@ use App\Http\Resources\CommentResource;
 use App\Models\Comment;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 
 class CommentController extends Controller
 {
@@ -35,10 +38,35 @@ class CommentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, $id)
+    public function store(Request $request)
     {
         
+        Log::info('comment received: ', [
+            $request->all()
+        ]);
+
+        $validator = Validator::make($request->all(), [
+            'content' => 'required|string',
+            'user_id' => 'required|exists:users,id',
+            'post_id' => 'required|exists:posts,id'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $validated = $validator->validated();
+
+        $comment = new Comment();
         
+        $comment->user_id = Auth::id();
+        $comment->content = $validated['content'];
+        $comment->post_id = $validated['post_id'];
+        $comment->save();
+
+        $comment->load('user');
+
+        return response()->json(new CommentResource($comment));
 
     }
 

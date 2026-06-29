@@ -67,9 +67,9 @@ export async function getPostComments(id) {
     }
 }
 
-export async function createComment(id, post) {
+export async function createComment(comment) {
     
-    const response = apiClient.post(`/comment/create/${id}`, post, {
+    const response = apiClient.post(`/comments-crud/create/`, comment, {
         headers: {
             'Content-Type': 'application/json'
         }

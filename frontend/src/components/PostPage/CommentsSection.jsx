@@ -16,44 +16,10 @@ const CommentsSection = ({
 
     const location = useLocation()
 
-    // const [comments, setComments] = useState([
-    //     {
-    //         username: 'John Doe',
-    //         profileImg: null,
-    //         email: 'johnDoe@example.com',
-    //         content: 'Lorem ipsum dolor sit <b>amet consectetur adipisicing elit.</b> Eveniet magnam hic, facere amet, id qui sunt aspernatur architecto eum pariatur quam tenetur aut molestias quis quasi quibusdam. Fugit, est fugiat.',
-    //         time: ''
-
-    //     },
-    //     {
-    //         username: 'Jane Doe',
-    //         profileImg: null,
-    //         email: 'JaneDoe@example.com',
-    //         content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet magnam hic, facere amet, id qui sunt aspernatur architecto eum pariatur quam tenetur aut molestias quis quasi quibusdam. Fugit, est fugiat.',
-    //         time: ''
-
-    //     },
-    //     {
-    //         username: 'Bob Smith',
-    //         profileImg: null,
-    //         email: 'BobSmith@example.com',
-    //         content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet magnam hic, facere amet, id qui sunt aspernatur architecto eum pariatur quam tenetur aut molestias quis quasi quibusdam. Fugit, est fugiat.',
-    //         time: ''
-
-    //     },
-    //     {
-    //         username: 'Generic Username',
-    //         profileImg: null,
-    //         email: 'genericUsername@example.com',
-    //         content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet magnam hic, facere amet, id qui sunt aspernatur architecto eum pariatur quam tenetur aut molestias quis quasi quibusdam. Fugit, est fugiat.',
-    //         time: ''
-
-    //     },
-    // ])
-    const [comment, setComment] = useState(``) // the users new comment
+    const [commentContent, setCommentContent] = useState(``) // the users new comment
 
     const handleCommentChange = (contentHTML) => {
-        setComment(contentHTML)
+        setCommentContent(contentHTML)
     }
 
     const { isLoading, error, data: comments = [] } = useQuery({
@@ -75,7 +41,7 @@ const CommentsSection = ({
             const optimisticComment = {
                 id: new Date().toLocaleDateString(),
                 user: user,
-                content: comment,
+                content: commentContent,
                 isOptimistic: true
             }
 
@@ -99,6 +65,8 @@ const CommentsSection = ({
                 )
             })
 
+            setCommentContent('')
+
         },
         onError: (error, variables, context) => {
             // Rollback to previous state on error
@@ -113,17 +81,16 @@ const CommentsSection = ({
         },
     })
 
-    // useEffect(() => {
-    //     console.log(data)
-    // }, [data])
-
-
-    // useEffect(() => {
-    //     console.log(data)
-    // }, [data])
 
     const handleCreateComment = () => {
-            
+
+        const comment = {
+            post_id: post_id,
+            user_id: user?.id,
+            content: commentContent 
+        }
+
+        createPostMutation.mutate(comment)
     }
 
     if (isLoading) {
@@ -159,37 +126,58 @@ const CommentsSection = ({
     else {
         return (
             <div
-                className='w-full h-full rounded text-text p-4 flex flex-col gap-4 relative bg-background shadow shadow-text/20 '
+                className='w-full h-full rounded text-text p-4 flex flex-col gap-3 relative bg-background shadow shadow-text/20 '
             >
 
                 {/* reply */}
-                <div
-                    className='w-full h-fit bg-background relative rounded pb-2 overflow-y-hidden'
-                >
-                    <RichTextInput
-                        hiddenComm={['headings', 'align', 'code', 'lists']}
-                        className='w-full h-full outline-none p-2 text-clip flex-1 min-h-32 max-h-64 overflow-y-scroll scrollbar-hide'
-                        wordLimit={1024}
-                        content={comment}
-                        handleChangeContent={handleCommentChange}
-                        enabled={location.pathname.includes('preview') ? false : true}
-                    />
-                    {/* submit btn */}
-                    <button
-                        className={`
-                            ${comment?.length <= 0 ? 'hidden' : 'flex'} 
-                            p-1 bg-secondary/50 text-primary 
-                            duration-200
-                            hover:bg-primary hover:text-background rounded-xs
-                            absolute bottom-4.5 right-2.5 z-50 cursor-pointer
-                        `}
-                    >   
-                        <Icon
-                            type={'logo'}
-                            size='20'
-                        />
-                    </button>
-                </div>
+                {
+                    user === null
+                    ?   <div
+                            className='w-full min-h-48 bg-accent/20 rounded flex flex-col items-center justify-center text-text/70 gap-2'
+                        >
+                            
+                            <Icon
+                                type={'comments'}
+                                className=''
+                                size='64'
+                            />
+
+                            <h2
+                                className='w-3/5 text-center'
+                            >
+                                You must be signed in to post a comment
+                            </h2>
+
+                        </div>
+                    :   <div
+                            className='w-full h-fit bg-background relative rounded pb-2 overflow-y-hidden'
+                        >
+                            <RichTextInput
+                                hiddenComm={['headings', 'align', 'code', 'lists']}
+                                className='w-full h-full outline-none p-2 text-clip flex-1 min-h-32 max-h-64 overflow-y-scroll scrollbar-hide'
+                                wordLimit={1024}
+                                content={commentContent}
+                                handleChangeContent={handleCommentChange}
+                                enabled={location.pathname.includes('preview') ? false : true}
+                            />
+                            {/* submit btn */}
+                            <button
+                                className={`
+                                    ${commentContent?.length <= 7 ? 'hidden' : 'flex'}  
+                                    p-1 bg-secondary/50 text-primary 
+                                    duration-200
+                                    hover:bg-primary hover:text-background rounded-xs
+                                    absolute bottom-4.5 right-2.5 z-50 cursor-pointer
+                                `}
+                                onClick={() => handleCreateComment()}
+                            >   
+                                <Icon
+                                    type={'logo'}
+                                    size='20'
+                                />
+                            </button>
+                        </div>
+                }
 
                 <span className='w-full h-px bg-primary/70'></span>
 

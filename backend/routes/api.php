@@ -61,37 +61,9 @@ Route::middleware('auth:sanctum')->group(function() {
         Route::put('/update/{id}', [PostController::class, 'update']);
     });
 
+    // comments
+    Route::prefix('comments-crud')->group(function() {
+        Route::post('/create', [CommentController::class, 'store']);
+    });
+
 });
-
-
-// Route::post('/test-upload', function (Request $request) {
-//     Log::info('=== TEST UPLOAD ===');
-//     Log::info('Headers:', $request->headers->all());
-//     Log::info('All input:', $request->all());
-//     Log::info('Files keys:', array_keys($request->allFiles()));
-//     Log::info('Has thumbnail?', [
-//         'hasFile' => $request->hasFile('thumbnail'),
-//         'has' => $request->has('thumbnail'),
-//     ]);
-    
-//     if ($request->hasFile('thumbnail')) {
-//         $file = $request->file('thumbnail');
-//         return response()->json([
-//             'success' => true,
-//             'message' => 'File received!',
-//             'file' => [
-//                 'name' => $file->getClientOriginalName(),
-//                 'size' => $file->getSize(),
-//                 'mime' => $file->getMimeType(),
-//                 'extension' => $file->getClientOriginalExtension(),
-//             ]
-//         ]);
-//     }
-    
-//     return response()->json([
-//         'success' => false,
-//         'message' => 'No file received',
-//         'input' => $request->all(),
-//         'files' => $request->allFiles(),
-//     ], 422);
-// });
