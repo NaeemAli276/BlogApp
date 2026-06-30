@@ -23,7 +23,7 @@ const AuthorBtn = ({
                 <img    
                     src={author?.profileImg === null ? defaultUserImg : author?.profileImg} 
                     alt="author" 
-                    className={`aspect-square min-h-8 max-h-8 min-w-8 max-w-8 rounded-full ${author?.profileImg === null ? 'shadow shadow-text/59 bg-white p-1 ' : ''}`}
+                    className={`aspect-square min-h-8 max-h-8 min-w-8 max-w-8 rounded-full ${author?.profileImg === null ? 'shadow shadow-text/5 bg-white p-1 ' : ''}`}
                 />
             </div>
             <div

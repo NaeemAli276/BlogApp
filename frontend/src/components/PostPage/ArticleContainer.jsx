@@ -20,12 +20,14 @@ const ArticleContainer = ({
             name: 'Bookmark',
             icon:   <Icon
                         type={'bookmark'}
+                        size='20'
                     />,
         },
         {
             name: 'Share',
             icon:   <Icon
                         type={'share'}
+                        size='20'
                     />
         }
     ]
@@ -267,12 +269,12 @@ const ArticleContainer = ({
                         className='relative w-fit h-fit'
                     >
                         <button
-                            className='p-1 hover:bg-text/20 rounded-full text-text'
+                            className='hover:bg-text/20 rounded-full text-text'
                             onClick={() => setIsDropdownActive(!isDropdownActive)}
                         >
                             <Icon
                                 type={'menu'}
-                                pack=''
+                                size='24'
                             />
                         </button>
                         <div

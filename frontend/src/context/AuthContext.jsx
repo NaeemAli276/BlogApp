@@ -34,6 +34,7 @@ export const AuthProvider = ({ children }) => {
                 if (response.ok) {
                     const userData = await response.json();
                     setUser(userData);
+                    // console.log(userData)
                     return userData
                 } else {
                     localStorage.removeItem('token');
@@ -156,6 +157,10 @@ export const AuthProvider = ({ children }) => {
         logout, 
         isLoading
     };
+
+    // useEffect(() => {
+    //     console.log(user)
+    // }, [user])
 
     return (
         <AuthContext.Provider value={value}>

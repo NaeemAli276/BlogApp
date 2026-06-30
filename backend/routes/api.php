@@ -64,6 +64,8 @@ Route::middleware('auth:sanctum')->group(function() {
     // comments
     Route::prefix('comments-crud')->group(function() {
         Route::post('/create', [CommentController::class, 'store']);
+        Route::put('/update/{id}', [CommentController::class, 'update']);
+        Route::delete('/delete/{id}', [CommentController::class, 'destroy']);
     });
 
 });

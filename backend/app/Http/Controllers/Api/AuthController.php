@@ -7,7 +7,9 @@ use App\Models\User;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use function Illuminate\Support\now;
 
 class AuthController extends Controller
 {
@@ -54,6 +56,8 @@ class AuthController extends Controller
             'username' => $request->username,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'remember_token' => Str::random(10),
+            'email_verified_at' => now()
         ]);
 
         if ($request->remember_me == true) {

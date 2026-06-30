@@ -89,17 +89,47 @@ class CommentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Comment $comment)
+    public function update(Request $request, $id)
     {
-        //
+        
+        $comment = Comment::findOrFail($id);
+
+        $validator = Validator::make($request->all(), [
+            'content' => 'required|string'
+        ]);
+
+        Log::info('comment: ', [
+            $request->all()
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $comment->save();
+
+        $comment->load('user');
+
+        return response()->json(new CommentResource($comment));
+
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Comment $comment)
+    public function destroy($id)
     {
-        //
+        
+        $comment = Comment::findOrFail($id);
+
+        if (!$comment) {
+            return response()->json(['message' => 'Post not found'], 404);
+        }
+
+        $comment->delete();
+        return response()->json(['message' => 'Post deleted successfully']);
+        
+
     }
 
 }

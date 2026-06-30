@@ -2,14 +2,19 @@ import React, { useEffect, useState } from 'react'
 import RichTextViewer from '../PostPage/RichTextViewer'
 import AuthorBtn from '../btns/AuthorBtn'
 import Icon from '../../assets/Icon'
+import { useAuth } from '../../context/AuthContext'
 
 
 const Comment = ({
-    comment
+    comment,
+    handleDeleteComment
 }) => {
 
-    const [isDropdownActive, setIsDropdownActive] = useState(true)
+    const { user } = useAuth()
+
+    const [isDropdownActive, setIsDropdownActive] = useState(false)
     const [isEditActive, setIsEditActive] = useState(false)
+    const [isReportActive, setIsReportActive] = useState(false)
     const [newContent, setNewContent] = useState('')
 
     const menuBtns = [
@@ -19,19 +24,16 @@ const Comment = ({
             icon:   <Icon type={'trash'} size='18'/>
         },
         {
-            name: 'edit',
+            name: 'Edit',
             ftn: () => setIsEditActive(true),
             icon:   <Icon type={'edit'} size='18'/>
+        },
+        {
+            name: 'Report',
+            ftn: () => setIsReportActive(true),
+            icon:   <Icon type={'alert'} size='18'/>,
         }
     ]
-
-    const handleDeleteComment = (id) => {
-
-    }
-
-    const handleUpdateComment = (id, newContent) => {
-
-    }
 
     return (
         <div
@@ -60,19 +62,32 @@ const Comment = ({
                         className={`${isDropdownActive ? 'flex' : 'hidden'} flex-col w-52 h-fit bg-background shadow shadow-text/20 absolute top-8 right-0 z-50 rounded`}
                     >
                         {
-                            menuBtns.map((btn, index) => (
-                                <button
-                                    className={`
-                                        ${index === menuBtns.length - 1 && 'rounded-b'} 
-                                        ${index === 0 && 'rounded-t'} 
-                                        ${btn?.name === 'Delete' ? 'hover:bg-rose-100 hover:text-rose-600' : 'hover:bg-secondary/50 hover:text-primary '}
-                                        flex items-center justify-start gap-2 p-3 py-2.5 duration-200 text-sm
-                                    `}
-                                >
-                                    {btn.icon}
-                                    {btn.name}
-                                </button>
-                            ))
+                            comment?.user?.id === user?.id
+                            ?   <>
+                                    <button
+                                        className='flex flex-row items-center gap-2 w-full h-fit p-3 text-sm hover:bg-secondary/50 hover:text-primary rounded-t duration-200 cursor-pointer'
+                                        onClick={menuBtns[1].ftn}
+                                    >
+                                        {menuBtns[1].icon}
+                                        {menuBtns[1].name}
+                                    </button>
+                                    <button
+                                        className='flex flex-row items-center gap-2 w-full h-fit p-3 text-sm hover:bg-rose-100/70 hover:text-rose-600 rounded-b duration-200 cursor-pointer'
+                                        onClick={menuBtns[0].ftn}
+                                    >
+                                        {menuBtns[0].icon}
+                                        {menuBtns[0].name}
+                                    </button>
+                                </>
+                            :   <>
+                                    <button
+                                        className='flex flex-row items-center gap-2 w-full h-fit p-3 text-sm hover:bg-secondary/50 hover:text-primary rounded duration-200 cursor-pointer'
+                                        onClick={menuBtns[2].ftn}
+                                    >
+                                        {menuBtns[2].icon}
+                                        {menuBtns[2].name}
+                                    </button>
+                                </>
                         }
                     </div>
 
@@ -84,18 +99,6 @@ const Comment = ({
                 />
 
             </div>
-
-            {
-                isEditActive
-                ?   <div
-                        className='flex items-end justify-end w-full h-fit'
-                    >   
-
-                    </div>
-                :   <div>
-
-                    </div>
-            }
 
         </div>
     )

@@ -78,3 +78,8 @@ export async function createComment(comment) {
     return response
 
 }
+
+export async function deleteComment(id) {
+    const response = await apiClient.delete(`/comments-crud/delete/${id}`);
+    return response.data;
+}

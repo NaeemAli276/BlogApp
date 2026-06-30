@@ -5,7 +5,7 @@ import RichTextInput from '../inputs/RichTextInput'
 import Icon from '../../assets/Icon'
 import { useLocation } from 'react-router-dom'
 import { useMutation, useQueryClient, useQuery } from '@tanstack/react-query'
-import { createComment, getPostComments } from '../../apis/commentApi'
+import { createComment, deleteComment, getPostComments } from '../../apis/commentApi'
 import { useAuth } from '../../context/AuthContext'
 
 const CommentsSection = ({
@@ -29,7 +29,7 @@ const CommentsSection = ({
 
     const queryClient = useQueryClient()
 
-    const createPostMutation = useMutation({
+    const createCommentMutation = useMutation({
         mutationFn: createComment,
         mutationKey: ['create_comment'],
         onMutate: async (data) => {
@@ -40,7 +40,12 @@ const CommentsSection = ({
 
             const optimisticComment = {
                 id: new Date().toLocaleDateString(),
-                user: user,
+                user: {
+                    id: user?.id,
+                    username: user?.username,
+                    profileImg: user?.profileImg,
+                    email: user?.email
+                },
                 content: commentContent,
                 isOptimistic: true
             }
@@ -56,7 +61,7 @@ const CommentsSection = ({
 
             queryClient.setQueryData(['get_comments_for_post', post_id], (old) => {
 
-                console.log(old)
+                // console.log(old)
 
                 return old?.map(comment => 
                     comment?.id === `temp-${new Date().toLocaleDateString()}`
@@ -65,6 +70,7 @@ const CommentsSection = ({
                 )
             })
 
+            // console.log(data.data)
             setCommentContent('')
 
         },
@@ -81,6 +87,51 @@ const CommentsSection = ({
         },
     })
 
+    const deleteCommentMutation = useMutation({
+        mutationFn: deleteComment,
+        mutationKey: ['delete_comment'],
+        onMutate: async (deletedId) => {
+            if (post_id) return { previousComments: [] };
+
+            await queryClient.cancelQueries({ 
+                queryKey: ['get_comments_for_post', post_id] 
+            });
+
+            // Get previous data with fallback
+            const previousComments = queryClient.getQueryData(['get_comments_for_post', post_id]) || [];
+
+            // Update the cache with safety checks
+            queryClient.setQueryData(['get_comments_for_post', post_id], (oldData) => {
+                // If oldData is undefined or null, return empty array
+                if (!oldData) return [];
+                
+                // Filter out the deleted post
+                return oldData?.filter((comment) => comment?.id !== deletedId);
+            });
+
+            return { previousComments };
+        },
+
+        onError: (error, deletedId, context) => {
+            // Restore previous data
+            if (post_id) {
+                queryClient.setQueryData(
+                    ['get_comments_for_post', post_id], 
+                    context?.previousComments || []
+                );
+            }
+            console.error('Delete error:', error);
+        },
+
+        onSettled: () => {
+            if (post_id) {
+                queryClient.invalidateQueries({ 
+                    queryKey: ['get_comments_for_post', post_id] 
+                });
+            }
+        },
+
+    })
 
     const handleCreateComment = () => {
 
@@ -90,7 +141,11 @@ const CommentsSection = ({
             content: commentContent 
         }
 
-        createPostMutation.mutate(comment)
+        createCommentMutation.mutate(comment)
+    }
+
+    const handleDeleteComment = (id) => {
+        deleteCommentMutation.mutate(id)
     }
 
     if (isLoading) {
@@ -126,7 +181,7 @@ const CommentsSection = ({
     else {
         return (
             <div
-                className='w-full h-full rounded text-text p-4 flex flex-col gap-3 relative bg-background shadow shadow-text/20 '
+                className='w-full h-full rounded text-text p-4 flex flex-col gap-3 bg-background shadow shadow-text/20 '
             >
 
                 {/* reply */}
@@ -188,7 +243,7 @@ const CommentsSection = ({
                 </h2>
 
                 <div
-                    className='flex flex-col gap-3 w-full h-full max-h-84 overflow-y-scroll p-0.5 scrollbar-hide'
+                    className='flex flex-col gap-3 w-full h-full max-h-96 overflow-y-scroll p-0.5 scrollbar-hide'
                 >
                     {
 
@@ -221,6 +276,7 @@ const CommentsSection = ({
                                 <Comment
                                     key={comment?.id}
                                     comment={comment}
+                                    handleDeleteComment={handleDeleteComment}
                                 />
                             ))
                     }
