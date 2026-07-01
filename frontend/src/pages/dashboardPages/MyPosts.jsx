@@ -159,7 +159,7 @@ const MyPosts = () => {
 
             queryClient.setQueryData(['get_my_posts', user?.id], (oldData) => {
                 
-                // console.log('old data: ', oldData)    
+                console.log('old data: ', oldData)    
 
                 return oldData?.map((post) => 
                     post?.id === updatedPost?.post?.id ? updatedPost?.post : post 

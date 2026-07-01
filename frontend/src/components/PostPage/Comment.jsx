@@ -7,13 +7,13 @@ import { useAuth } from '../../context/AuthContext'
 
 const Comment = ({
     comment,
-    handleDeleteComment
+    handleDeleteComment,
+    handleToggleEdit,
 }) => {
 
     const { user } = useAuth()
 
     const [isDropdownActive, setIsDropdownActive] = useState(false)
-    const [isEditActive, setIsEditActive] = useState(false)
     const [isReportActive, setIsReportActive] = useState(false)
     const [newContent, setNewContent] = useState('')
 
@@ -25,7 +25,7 @@ const Comment = ({
         },
         {
             name: 'Edit',
-            ftn: () => setIsEditActive(true),
+            ftn: handleToggleEdit,
             icon:   <Icon type={'edit'} size='18'/>
         },
         {
@@ -65,14 +65,14 @@ const Comment = ({
                             comment?.user?.id === user?.id
                             ?   <>
                                     <button
-                                        className='flex flex-row items-center gap-2 w-full h-fit p-3 text-sm hover:bg-secondary/50 hover:text-primary rounded-t duration-200 cursor-pointer'
+                                        className='flex flex-row items-center gap-2 w-full h-fit p-2 py-2.5 text-sm hover:bg-secondary/50 hover:text-primary rounded-t duration-200 cursor-pointer'
                                         onClick={menuBtns[1].ftn}
                                     >
                                         {menuBtns[1].icon}
                                         {menuBtns[1].name}
                                     </button>
                                     <button
-                                        className='flex flex-row items-center gap-2 w-full h-fit p-3 text-sm hover:bg-rose-100/70 hover:text-rose-600 rounded-b duration-200 cursor-pointer'
+                                        className='flex flex-row items-center gap-2 w-full h-fit p-2 py-2.5 text-sm hover:bg-rose-100/70 hover:text-rose-600 rounded-b duration-200 cursor-pointer'
                                         onClick={menuBtns[0].ftn}
                                     >
                                         {menuBtns[0].icon}
@@ -81,7 +81,7 @@ const Comment = ({
                                 </>
                             :   <>
                                     <button
-                                        className='flex flex-row items-center gap-2 w-full h-fit p-3 text-sm hover:bg-secondary/50 hover:text-primary rounded duration-200 cursor-pointer'
+                                        className='flex flex-row items-center gap-2 w-full h-fit p-2 py-2.5 text-sm hover:bg-secondary/50 hover:text-primary rounded duration-200 cursor-pointer'
                                         onClick={menuBtns[2].ftn}
                                     >
                                         {menuBtns[2].icon}

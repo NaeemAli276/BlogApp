@@ -46,7 +46,7 @@ const PostPage = () => {
                 >
                     <Icon
                         type={'sad'}
-                        size='xl'
+                        size='80'
                     />
                     <h3
                         className='w-2/5 text-center'

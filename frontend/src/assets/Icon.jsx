@@ -73,7 +73,9 @@ const Icon = ({
         repeat: 'mynaui:repeat',
         edit: 'mynaui:edit',
         edit_filled: 'mynaui:edit-solid',
-        alert: 'mynaui:danger-triangle'
+        alert: 'mynaui:danger-triangle',
+        close: 'mynaui:x',
+        check: 'mynaui:check'
     }
 
     const iconName = icons[type] || type; 

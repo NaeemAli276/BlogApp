@@ -106,6 +106,9 @@ class CommentController extends Controller
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
+        $validated = $validator->validated();
+
+        $comment->content = $validated['content'];
         $comment->save();
 
         $comment->load('user');

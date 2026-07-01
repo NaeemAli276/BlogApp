@@ -5,8 +5,9 @@ import RichTextInput from '../inputs/RichTextInput'
 import Icon from '../../assets/Icon'
 import { useLocation } from 'react-router-dom'
 import { useMutation, useQueryClient, useQuery } from '@tanstack/react-query'
-import { createComment, deleteComment, getPostComments } from '../../apis/commentApi'
+import { createComment, deleteComment, getPostComments, updateComment } from '../../apis/commentApi'
 import { useAuth } from '../../context/AuthContext'
+import NewCommentPlaceholder from './NewCommentPlaceholder'
 
 const CommentsSection = ({
     post_id
@@ -16,11 +17,10 @@ const CommentsSection = ({
 
     const location = useLocation()
 
-    const [commentContent, setCommentContent] = useState(``) // the users new comment
-
-    const handleCommentChange = (contentHTML) => {
-        setCommentContent(contentHTML)
-    }
+    const [isEditActive, setIsEditActive] = useState(false)
+    const [isNewCommentActive, setIsNewCommentActive] = useState(false)
+    const [updatingCommentId, setUpdatingCommentId] = useState(null)
+    const [content, setContent] = useState('')
 
     const { isLoading, error, data: comments = [] } = useQuery({
         queryFn: () => getPostComments(post_id),
@@ -71,7 +71,7 @@ const CommentsSection = ({
             })
 
             // console.log(data.data)
-            setCommentContent('')
+            setIsNewCommentActive(false)
 
         },
         onError: (error, variables, context) => {
@@ -133,19 +133,83 @@ const CommentsSection = ({
 
     })
 
-    const handleCreateComment = () => {
+    const updateCommentMutation = useMutation({
+        mutationFn: updateComment,
+        mutationKey: ['update_comment'],
+        onSuccess: (updatedComment) => {
+
+            console.log('updated post: ', updatedComment)
+
+            queryClient.setQueryData(['get_comments_for_post', post_id], (oldData) => {
+                
+                console.log('old data: ', oldData)    
+
+                console.log(oldData?.map((comment) => 
+                    comment?.id === updatedComment?.id ? true : false
+                ))
+
+                return oldData?.map((comment) => 
+                    comment?.id === updatedComment?.id ? updatedComment : comment
+                )
+            })
+
+            setCommentContent('')
+            setUpdatingCommentId(null)
+            setIsEditActive(false)
+
+            // Also update individual post query if it exists
+            // queryClient.setQueryData(['get_my_posts', updatedComment.id], updatedComment);
+
+
+
+        },  
+        onError: (error) => {
+            console.error('Update error:', error);
+        }
+    })
+
+    const handleCommentChange = (contentHTML) => {
+        setCommentContent(contentHTML)
+    }
+
+    const handleCreateComment = (content) => {
 
         const comment = {
             post_id: post_id,
             user_id: user?.id,
-            content: commentContent 
+            content: content
         }
 
         createCommentMutation.mutate(comment)
     }
 
-    const handleDeleteComment = (id) => {
+    const handleDeleteComment = () => {
         deleteCommentMutation.mutate(id)
+    }
+
+    const handleUpdateComment = () => {
+
+        const updatedComment = {
+            id: updatingCommentId,
+            content: commentContent
+        }
+
+        updateCommentMutation.mutate(updatedComment)
+    }
+
+    const handleToggleEdit = (id, text) => { // toggles the isEdit flag whilst getting the id
+
+        if (isEditActive) {
+            setIsEditActive(false)
+            setUpdatingCommentId(null)
+            setCommentContent('')
+        }
+        else {
+            setIsEditActive(true)
+            setUpdatingCommentId(id)
+            setCommentContent(text)
+        }
+
     }
 
     if (isLoading) {
@@ -184,69 +248,38 @@ const CommentsSection = ({
                 className='w-full h-full rounded text-text p-4 flex flex-col gap-3 bg-background shadow shadow-text/20 '
             >
 
-                {/* reply */}
-                {
-                    user === null
-                    ?   <div
-                            className='w-full min-h-48 bg-accent/20 rounded flex flex-col items-center justify-center text-text/70 gap-2'
-                        >
-                            
-                            <Icon
-                                type={'comments'}
-                                className=''
-                                size='64'
-                            />
+                {/* <span className='w-full h-px bg-primary/70'></span> */}
 
-                            <h2
-                                className='w-3/5 text-center'
-                            >
-                                You must be signed in to post a comment
-                            </h2>
-
-                        </div>
-                    :   <div
-                            className='w-full h-fit bg-background relative rounded pb-2 overflow-y-hidden'
-                        >
-                            <RichTextInput
-                                hiddenComm={['headings', 'align', 'code', 'lists']}
-                                className='w-full h-full outline-none p-2 text-clip flex-1 min-h-32 max-h-64 overflow-y-scroll scrollbar-hide'
-                                wordLimit={1024}
-                                content={commentContent}
-                                handleChangeContent={handleCommentChange}
-                                enabled={location.pathname.includes('preview') ? false : true}
-                            />
-                            {/* submit btn */}
-                            <button
-                                className={`
-                                    ${commentContent?.length <= 7 ? 'hidden' : 'flex'}  
-                                    p-1 bg-secondary/50 text-primary 
-                                    duration-200
-                                    hover:bg-primary hover:text-background rounded-xs
-                                    absolute bottom-4.5 right-2.5 z-50 cursor-pointer
-                                `}
-                                onClick={() => handleCreateComment()}
-                            >   
-                                <Icon
-                                    type={'logo'}
-                                    size='20'
-                                />
-                            </button>
-                        </div>
-                }
-
-                <span className='w-full h-px bg-primary/70'></span>
-
-                <h2
-                    className='font-medium text-lg'
+                <div
+                    className='w-full h-fit flex flex-row items-start justify-between'
                 >
-                    Comments
-                </h2>
+                    <h2
+                        className='font-medium text-lg/tight'
+                    >
+                        Comments
+                    </h2>
+                    <button
+                        className={`${user !== null ? 'flex' : 'hidden'} bg-secondary text-primary hover:bg-primary hover:text-background duration-200 rounded cursor-pointer`}
+                        onClick={() => setIsNewCommentActive(true)}
+                    >
+                        <Icon
+                            type={'plus'}
+                        />
+                    </button>
+                </div>
 
                 <div
                     className='flex flex-col gap-3 w-full h-full max-h-96 overflow-y-scroll p-0.5 scrollbar-hide'
                 >
                     {
-
+                        isNewCommentActive && user !== null
+                        &&  <NewCommentPlaceholder
+                                setIsNewCommentActive={setIsNewCommentActive}
+                                handleChangeContent={setContent}
+                                content={content}
+                            />
+                    }
+                    {
                         comments?.length <= 0 
                         ?   <div
                                 className='flex flex-col gap-5 items-center justify-center w-full h-80 bg-black/5 rounded'
@@ -277,6 +310,7 @@ const CommentsSection = ({
                                     key={comment?.id}
                                     comment={comment}
                                     handleDeleteComment={handleDeleteComment}
+                                    handleToggleEdit={() => handleToggleEdit(comment?.id, comment?.content)}
                                 />
                             ))
                     }

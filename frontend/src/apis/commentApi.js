@@ -83,3 +83,13 @@ export async function deleteComment(id) {
     const response = await apiClient.delete(`/comments-crud/delete/${id}`);
     return response.data;
 }
+
+export async function updateComment(comment) {
+    const response = await apiClient.put(`/comments-crud/update/${comment?.id}`, comment, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
+    });
+
+    return response.data;
+}
