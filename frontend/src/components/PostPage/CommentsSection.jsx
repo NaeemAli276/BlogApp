@@ -46,7 +46,7 @@ const CommentsSection = ({
                     profileImg: user?.profileImg,
                     email: user?.email
                 },
-                content: commentContent,
+                content: content,
                 isOptimistic: true
             }
 
@@ -169,10 +169,10 @@ const CommentsSection = ({
     })
 
     const handleCommentChange = (contentHTML) => {
-        setCommentContent(contentHTML)
+        setContent(contentHTML)
     }
 
-    const handleCreateComment = (content) => {
+    const handleCreateComment = () => {
 
         const comment = {
             post_id: post_id,
@@ -183,7 +183,7 @@ const CommentsSection = ({
         createCommentMutation.mutate(comment)
     }
 
-    const handleDeleteComment = () => {
+    const handleDeleteComment = (id) => {
         deleteCommentMutation.mutate(id)
     }
 
@@ -259,7 +259,7 @@ const CommentsSection = ({
                         Comments
                     </h2>
                     <button
-                        className={`${user !== null ? 'flex' : 'hidden'} bg-secondary text-primary hover:bg-primary hover:text-background duration-200 rounded cursor-pointer`}
+                        className={`${user !== null ? 'flex' : 'hidden'} bg-secondary/50 text-primary hover:bg-primary hover:text-background duration-200 rounded cursor-pointer`}
                         onClick={() => setIsNewCommentActive(true)}
                     >
                         <Icon
@@ -275,7 +275,8 @@ const CommentsSection = ({
                         isNewCommentActive && user !== null
                         &&  <NewCommentPlaceholder
                                 setIsNewCommentActive={setIsNewCommentActive}
-                                handleChangeContent={setContent}
+                                handleCommentChange={handleCommentChange}
+                                handleCreateComment={handleCreateComment}
                                 content={content}
                             />
                     }

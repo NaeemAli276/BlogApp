@@ -35,9 +35,13 @@ const Comment = ({
         }
     ]
 
+    useEffect(() => {
+        console.log(comment)
+    }, [])
+
     return (
         <div
-            className='w-full h-fit bg-accent/20 shadow shadow-text/10 p-3 pb-3.5 rounded flex flex-col gap-2 min-h-40 justify-between'
+            className='w-full h-fit bg-accent/20 shadow shadow-text/10 p-3 pb-3.5 rounded flex flex-col gap-2 justify-between'
         >
 
             <div
