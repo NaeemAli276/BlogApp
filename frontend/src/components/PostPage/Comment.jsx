@@ -157,6 +157,16 @@ const Comment = ({
                         </div>
                 }
 
+                <div
+                    className={`${isEditActive ? 'hidden' : 'flex'} w-full h-fit px-1 mt-2`}
+                >
+                    <button
+                        className='text-text/70 text-sm font-medium'
+                    >
+                        Reply
+                    </button>
+                </div>
+
             </div>
 
         </div>

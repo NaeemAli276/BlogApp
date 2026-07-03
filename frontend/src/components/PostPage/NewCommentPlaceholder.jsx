@@ -14,7 +14,6 @@ const NewCommentPlaceholder = ({
 
     const { user } = useAuth()
 
-
     const handleCloseNewComment = () => {
         setIsNewCommentActive(false)
     }

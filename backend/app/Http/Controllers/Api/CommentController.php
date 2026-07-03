@@ -135,4 +135,10 @@ class CommentController extends Controller
 
     }
 
+    public function getRepliesForComment($id) {
+
+        $comment = Comment::findOrFail($id);
+
+    }
+
 }

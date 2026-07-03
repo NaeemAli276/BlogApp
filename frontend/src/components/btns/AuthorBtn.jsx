@@ -1,8 +1,10 @@
 import React from 'react'
 import defaultUserImg from '../../assets/user.png'
 import { truncateText } from '../../utils/textUtils'
+import Icon from '../../assets/Icon'
 
 const AuthorBtn = ({
+
     author = {
         username: '',
         email: '',
@@ -20,11 +22,18 @@ const AuthorBtn = ({
             <div
                 className='w-fit h-full pt-px'
             >
-                <img    
-                    src={author?.profileImg === null ? defaultUserImg : author?.profileImg} 
-                    alt="author" 
-                    className={`aspect-square min-h-8 max-h-8 min-w-8 max-w-8 rounded-full ${author?.profileImg === null ? 'shadow shadow-text/5 bg-white p-1 ' : ''}`}
+                {
+                    author?.profileImg === null
+                    ?   <Icon
+                            type={'user'}
+                            size='20'
+                        />
+                    :   <img    
+                            src={author?.profileImg} 
+                            alt="author" 
+                            className={`aspect-square min-h-8 max-h-8 min-w-8 max-w-8 rounded-full shadow shadow-text/5`}
                 />
+                }
             </div>
             <div
                 className='flex flex-col w-full h-full text-start items-start'

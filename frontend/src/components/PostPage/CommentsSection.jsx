@@ -252,7 +252,7 @@ const CommentsSection = ({
                             />
                     }
                     {
-                        comments?.length <= 0 
+                        comments?.length <= 0 && isNewCommentActive === false
                         ?   <div
                                 className='flex flex-col gap-5 items-center justify-center w-full h-80 bg-black/5 rounded'
                             >   

@@ -34,7 +34,7 @@ const RichTextCommentInput = ({
         content: newContent,
         editorProps: {
             attributes: {
-                class: 'outline-none p-1 text-sm w-full h-auto min-h-[24px]' // Changed to auto height with min height
+                class: 'outline-none p-1 text-sm w-full h-auto min-h-[24px] text-text/70' // Changed to auto height with min height
             },
         },
         onUpdate: () => handleChangeContent(editor.getHTML()),

@@ -12,7 +12,7 @@ import Image from '@tiptap/extension-image'
 
 const RichTextViewer = ({
     content,
-    className = 'px-2'
+    className = 'px-2 text-text/70'
 }) => {
 
     const editor = useEditor({
@@ -97,8 +97,6 @@ const RichTextViewer = ({
         },
         editable:false,
     });
-
-
 
     return (
         <div
