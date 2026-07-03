@@ -17,7 +17,6 @@ const NewCommentPlaceholder = ({
 
     const handleCloseNewComment = () => {
         setIsNewCommentActive(false)
-        setContent('')
     }
 
     // useEffect(() => {

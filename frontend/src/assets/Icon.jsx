@@ -75,7 +75,19 @@ const Icon = ({
         edit_filled: 'mynaui:edit-solid',
         alert: 'mynaui:danger-triangle',
         close: 'mynaui:x',
-        check: 'mynaui:check'
+        check: 'mynaui:check',
+        bold: 'mynaui:type-bold',
+        italic: 'mynaui:type-italic',
+        underline: 'mynaui:type-underline',
+        align_left: 'mynaui:text-align-left',
+        align_center: 'mynaui:text-align-center',
+        align_right: 'mynaui:text-align-right',
+        list: 'mynaui:list',
+        numbered_list: 'mynaui:list-number',
+        code: 'mynaui:code',
+        h1: 'heroicons:h1-solid',
+        h2: 'heroicons:h2',
+        h3: 'heroicons:h3'
     }
 
     const iconName = icons[type] || type; 

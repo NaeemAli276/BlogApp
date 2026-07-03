@@ -8,6 +8,7 @@ import Underline from '@tiptap/extension-underline'
 import Placeholder from '@tiptap/extension-placeholder'
 import { CharacterCount } from "@tiptap/extensions";
 import StarterKit from '@tiptap/starter-kit';
+import Icon from '../../assets/Icon';
 
 const RichTextCommentInput = ({
     content = '',
@@ -33,7 +34,7 @@ const RichTextCommentInput = ({
         content: newContent,
         editorProps: {
             attributes: {
-                class: 'outline-none p-1 text-sm w-full h-auto min-h-[80px]' // Changed to auto height with min height
+                class: 'outline-none p-1 text-sm w-full h-auto min-h-[24px]' // Changed to auto height with min height
             },
         },
         onUpdate: () => handleChangeContent(editor.getHTML()),
@@ -76,19 +77,19 @@ const RichTextCommentInput = ({
     const styleCommands = [
         {
             btnTitle: 'Bold (Ctrl + B)',
-            icon: <svg xmlns="http://www.w3.org/2000/svg" width={20} height={20} fill={"currentColor"} viewBox={"0 0 24 24"}><path d="M13 4.5H7c-.83 0-1.5.67-1.5 1.5v12c0 .83.67 1.5 1.5 1.5h6.5c2.48 0 4.5-2.02 4.5-4.5 0-1.3-.56-2.46-1.44-3.28.58-.76.94-1.69.94-2.72 0-2.48-2.02-4.5-4.5-4.5m0 3c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5H8.5v-3zm.5 9h-5v-3h5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5"></path></svg>,
+            icon: <Icon type={'bold'} size='20'/>,
             command: () => editor.chain().focus().toggleBold().run(),
             isActive: () => editor.isActive('bold'),
         },
         {
             btnTitle: 'Italic (Ctrl + I)',
-            icon: <svg xmlns="http://www.w3.org/2000/svg" width={20} height={20} fill={"currentColor"} viewBox={"0 0 24 24"}><path d="M19 4H9v2h3.67L9.25 18H5v2h10v-2h-3.67l3.42-12H19z"></path></svg>,
+            icon: <Icon type={'italic'} size='20'/>,
             command: () => editor.chain().focus().toggleItalic().run(),
             isActive: () => editor.isActive('italic'),
         },
         {
             btnTitle: 'Underline (Ctrl + U)',
-            icon: <svg xmlns="http://www.w3.org/2000/svg" width={20} height={20} fill={"currentColor"} viewBox={"0 0 24 24"}><path d="M5 18h14v2H5zM6 4v6c0 3.31 2.69 6 6 6s6-2.69 6-6V4h-2v6c0 2.21-1.79 4-4 4s-4-1.79-4-4V4z"></path></svg>,
+            icon: <Icon type={'underline'} size='20'/>,
             command: () => editor.chain().focus().toggleUnderline().run(),
             isActive: () => editor.isActive('underline'),
         },

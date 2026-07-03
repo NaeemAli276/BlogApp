@@ -134,33 +134,25 @@ const CommentsSection = ({
     const updateCommentMutation = useMutation({
         mutationFn: updateComment,
         mutationKey: ['update_comment'],
-        onSuccess: (updatedComment) => {
-
-            console.log('updated post: ', updatedComment)
+        onSuccess: (updatedCommentFromServer) => {
+            console.log('updated post from server: ', updatedCommentFromServer);
 
             queryClient.setQueryData(['get_comments_for_post', post_id], (oldData) => {
                 
                 console.log('old data: ', oldData)    
 
-                console.log(oldData?.map((comment) => 
-                    comment?.id === updatedComment?.id ? true : false
-                ))
-
                 return oldData?.map((comment) => 
-                    comment?.id === updatedComment?.id ? updatedComment : comment
+                    comment?.id === updatedCommentFromServer?.id ? updatedCommentFromServer : comment 
                 )
             })
 
-            // Also update individual post query if it exists
-            // queryClient.setQueryData(['get_comments_for_posts', updatedComment.id], updatedComment);
-
-
-
+            // 2. Safely trigger a background refetch to ensure alignment with database
+            queryClient.invalidateQueries({ queryKey: ['get_comments_for_post', post_id] });
         },  
         onError: (error) => {
             console.error('Update error:', error);
         }
-    })
+    });
 
     const handleCommentChange = (contentHTML) => {
         setContent(contentHTML)
@@ -189,21 +181,6 @@ const CommentsSection = ({
         }
 
         updateCommentMutation.mutate(updatedComment)
-    }
-
-    const handleToggleEdit = (id, text) => { // toggles the isEdit flag whilst getting the id
-
-        if (isEditActive) {
-            setIsEditActive(false)
-            setUpdatingCommentId(null)
-            setCommentContent('')
-        }
-        else {
-            setIsEditActive(true)
-            setUpdatingCommentId(id)
-            setCommentContent(text)
-        }
-
     }
 
     if (isLoading) {
