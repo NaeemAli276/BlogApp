@@ -36,6 +36,7 @@ const Comment = ({
     const handleUpdatingProcess = () => {
         handleUpdateComment(comment?.id, newContent)
         setIsEditActive(false)
+        setNewContent(newContent)
     }
 
     const menuBtns = [
@@ -84,7 +85,7 @@ const Comment = ({
                     />
 
                     <div
-                        className={`${isDropdownActive ? 'flex' : 'hidden'} flex-col w-52 h-fit bg-background shadow shadow-text/20 absolute top-8 right-0 z-50 rounded`}
+                        className={`${isDropdownActive ? 'flex' : 'hidden'} flex-col w-52 h-fit bg-background shadow shadow-text/20 absolute top-8 right-0 z-90 rounded`}
                     >
                         {
                             comment?.user?.id === user?.id
@@ -125,7 +126,7 @@ const Comment = ({
                             handleChangeContent={handleCommentChange}
                         />
                     :   <RichTextViewer
-                            content={comment?.content}
+                            content={newContent}
                             className='px-1 text-text/70 text-sm'
                         />
                 }
