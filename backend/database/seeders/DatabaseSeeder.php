@@ -24,15 +24,9 @@ class DatabaseSeeder extends Seeder
             PostSeeder::class,
             BookmarkSeeder::class,
             CommentSeeder::class,
-            // LikeSeeder::class,
+            CommentReplySeeder::class,
+            LikeSeeder::class,
         ]); 
-
-        User::create([
-            'username' => 'adminUser',            
-            'email' => 'admin@example.com',
-            'password' => bcrypt('pass1234'),
-            'role' => 'admin'
-        ]);
 
     }
 }
