@@ -17,9 +17,7 @@ const CommentsSection = ({
 
     const location = useLocation()
 
-    const [isEditActive, setIsEditActive] = useState(false)
     const [isNewCommentActive, setIsNewCommentActive] = useState(false)
-    const [updatingCommentId, setUpdatingCommentId] = useState(null)
     const [content, setContent] = useState('')
 
     const { isLoading, error, data: comments = [] } = useQuery({
@@ -153,12 +151,8 @@ const CommentsSection = ({
                 )
             })
 
-            setCommentContent('')
-            setUpdatingCommentId(null)
-            setIsEditActive(false)
-
             // Also update individual post query if it exists
-            // queryClient.setQueryData(['get_my_posts', updatedComment.id], updatedComment);
+            // queryClient.setQueryData(['get_comments_for_posts', updatedComment.id], updatedComment);
 
 
 
@@ -187,11 +181,11 @@ const CommentsSection = ({
         deleteCommentMutation.mutate(id)
     }
 
-    const handleUpdateComment = () => {
+    const handleUpdateComment = (id, content) => {
 
         const updatedComment = {
-            id: updatingCommentId,
-            content: commentContent
+            id: id,
+            content: content
         }
 
         updateCommentMutation.mutate(updatedComment)
@@ -311,7 +305,7 @@ const CommentsSection = ({
                                     key={comment?.id}
                                     comment={comment}
                                     handleDeleteComment={handleDeleteComment}
-                                    handleToggleEdit={() => handleToggleEdit(comment?.id, comment?.content)}
+                                    handleUpdateComment={handleUpdateComment}
                                 />
                             ))
                     }

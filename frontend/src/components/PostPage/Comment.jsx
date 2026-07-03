@@ -3,19 +3,40 @@ import RichTextViewer from '../PostPage/RichTextViewer'
 import AuthorBtn from '../btns/AuthorBtn'
 import Icon from '../../assets/Icon'
 import { useAuth } from '../../context/AuthContext'
+import RichTextCommentInput from './RichTextCommentInput'
 
 
 const Comment = ({
     comment,
     handleDeleteComment,
-    handleToggleEdit,
+    handleUpdateComment
 }) => {
 
     const { user } = useAuth()
 
     const [isDropdownActive, setIsDropdownActive] = useState(false)
     const [isReportActive, setIsReportActive] = useState(false)
-    const [newContent, setNewContent] = useState('')
+    const [newContent, setNewContent] = useState(comment?.content || '')
+    const [isEditActive, setIsEditActive] = useState(false)
+
+    const handleCommentChange = (contentHTML) => {
+        setNewContent(contentHTML)
+    }
+
+    const handleCloseEditing = () => {
+        setIsEditActive(false)
+        setNewContent(comment?.content)
+    }
+
+    const handleToggleUpdating = () => {
+        setIsDropdownActive(false)
+        setIsEditActive(true)
+    }
+
+    const handleUpdatingProcess = () => {
+        handleUpdateComment(comment?.id, newContent)
+        setIsEditActive(false)
+    }
 
     const menuBtns = [
         {
@@ -25,7 +46,7 @@ const Comment = ({
         },
         {
             name: 'Edit',
-            ftn: handleToggleEdit,
+            ftn: () => handleToggleUpdating(),
             icon:   <Icon type={'edit'} size='18'/>
         },
         {
@@ -41,7 +62,7 @@ const Comment = ({
 
     return (
         <div
-            className='w-full h-fit bg-accent/20 shadow shadow-text/10 p-3 pb-3.5 rounded flex flex-col gap-2 justify-between'
+            className='w-full h-fit bg-accent/20 shadow shadow-text/10 p-3 pb-3.5 rounded flex flex-col gap-2 justify-between relative'
         >
 
             <div
@@ -97,10 +118,43 @@ const Comment = ({
 
                 </div>
 
-                <RichTextViewer
-                    content={comment?.content}
-                    className='px-1 text-text/70 text-sm'
-                />
+                {
+                    isEditActive
+                    ?   <RichTextCommentInput
+                            content={newContent}
+                            handleChangeContent={handleCommentChange}
+                        />
+                    :   <RichTextViewer
+                            content={comment?.content}
+                            className='px-1 text-text/70 text-sm'
+                        />
+                }
+
+                {
+                    isEditActive
+                    &&  <div
+                            className='absolute bottom-1 right-0 p-1 px-2 flex flex-row gap-2'
+                        >
+                            <button
+                                className='bg-rose-200/70 text-rose-600 p-1 rounded cursor-pointer hover:bg-rose-500 hover:text-background duration-200'
+                                onClick={() => handleCloseEditing()}
+                            >
+                                <Icon
+                                    type={'close'}
+                                    size='20'
+                                />
+                            </button>
+                            <button
+                                className={`${newContent?.length <= 7 ? 'hidden' : 'flex'} bg-emerald-200/70 text-emerald-600 p-1 rounded cursor-pointer hover:bg-emerald-500 hover:text-background duration-200`}
+                                onClick={() => handleUpdatingProcess()}
+                            >
+                                <Icon
+                                    type={'check'}
+                                    size='20'
+                                />
+                            </button>
+                        </div>
+                }
 
             </div>
 
