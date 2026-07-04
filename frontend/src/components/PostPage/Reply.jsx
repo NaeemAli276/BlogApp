@@ -4,23 +4,21 @@ import AuthorBtn from '../btns/AuthorBtn'
 import Icon from '../../assets/Icon'
 import { useAuth } from '../../context/AuthContext'
 import RichTextCommentInput from './RichTextCommentInput'
-import Reply from './Reply'
 
 
-const Comment = ({
-    comment,
-    handleDeleteComment,
-    handleUpdateComment
+const Reply = ({
+    reply,
+    handleDeleteReply,
+    handleUpdateReply
 }) => {
 
     const { user } = useAuth()
 
-    const [newContent, setNewContent] = useState(comment?.content || '')
+    const [newContent, setNewContent] = useState(reply?.content || '')
 
     const [isEditActive, setIsEditActive] = useState(false)
     const [isDropdownActive, setIsDropdownActive] = useState(false)
     const [isReportActive, setIsReportActive] = useState(false)    
-    const [isRepliesActive, setIsRepliesActive] = useState(false)
 
     const handleCommentChange = (contentHTML) => {
         setNewContent(contentHTML)
@@ -28,7 +26,7 @@ const Comment = ({
 
     const handleCloseEditing = () => {
         setIsEditActive(false)
-        setNewContent(comment?.content)
+        setNewContent(reply?.content)
     }
 
     const handleToggleUpdating = () => {
@@ -37,7 +35,7 @@ const Comment = ({
     }
 
     const handleUpdatingProcess = () => {
-        handleUpdateComment(comment?.id, newContent)
+        handleUpdateReply(reply?.id, newContent)
         setIsEditActive(false)
         setNewContent(newContent)
     }
@@ -45,7 +43,7 @@ const Comment = ({
     const menuBtns = [
         {
             name: 'Delete',
-            ftn: () => handleDeleteComment(comment?.id),
+            ftn: () => handleDeleteReply(reply?.id),
             icon:   <Icon type={'trash'} size='18'/>
         },
         {
@@ -61,14 +59,20 @@ const Comment = ({
     ]
 
     useEffect(() => {
-        console.log(comment)
+        console.log(reply)
     }, [])
 
     return (
         <div
-            className='flex flex-col gap-2 w-full h-fit'
+            className='flex relative gap-2 w-full h-fit pl-6'
         >
             
+            {/* corner/connection */}
+            <Icon
+                type={'corner'}
+                className='rotate-270'
+            />
+
             {/* main comment */}
             <div
                 className='w-full h-fit bg-accent/20 shadow shadow-text/10 p-3 pb-3.5 rounded flex flex-col gap-2 justify-between relative'
@@ -82,7 +86,7 @@ const Comment = ({
                         className='flex flex-row items-start justify-between w-full h-fit relative'
                     >
                         <AuthorBtn
-                            author={comment?.user}
+                            author={reply?.user}
                             textTheme='dark'
                         />
                         <Icon
@@ -96,7 +100,7 @@ const Comment = ({
                             className={`${isDropdownActive ? 'flex' : 'hidden'} flex-col w-52 h-fit bg-background shadow shadow-text/20 absolute top-8 right-0 z-90 rounded`}
                         >
                             {
-                                comment?.user?.id === user?.id
+                                reply?.user?.id === user?.id
                                 ?   <>
                                         <button
                                             className='flex flex-row items-center gap-2 w-full h-fit p-2 py-2.5 text-sm hover:bg-secondary/50 hover:text-primary rounded-t duration-200 cursor-pointer'
@@ -165,48 +169,12 @@ const Comment = ({
                             </div>
                     }
 
-                    <div
-                        className={`${isEditActive ? 'hidden' : 'flex'} items-center gap-3 w-full h-fit px-1 mt-2`}
-                    >
-                        <button
-                            className='items-center text-text/70 text-sm font-medium flex flex-row gap-1 hover:text-primary duration-200'
-                            onClick={() => setIsRepliesActive(!isRepliesActive)}
-                        >
-                            Replies
-                            <Icon
-                                type={'chevron'}
-                                className='text-text'
-                                size='18'
-                            />
-                        </button>
-                        <button
-                            className='items-center text-text/70 text-sm font-medium flex flex-row gap-1 hover:text-primary duration-200'
-                        >
-                            Reply
-                            <Icon
-                                type={'comments'}
-                                className='text-text'
-                                size='16'
-                            />
-                        </button>
-                    </div>
-
                 </div>
 
             </div>
 
-            {/* replies */}
-            {
-                isRepliesActive &&
-                comment?.replies?.map((reply) => (
-                    <Reply
-                        reply={reply}
-                    />
-                ))
-            }
-            
         </div>
     )
 }
 
-export default Comment
+export default Reply

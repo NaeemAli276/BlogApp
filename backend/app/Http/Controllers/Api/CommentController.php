@@ -21,7 +21,7 @@ class CommentController extends Controller
         $post = Post::findOrFail($id);
 
         $comments = $post->comments()
-                    ->with('user')
+                    ->with('user', 'replies.user')
                     ->get();
 
         return CommentResource::collection($comments);

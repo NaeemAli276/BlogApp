@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -31,7 +32,7 @@ class AuthController extends Controller
 
         if ($request->remember_me == true) {
             return response()->json([
-                'user' => $user,
+                'user' => new UserResource($user),
                 'token' => $user->createToken('auth_token')->plainTextToken
             ]);
         }
@@ -62,7 +63,7 @@ class AuthController extends Controller
 
         if ($request->remember_me == true) {
             return response()->json([
-                'user' => $user,
+                'user' => new UserResource($user),
                 'token' => $user->createToken('auth_token')->plainTextToken
             ], 201);
         }

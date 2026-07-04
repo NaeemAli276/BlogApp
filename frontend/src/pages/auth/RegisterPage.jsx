@@ -35,7 +35,7 @@ const RegisterPage = () => {
         const response = await mutation.mutateAsync(formDetails)
 
         if (response === true) {
-            navigate('/My_posts')
+            navigate('/')
         }
         else {
             setError(response.errors)
