@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\CommentController;
+use App\Http\Controllers\Api\CommentReplyController;
 use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\TagController;
@@ -43,8 +44,10 @@ Route::prefix('posts')->group(function () {
 
 // API Resources - Comments
 Route::prefix('comments')->group(function() {
-
+    Route::get('/{id}/replies', [CommentReplyController::class, 'index']);
 });
+
+
 
 // API Resources - Users
 Route::prefix('users')->group(function () {
@@ -63,6 +66,13 @@ Route::middleware('auth:sanctum')->group(function() {
 
     // comments
     Route::prefix('comments-crud')->group(function() {
+        Route::post('/create', [CommentController::class, 'store']);
+        Route::put('/update/{id}', [CommentController::class, 'update']);
+        Route::delete('/delete/{id}', [CommentController::class, 'destroy']);
+    });
+
+    // reply
+    Route::prefix('reply-crud')->group(function() {
         Route::post('/create', [CommentController::class, 'store']);
         Route::put('/update/{id}', [CommentController::class, 'update']);
         Route::delete('/delete/{id}', [CommentController::class, 'destroy']);

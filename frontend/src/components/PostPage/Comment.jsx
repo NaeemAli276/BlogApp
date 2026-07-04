@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useSyncExternalStore } from 'react'
 import RichTextViewer from '../PostPage/RichTextViewer'
 import AuthorBtn from '../btns/AuthorBtn'
 import Icon from '../../assets/Icon'
 import { useAuth } from '../../context/AuthContext'
 import RichTextCommentInput from './RichTextCommentInput'
 import Reply from './Reply'
-
+import { useMutation, useQuery } from '@tanstack/react-query'
+import { createReply, getCommentReplies } from '../../apis/commentApi'
+import NewReplyPlaceholder from './NewReplyPlaceholder'
 
 const Comment = ({
     comment,
@@ -15,20 +17,85 @@ const Comment = ({
 
     const { user } = useAuth()
 
-    const [newContent, setNewContent] = useState(comment?.content || '')
+    const [content, setContent] = useState(comment?.content || '') // used for replacing text when updating
+    const [replyContent, setReplyContent] = useState('')
 
     const [isEditActive, setIsEditActive] = useState(false)
     const [isDropdownActive, setIsDropdownActive] = useState(false)
     const [isReportActive, setIsReportActive] = useState(false)    
     const [isRepliesActive, setIsRepliesActive] = useState(false)
+    const [isNewReplyActive, setIsNewReplyActive] = useState(false)
 
-    const handleCommentChange = (contentHTML) => {
-        setNewContent(contentHTML)
+    const { isLoading, error, data } = useQuery({
+        queryFn: () => getCommentReplies(comment?.id),
+        queryKey: ['get_replies', comment?.id],
+    })
+
+    const createReplyMutation = useMutation({
+        mutationFn: createReply,
+        mutationKey: ['create_reply'],
+        onMutate: async (data) => {
+
+            await queryClient.cancelQueries({ queryKey: ['get_replies', comment?.id] })
+
+            const previousReplies = queryClient.getQueryData(['get_replies', comment?.id])
+
+            const optimisticReply = {
+                id: new Date().toLocaleDateString(),
+                user: {
+                    id: user?.id,
+                    username: user?.username,
+                    profileImg: user?.profileImg,
+                    email: user?.email
+                },
+                content: content,
+                isOptimistic: true
+            }
+
+            queryClient.setQueryData(['get_replies', comment?.id], (old) => {
+                return old ? [optimisticReply, ...old] : [optimisticReply]
+            })
+
+            return { previousReplies }
+
+        },
+        onSuccess: (data) => {
+
+            queryClient.setQueryData(['get_replies', comment?.id], (old) => {
+
+                // console.log(old)
+
+                return old?.map(reply => 
+                    reply?.id === `temp-${new Date().toLocaleDateString()}`
+                    ?   { ...data, isOptimistic:false }
+                    :   reply
+                )
+            })
+
+            // console.log(data.data)
+            setIsNewCommentActive(false)
+
+        },
+        onError: (error, variables, context) => {
+            // Rollback to previous state on error
+            if (context?.previousComments) {
+                queryClient.setQueryData(['get_replies', comment?.id], context.previousComments);
+            }
+            console.error('Failed to add comment:', error);
+        },
+        onSettled: (data, error, variables, context) => {
+            // Always refetch to ensure consistency
+            queryClient.invalidateQueries({ queryKey: ['get_replies', comment?.id] });
+        },
+    })
+
+    const handleReplyChange = (contentHTML) => {
+        setContent(contentHTML)
     }
 
     const handleCloseEditing = () => {
         setIsEditActive(false)
-        setNewContent(comment?.content)
+        setContent(comment?.content)
     }
 
     const handleToggleUpdating = () => {
@@ -37,9 +104,26 @@ const Comment = ({
     }
 
     const handleUpdatingProcess = () => {
-        handleUpdateComment(comment?.id, newContent)
+        handleUpdateComment(comment?.id, content)
         setIsEditActive(false)
-        setNewContent(newContent)
+        setContent(content)
+    }
+
+    const handleCreateReply = () => {
+
+        const reply = {
+            comment_id: comment?.id,
+            user_id: user?.id,
+            content: content
+        }
+
+        createReplyMutation.mutate(reply)
+
+    }
+
+    const handleToggleNewReply = () => {
+        setIsNewReplyActive(true)
+        setIsRepliesActive(true)
     }
 
     const menuBtns = [
@@ -59,10 +143,6 @@ const Comment = ({
             icon:   <Icon type={'alert'} size='18'/>,
         }
     ]
-
-    useEffect(() => {
-        console.log(comment)
-    }, [])
 
     return (
         <div
@@ -130,11 +210,11 @@ const Comment = ({
                     {
                         isEditActive
                         ?   <RichTextCommentInput
-                                content={newContent}
-                                handleChangeContent={handleCommentChange}
+                                content={content}
+                                handleChangeContent={handleReplyChange}
                             />
                         :   <RichTextViewer
-                                content={newContent}
+                                content={content}
                                 className='px-1 text-text/70 text-sm'
                             />
                     }
@@ -154,7 +234,7 @@ const Comment = ({
                                     />
                                 </button>
                                 <button
-                                    className={`${newContent?.length <= 7 ? 'hidden' : 'flex'} bg-emerald-200/70 text-emerald-600 p-1 rounded cursor-pointer hover:bg-emerald-500 hover:text-background duration-200`}
+                                    className={`${content?.length <= 7 ? 'hidden' : 'flex'} bg-emerald-200/70 text-emerald-600 p-1 rounded cursor-pointer hover:bg-emerald-500 hover:text-background duration-200`}
                                     onClick={() => handleUpdatingProcess()}
                                 >
                                     <Icon
@@ -175,18 +255,19 @@ const Comment = ({
                             Replies
                             <Icon
                                 type={'chevron'}
-                                className='text-text'
+                                className={`${isRepliesActive ? 'rotate-180' : 'rotate-0'} duration-200 text-text`}
                                 size='18'
                             />
                         </button>
                         <button
-                            className='items-center text-text/70 text-sm font-medium flex flex-row gap-1 hover:text-primary duration-200'
+                            className='items-center text-text/70 text-sm font-medium flex flex-row gap-1.5 hover:text-primary duration-200'
+                            onClick={() => handleToggleNewReply()}
                         >
                             Reply
                             <Icon
                                 type={'comments'}
                                 className='text-text'
-                                size='16'
+                                size='14'
                             />
                         </button>
                     </div>
@@ -196,14 +277,28 @@ const Comment = ({
             </div>
 
             {/* replies */}
-            {
-                isRepliesActive &&
-                comment?.replies?.map((reply) => (
-                    <Reply
-                        reply={reply}
+            <div
+                className='flex flex-col gap-2 w-full h-fit'
+            >
+                {
+                    isRepliesActive &&
+                    data?.map((reply) => (
+                        <Reply
+                            key={reply?.id}
+                            reply={reply}
+                        />
+                    ))
+                }
+                {
+                    (isNewReplyActive && user !== null) &&
+                    <NewReplyPlaceholder
+                        setIsNewReplyActive={setIsNewReplyActive}
+                        handleReplyChange={handleReplyChange}
+                        handleCreateReply={handleCreateReply}
+                        content={replyContent}
                     />
-                ))
-            }
+                }
+            </div>
             
         </div>
     )

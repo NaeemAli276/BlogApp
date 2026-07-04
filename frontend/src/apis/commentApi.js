@@ -93,3 +93,35 @@ export async function updateComment(comment) {
 
     return response.data;
 }
+
+// replies
+
+export async function getCommentReplies(id) {
+    const url = `http://localhost:8000/api/comments/${id}/replies`
+
+    try {
+
+        const { data } = await axios(url, {
+            headers: {
+                Accept: 'application/json'
+            }
+        })
+
+        // console.log(data?.data)
+        return data.data
+
+    }
+    catch (error) {
+        throw error
+    }
+}
+
+export async function createReply(reply) {
+    const response = apiClient.post(`/reply-crud/create/`, reply, {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+
+    return response
+}

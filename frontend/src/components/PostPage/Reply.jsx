@@ -20,7 +20,7 @@ const Reply = ({
     const [isDropdownActive, setIsDropdownActive] = useState(false)
     const [isReportActive, setIsReportActive] = useState(false)    
 
-    const handleCommentChange = (contentHTML) => {
+    const handleReplyChange = (contentHTML) => {
         setNewContent(contentHTML)
     }
 
@@ -135,7 +135,7 @@ const Reply = ({
                         isEditActive
                         ?   <RichTextCommentInput
                                 content={newContent}
-                                handleChangeContent={handleCommentChange}
+                                handleChangeContent={handleReplyChange}
                             />
                         :   <RichTextViewer
                                 content={newContent}
