@@ -125,3 +125,18 @@ export async function createReply(reply) {
 
     return response
 }
+
+export async function deleteReply(id) {
+    const response = await apiClient.delete(`/reply-crud/delete/${id}`);
+    return response.data;
+}
+
+export async function updateReply(reply) {
+    const response = await apiClient.put(`/reply-crud/update/${reply?.id}`, reply, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
+    });
+
+    return response.data;
+}

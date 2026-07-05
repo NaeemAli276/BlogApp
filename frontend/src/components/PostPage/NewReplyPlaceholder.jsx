@@ -6,17 +6,13 @@ import RichTextCommentInput from './RichTextCommentInput'
 
 const NewReplyPlaceholder = ({
     handleCreateReply,
-    setIsNewReplyActive,
+    handleCloseNewReply,
     children,
     content,
     handleReplyChange,
 }) => {
 
     const { user } = useAuth()
-
-    const handleCloseNewReply = () => {
-        setIsNewReplyActive(false)
-    }
 
     // useEffect(() => {
     //     console.log(content)

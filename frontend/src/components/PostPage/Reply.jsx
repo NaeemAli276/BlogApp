@@ -9,24 +9,24 @@ import RichTextCommentInput from './RichTextCommentInput'
 const Reply = ({
     reply,
     handleDeleteReply,
-    handleUpdateReply
+    handleUpdateReply,
 }) => {
 
     const { user } = useAuth()
 
-    const [newContent, setNewContent] = useState(reply?.content || '')
+    const [content, setContent] = useState(reply?.content || '')
 
     const [isEditActive, setIsEditActive] = useState(false)
     const [isDropdownActive, setIsDropdownActive] = useState(false)
     const [isReportActive, setIsReportActive] = useState(false)    
 
     const handleReplyChange = (contentHTML) => {
-        setNewContent(contentHTML)
+        setContent(contentHTML)
     }
 
     const handleCloseEditing = () => {
         setIsEditActive(false)
-        setNewContent(reply?.content)
+        setContent(reply?.content)
     }
 
     const handleToggleUpdating = () => {
@@ -35,9 +35,9 @@ const Reply = ({
     }
 
     const handleUpdatingProcess = () => {
-        handleUpdateReply(reply?.id, newContent)
+        handleUpdateReply(reply?.id, content)
         setIsEditActive(false)
-        setNewContent(newContent)
+        setContent(content)
     }
 
     const menuBtns = [
@@ -57,10 +57,6 @@ const Reply = ({
             icon:   <Icon type={'alert'} size='18'/>,
         }
     ]
-
-    useEffect(() => {
-        console.log(reply)
-    }, [])
 
     return (
         <div
@@ -134,11 +130,11 @@ const Reply = ({
                     {
                         isEditActive
                         ?   <RichTextCommentInput
-                                content={newContent}
+                                content={content}
                                 handleChangeContent={handleReplyChange}
                             />
                         :   <RichTextViewer
-                                content={newContent}
+                                content={content}
                                 className='px-1 text-text/70 text-sm'
                             />
                     }
@@ -158,14 +154,14 @@ const Reply = ({
                                     />
                                 </button>
                                 <button
-                                    className={`${newContent?.length <= 7 ? 'hidden' : 'flex'} bg-emerald-200/70 text-emerald-600 p-1 rounded cursor-pointer hover:bg-emerald-500 hover:text-background duration-200`}
+                                    className={`${content?.length <= 7 ? 'hidden' : 'flex'} bg-emerald-200/70 text-emerald-600 p-1 rounded cursor-pointer hover:bg-emerald-500 hover:text-background duration-200`}
                                     onClick={() => handleUpdatingProcess()}
                                 >
                                     <Icon
                                         type={'check'}
                                         size='20'
                                     />
-                                </button>
+                                </button>   
                             </div>
                     }
 

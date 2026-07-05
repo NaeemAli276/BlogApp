@@ -57,7 +57,7 @@ const UserDropdownMenu = () => {
 
             {/* menu */}
             <div
-                className={`${isDropdownActive ? 'flex' : 'hidden'} rounded absolute top-10 right-0 bg-background min-h-70 w-72 shadow shadow-text/70 z-50 flex-col gap-1`}
+                className={`${isDropdownActive ? 'flex' : 'hidden'} rounded absolute top-10 right-0 bg-background min-h-70 w-72 shadow shadow-text/70 z-70 flex-col gap-1`}
             >
                 
                 <div

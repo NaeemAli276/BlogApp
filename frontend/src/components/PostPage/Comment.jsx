@@ -5,8 +5,8 @@ import Icon from '../../assets/Icon'
 import { useAuth } from '../../context/AuthContext'
 import RichTextCommentInput from './RichTextCommentInput'
 import Reply from './Reply'
-import { useMutation, useQuery } from '@tanstack/react-query'
-import { createReply, getCommentReplies } from '../../apis/commentApi'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { createReply, deleteReply, getCommentReplies, updateReply } from '../../apis/commentApi'
 import NewReplyPlaceholder from './NewReplyPlaceholder'
 
 const Comment = ({
@@ -30,6 +30,8 @@ const Comment = ({
         queryFn: () => getCommentReplies(comment?.id),
         queryKey: ['get_replies', comment?.id],
     })
+
+    const queryClient = useQueryClient()
 
     const createReplyMutation = useMutation({
         mutationFn: createReply,
@@ -73,13 +75,13 @@ const Comment = ({
             })
 
             // console.log(data.data)
-            setIsNewCommentActive(false)
+            setIsNewReplyActive(false)
 
         },
         onError: (error, variables, context) => {
             // Rollback to previous state on error
-            if (context?.previousComments) {
-                queryClient.setQueryData(['get_replies', comment?.id], context.previousComments);
+            if (context?.previousReplies) {
+                queryClient.setQueryData(['get_replies', comment?.id], context.previousReplies);
             }
             console.error('Failed to add comment:', error);
         },
@@ -89,21 +91,90 @@ const Comment = ({
         },
     })
 
+    const deleteReplyMutation = useMutation({
+        mutationFn: deleteReply,
+        mutationKey: ['delete_reply'],
+        onMutate: async (deletedId) => {
+            if (comment?.id) return { previousReplies: [] };
+
+            await queryClient.cancelQueries({ 
+                queryKey: ['get_replies', comment?.id] 
+            });
+
+            // Get previous data with fallback
+            const previousReplies = queryClient.getQueryData(['get_replies', comment?.id]) || [];
+
+            // Update the cache with safety checks
+            queryClient.setQueryData(['get_replies', comment?.id], (oldData) => {
+                // If oldData is undefined or null, return empty array
+                if (!oldData) return [];
+                
+                // Filter out the deleted post
+                return oldData?.filter((reply) => reply?.id !== deletedId);
+            });
+
+            return { previousReplies };
+        },
+
+        onError: (error, deletedId, context) => {
+            // Restore previous data
+            if (comment?.id) {
+                queryClient.setQueryData(
+                    ['get_replies', comment?.id], 
+                    context?.previousReplies || []
+                );
+            }
+            console.error('Delete error:', error);
+        },
+
+        onSettled: () => {
+            if (comment?.id) {
+                queryClient.invalidateQueries({ 
+                    queryKey: ['get_replies', comment?.id] 
+                });
+            }
+        },
+
+    })
+
+    const updateReplyMutation = useMutation({
+        mutationFn: updateReply,
+        mutationKey: ['update_reply'],
+        onSuccess: (updatedReplyFromServer) => {
+            console.log('updated post from server: ', updatedReplyFromServer);
+
+            queryClient.setQueryData(['get_replies', comment?.id], (oldData) => {
+                
+                console.log('old data: ', oldData)    
+
+                return oldData?.map((reply) => 
+                    reply?.id === updatedReplyFromServer?.id ? updatedReplyFromServer : reply
+                )
+            })
+
+            // 2. Safely trigger a background refetch to ensure alignment with database
+            queryClient.invalidateQueries({ queryKey: ['get_replies', comment?.id] });
+        },  
+        onError: (error) => {
+            console.error('Update error:', error);
+        }
+    });
+
     const handleReplyChange = (contentHTML) => {
-        setContent(contentHTML)
+        setReplyContent(contentHTML)
     }
 
-    const handleCloseEditing = () => {
+    const handleCloseCommentEditing = () => {
         setIsEditActive(false)
         setContent(comment?.content)
     }
 
-    const handleToggleUpdating = () => {
+    const handleToggleUpdatingComment = () => {
         setIsDropdownActive(false)
         setIsEditActive(true)
     }
 
-    const handleUpdatingProcess = () => {
+    const handleUpdatingCommentProcess = () => {
         handleUpdateComment(comment?.id, content)
         setIsEditActive(false)
         setContent(content)
@@ -114,16 +185,35 @@ const Comment = ({
         const reply = {
             comment_id: comment?.id,
             user_id: user?.id,
-            content: content
+            content: replyContent
         }
 
         createReplyMutation.mutate(reply)
 
     }
 
+    const handleDeleteReply = (id) => {
+        deleteReplyMutation.mutate(id)
+    }
+
     const handleToggleNewReply = () => {
         setIsNewReplyActive(true)
         setIsRepliesActive(true)
+    }
+
+    const handleCloseNewReply = () => {
+        setReplyContent('')
+        setIsNewReplyActive(false)
+    }
+
+    const handleUpdateReply = (id, content) => {
+
+        const updatedReply = {
+            id: id,
+            content: content
+        }
+
+        updateReplyMutation.mutate(updatedReply)
     }
 
     const menuBtns = [
@@ -134,7 +224,7 @@ const Comment = ({
         },
         {
             name: 'Edit',
-            ftn: () => handleToggleUpdating(),
+            ftn: () => handleToggleUpdatingComment(),
             icon:   <Icon type={'edit'} size='18'/>
         },
         {
@@ -226,7 +316,7 @@ const Comment = ({
                             >
                                 <button
                                     className='bg-rose-200/70 text-rose-600 p-1 rounded cursor-pointer hover:bg-rose-500 hover:text-background duration-200'
-                                    onClick={() => handleCloseEditing()}
+                                    onClick={() => handleCloseCommentEditing()}
                                 >
                                     <Icon
                                         type={'close'}
@@ -235,7 +325,7 @@ const Comment = ({
                                 </button>
                                 <button
                                     className={`${content?.length <= 7 ? 'hidden' : 'flex'} bg-emerald-200/70 text-emerald-600 p-1 rounded cursor-pointer hover:bg-emerald-500 hover:text-background duration-200`}
-                                    onClick={() => handleUpdatingProcess()}
+                                    onClick={() => handleUpdatingCommentProcess()}
                                 >
                                     <Icon
                                         type={'check'}
@@ -281,22 +371,24 @@ const Comment = ({
                 className='flex flex-col gap-2 w-full h-fit'
             >
                 {
+                    (isNewReplyActive && user !== null) &&
+                    <NewReplyPlaceholder
+                        handleCloseNewReply={handleCloseNewReply}
+                        handleReplyChange={handleReplyChange}
+                        handleCreateReply={handleCreateReply}
+                        content={replyContent}
+                    />
+                }
+                {
                     isRepliesActive &&
                     data?.map((reply) => (
                         <Reply
                             key={reply?.id}
                             reply={reply}
+                            handleDeleteReply={handleDeleteReply}
+                            handleUpdateReply={handleUpdateReply}
                         />
                     ))
-                }
-                {
-                    (isNewReplyActive && user !== null) &&
-                    <NewReplyPlaceholder
-                        setIsNewReplyActive={setIsNewReplyActive}
-                        handleReplyChange={handleReplyChange}
-                        handleCreateReply={handleCreateReply}
-                        content={replyContent}
-                    />
                 }
             </div>
             

@@ -57,4 +57,50 @@ class CommentReplyController extends Controller
 
     }
 
+    public function update(Request $request, $id)
+    {
+        
+        Log::info('reply: ', [
+            $request->all()
+        ]);
+
+        $reply = CommentReply::findOrFail($id);
+
+        $validator = Validator::make($request->all(), [
+            'content' => 'required|string'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $validated = $validator->validated();
+
+        $reply->content = $validated['content'];
+        $reply->save();
+
+        $reply->load('user');
+
+        return response()->json(new CommentReplyResource($reply));
+
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy($id)
+    {
+        
+        $reply = CommentReply::findOrFail($id);
+
+        if (!$reply) {
+            return response()->json(['message' => 'Post not found'], 404);
+        }
+
+        $reply->delete();
+        return response()->json(['message' => 'Post deleted successfully']);
+        
+
+    }
+
 }
