@@ -67,6 +67,26 @@ export async function getPostComments(id) {
     }
 }
 
+export async function getPostCommentsIds(id) {
+    const url = `http://localhost:8000/api/comments/${id}/commentIds`
+
+    try {
+
+        const { data } = await axios(url, {
+            headers: {
+                Accept: 'application/json'
+            }
+        })
+
+        console.log(data?.data)
+        return data
+
+    }
+    catch (error) {
+        throw error
+    }
+}
+
 export async function createComment(comment) {
     
     const response = apiClient.post(`/comments-crud/create/`, comment, {

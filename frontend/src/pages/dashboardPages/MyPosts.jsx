@@ -183,32 +183,30 @@ const MyPosts = () => {
         isNew: checks if it is a new one, or if it has already been created
 
     */
-    const handlePostSelect = (post, isNew) => {
+    const handlePostSelect = (post) => {
+        setSelectedPost({...post})
+        setPostView(2)
+    }
 
-        if (isNew === true && post === null) {
-            setSelectedPost({
+    const handleSelectNewPost = () => {
+        setSelectedPost({
+            id: null,
+            title: '',
+            thumbnail: null,
+            excerpt: '',
+            mainContent: ``,
+            url: '',
+            tags: [],
+            metaDesc: '',
+            author: user,
+            category: {
                 id: null,
-                title: '',
-                thumbnail: null,
-                excerpt: '',
-                mainContent: ``,
-                url: '',
-                tags: [],
-                metaDesc: '',
-                author: user,
-                category: {
-                    id: null,
-                    category_name: ''
-                },
-                created_at: '',
-                is_published: false
-            })    
-            setPostView(1)
-        }
-        else {
-            setSelectedPost({...post})
-            setPostView(2)
-        }
+                category_name: ''
+            },
+            created_at: '',
+            is_published: false
+        })    
+        setPostView(1)
     }
 
     const handleToggleModal = () => {
@@ -317,6 +315,7 @@ const MyPosts = () => {
                 <PostsViewer
                     posts={data}
                     handlePostSelect={handlePostSelect}
+                    handleSelectNewPost={handleSelectNewPost}
                 />
 
                 <PostContentContainer

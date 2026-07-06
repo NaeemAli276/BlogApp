@@ -26,7 +26,8 @@ const AuthorBtn = ({
                     author?.profileImg === null
                     ?   <Icon
                             type={'user'}
-                            size='20'
+                            size='32'
+                            className='shadow shadow-text/10 bg-background p-1 rounded-full'
                         />
                     :   <img    
                             src={author?.profileImg} 

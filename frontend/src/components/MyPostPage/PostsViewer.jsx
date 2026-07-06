@@ -4,11 +4,15 @@ import DropdownMenu from '../inputs/DropdownMenu'
 import RadioBtn from '../btns/RadioBtn'
 import PostCard from '../PostPage/PostCard'
 import Icon from '../../assets/Icon'
+import { useLocation } from 'react-router-dom'
 
 const PostsViewer = ({ 
     posts = [], 
     handlePostSelect, 
+    handleSelectNewPost
 }) => {
+
+    const location = useLocation()
 
     const [activeFilter, setActiveFilter] = useState('Recent')
     const [isDropdownActive, setIsDropdownActive] = useState(false)
@@ -103,9 +107,9 @@ const PostsViewer = ({
                     </DropdownMenu>
 
                     <button
-                        className='p-2 rounded bg-secondary/50 text-primary hover:bg-primary hover:text-background duration-200 cursor-pointer shadow shadow-text/30'
+                        className={`p-2 rounded bg-secondary/50 text-primary hover:bg-primary hover:text-background duration-200 cursor-pointer shadow shadow-text/30 ${location.pathname.includes('My_posts') ? 'flex' : 'hidden'}`}
                         title='New post'
-                        onClick={() => handlePostSelect(null, true)}
+                        onClick={handleSelectNewPost}
                     >
                         <Icon
                             type={'plus'}
@@ -123,7 +127,9 @@ const PostsViewer = ({
                             <PostCard   
                                 key={post.id}
                                 post={post} 
-                                ftn={() => handlePostSelect(post, false)}
+                                ftn={location.pathname.includes('My_posts') 
+                                    ? () => handlePostSelect(post) 
+                                    : () => handlePostSelect(post?.id)}
                             />
                         ))
                     }

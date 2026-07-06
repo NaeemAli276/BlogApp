@@ -14,10 +14,18 @@ class CommentResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        // return parent::toArray($request);    
+        // return parent::toArray($request);   
+        
+        // if ($request->routeIs('api.comments.getIds')) {
+        //     return [
+        //         'id' => $this->pluck('id'),
+        //     ];
+        // }
+
         return [
             'id' => $this->id,
             'user' => new UserResource($this->whenLoaded('user')),
+            'post_id' => $this->post_id,
             'content' => $this->content,
         ];
 

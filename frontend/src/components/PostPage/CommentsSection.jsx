@@ -48,6 +48,8 @@ const CommentsSection = ({
                 isOptimistic: true
             }
 
+            console.log(optimisticComment)
+
             queryClient.setQueryData(['get_comments_for_post', post_id], (old) => {
                 return old ? [optimisticComment, ...old] : [optimisticComment]
             })
@@ -166,6 +168,8 @@ const CommentsSection = ({
             content: content
         }
 
+
+
         createCommentMutation.mutate(comment)
     }
 
@@ -182,6 +186,7 @@ const CommentsSection = ({
 
         updateCommentMutation.mutate(updatedComment)
     }
+
 
     if (isLoading) {
         return (

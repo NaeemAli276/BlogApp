@@ -29,6 +29,7 @@ const Comment = ({
     const { isLoading, error, data } = useQuery({
         queryFn: () => getCommentReplies(comment?.id),
         queryKey: ['get_replies', comment?.id],
+        enabled: comment?.id === new Date().toLocaleDateString() ? false : true
     })
 
     const queryClient = useQueryClient()
@@ -76,6 +77,7 @@ const Comment = ({
 
             // console.log(data.data)
             setIsNewReplyActive(false)
+            setReplyContent('')
 
         },
         onError: (error, variables, context) => {
@@ -154,6 +156,9 @@ const Comment = ({
 
             // 2. Safely trigger a background refetch to ensure alignment with database
             queryClient.invalidateQueries({ queryKey: ['get_replies', comment?.id] });
+
+            setReplyContent('')
+
         },  
         onError: (error) => {
             console.error('Update error:', error);

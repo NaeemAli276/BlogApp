@@ -18,6 +18,11 @@ class CommentController extends Controller
      */
     public function index($id)
     {
+
+        Log::info('comments for post', [
+            $id
+        ]);
+
         $post = Post::findOrFail($id);
 
         $comments = $post->comments()
@@ -73,9 +78,19 @@ class CommentController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Comment $comment)
+    public function show($id)
     {
-        //
+        
+        $comment = Comment::findOrFail($id)
+            ->with('user', 'replies.user')
+            ->get();
+
+        // Log::info('comment: ',[
+        //     $comment
+        // ]); 
+
+        return new CommentResource($comment);
+
     }
 
     /**
@@ -135,10 +150,15 @@ class CommentController extends Controller
 
     }
 
-    public function getRepliesForComment($id) {
+    public function getCommentForPostIds($id) {
 
-        $comment = Comment::findOrFail($id);
+        $post = Post::findOrFail($id);
 
+        $commentIds = $post->comments()
+            ->pluck('id')
+            ->toArray();
+
+        return response()->json($commentIds);
     }
 
 }
