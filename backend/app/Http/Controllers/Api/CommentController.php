@@ -81,15 +81,15 @@ class CommentController extends Controller
     public function show($id)
     {
         
-        $comment = Comment::findOrFail($id)
-            ->with('user', 'replies.user')
-            ->get();
+        $comment = Comment::with('user', 'replies.user')
+            ->findOrFail($id);
 
         // Log::info('comment: ',[
         //     $comment
         // ]); 
 
         return new CommentResource($comment);
+        // return response()->json($comment);
 
     }
 
@@ -138,19 +138,22 @@ class CommentController extends Controller
     public function destroy($id)
     {
         
-        $comment = Comment::findOrFail($id);
+        $comment = Comment::find($id);
+
+        Log::info('comment deleted: ', [$comment]);
 
         if (!$comment) {
-            return response()->json(['message' => 'Post not found'], 404);
+            return response()->json(['message' => 'comment not found'], 404);
         }
 
         $comment->delete();
-        return response()->json(['message' => 'Post deleted successfully']);
+        return response()->json(['message' => 'comment deleted successfully']);
         
+        // Log::info($comment);
 
     }
 
-    public function getCommentForPostIds($id) {
+    public function getCommentsForPostIds($id) {
 
         $post = Post::findOrFail($id);
 

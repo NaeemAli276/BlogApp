@@ -45,7 +45,7 @@ Route::prefix('posts')->group(function () {
 // API Resources - Comments
 Route::prefix('comments')->group(function() {
     Route::get('/{id}/replies', [CommentReplyController::class, 'index']);
-    Route::get('/{id}/commentIds', [CommentController::class, 'getCommentForPostIds']);
+    Route::get('/{id}/commentIds', [CommentController::class, 'getCommentsForPostIds']);
     Route::get('/comment/{id}', [CommentController::class, 'show']);
 });
 

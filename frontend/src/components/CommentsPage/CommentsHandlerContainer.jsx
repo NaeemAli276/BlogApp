@@ -110,16 +110,17 @@ const CommentsHandlerContainer = ({
                 </div>
 
                 <div
-                    className='flex flex-col gap-2 w-full h-fit'
+                    className='flex flex-col gap-2 w-full h-fit overflow-y-scroll scrollbar-hide'
                 >
                     {
                         isNewCommentActive &&
                         <NewCommentPlaceholder/>
                     }
                     {
-                        commentsIds.map((commentId) => (
+                        commentsIds?.map((commentId) => (
                             <CommentContainer
-                                comment={commentId}
+                                key={commentId}
+                                commentId={commentId}
                             />
                         ))
                     }

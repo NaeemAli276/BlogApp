@@ -251,7 +251,7 @@ const MyPosts = () => {
     // used to remember state when coming back from preview
     useEffect(() => {
         const state = location.state;
-        console.log(state)
+        // console.log(state)
         if (state?.from === 'preview') {
             if (state?.post?.id !== null) {
                 setSelectedPost(state?.post)

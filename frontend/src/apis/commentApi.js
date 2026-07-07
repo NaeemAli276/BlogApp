@@ -4,8 +4,8 @@ const apiClient = axios.create({
     baseURL: 'http://localhost:8000/api',
     timeout: 10000,
     headers: {
-        // 'Content-Type': 'application/json',
-        // 'X-Requested-With': 'XMLHttpRequest',
+        'Content-Type': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest',
         'Accept': 'application/json'
     },
     withCredentials: true
@@ -78,7 +78,7 @@ export async function getPostCommentsIds(id) {
             }
         })
 
-        console.log(data?.data)
+        // console.log(data)
         return data
 
     }
@@ -100,8 +100,17 @@ export async function createComment(comment) {
 }
 
 export async function deleteComment(id) {
-    const response = await apiClient.delete(`/comments-crud/delete/${id}`);
-    return response.data;
+    try {
+        const response = await apiClient.request({
+            method: 'DELETE',
+            url: `/comments-crud/delete/${id}`
+        });
+        console.log(response.data);
+        return response.data;
+    } catch (error) {
+        console.error('Delete failed:', error);
+        throw error;
+    }
 }
 
 export async function updateComment(comment) {
@@ -112,6 +121,26 @@ export async function updateComment(comment) {
     });
 
     return response.data;
+}
+
+export async function getComment(id) {
+    const url = `http://localhost:8000/api/comments/comment/${id}`
+
+    try {
+
+        const { data } = await axios(url, {
+            headers: {
+                Accept: 'application/json'
+            }
+        })
+
+        // console.log(data.data)
+        return data.data
+
+    }
+    catch (error) {
+        throw error
+    }
 }
 
 // replies

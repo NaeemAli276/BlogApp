@@ -4,6 +4,7 @@ import PostsViewer from '../../components/MyPostPage/PostsViewer'
 import { useQuery } from '@tanstack/react-query'
 import { useAuth } from '../../context/AuthContext'
 import CommentsHandlerContainer from '../../components/CommentsPage/CommentsHandlerContainer'
+import { getMyPosts } from '../../apis/postApi'
 
 
 const CommentsPage = () => {
@@ -12,7 +13,7 @@ const CommentsPage = () => {
 
     const { isLoading, error, data } = useQuery({
         queryFn: () => getMyPosts(user?.id),
-        queryKey: ['get_my_posts', user?.id]
+        queryKey: ['get_my_posts', user?.id],
     })
 
     const [selectedPostId, setSelectedPostId] = useState(null)

@@ -4,6 +4,8 @@ import AuthorBtn from '../btns/AuthorBtn'
 import RichTextCommentInput from '../PostPage/RichTextCommentInput'
 import RichTextViewer from '../PostPage/RichTextViewer'
 import { useAuth } from '../../context/AuthContext'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { deleteComment } from '../../apis/commentApi'
 
 const Comment = ({
     comment,
@@ -18,6 +20,59 @@ const Comment = ({
     const [isDropdownActive, setIsDropdownActive] = useState(false)
 
     const [content, setContent] = useState(comment?.content || '')
+
+    const queryClient = useQueryClient()
+
+    const deleteCommentMutation = useMutation({
+        mutationKey: ['delete_comment'],
+        mutationFn: deleteComment,
+        onMutate: async (deletedId) => {
+            if (comment?.id) return { originalComment: {} };
+
+            await queryClient.cancelQueries({ 
+                queryKey: ['get_comments_ids', comment?.post_id] 
+            });
+
+            // Get previous data with fallback
+            const originalComment = queryClient.getQueryData(['get_comments_ids', comment?.post_id]) || {};
+
+            // Update the cache with safety checks
+            queryClient.setQueryData(['get_comments_ids', comment?.post_id], (oldData) => {
+                // If oldData is undefined or null, return empty array
+                if (!oldData) return [];
+                
+                // Filter out the deleted post
+                return oldData?.filter((comment) => comment?.id !== deletedId);
+            });
+
+            return { originalComment };
+        },
+
+        onError: (error, deletedId, context) => {
+            // Restore previous data
+            if (comment?.id) {
+                queryClient.setQueryData(
+                    ['get_comments_ids', comment?.post_id], 
+                    context?.originalComment || {}
+                );
+            }
+            console.error('Delete error:', error);
+        },
+
+        onSettled: () => {
+            if (comment?.id) {
+                queryClient.invalidateQueries({ 
+                    queryKey: ['get_comments_ids', comment?.post_id] 
+                });
+            }
+        },
+
+    })
+
+    const handleDeleteComment = () => {
+        deleteCommentMutation.mutate(comment?.id)
+        console.log('this ran')
+    }
 
     const handleCommentChange = (content) => {
         setContent(content)
@@ -34,11 +89,6 @@ const Comment = ({
 
     const menuBtns = [
         {
-            name: 'Delete',
-            ftn: () => handleDeleteComment(comment?.id),
-            icon:   <Icon type={'trash'} size='18'/>
-        },
-        {
             name: 'Edit',
             ftn: () => handlesStartEditing(),
             icon:   <Icon type={'edit'} size='18'/>
@@ -47,11 +97,20 @@ const Comment = ({
             name: 'Report',
             ftn: () => setIsReportActive(true),
             icon:   <Icon type={'alert'} size='18'/>,
-        }
+        },
+        {
+            name: 'Delete',
+            ftn: () => handleDeleteComment(),
+            icon:   <Icon type={'trash'} size='18'/>
+        },
     ]
 
+    useEffect(() => {
+        console.log(comment?.id)
+    }, [comment])
+
     // useEffect(() => {
-    //     console.log(comment)
+    //     setContent(comment?.content)
     // }, [comment])
 
     return (
@@ -81,26 +140,26 @@ const Comment = ({
                         ?   <>
                                 <button
                                     className='flex flex-row items-center gap-2 w-full h-fit p-2 py-2.5 text-sm hover:bg-secondary/50 hover:text-primary rounded-t duration-200 cursor-pointer'
-                                    onClick={menuBtns[1].ftn}
-                                >
-                                    {menuBtns[1].icon}
-                                    {menuBtns[1].name}
-                                </button>
-                                <button
-                                    className='flex flex-row items-center gap-2 w-full h-fit p-2 py-2.5 text-sm hover:bg-rose-100/70 hover:text-rose-600 rounded-b duration-200 cursor-pointer'
                                     onClick={menuBtns[0].ftn}
                                 >
                                     {menuBtns[0].icon}
                                     {menuBtns[0].name}
                                 </button>
-                            </>
-                        :   <>
                                 <button
-                                    className='flex flex-row items-center gap-2 w-full h-fit p-2 py-2.5 text-sm hover:bg-secondary/50 hover:text-primary rounded duration-200 cursor-pointer'
+                                    className='flex flex-row items-center gap-2 w-full h-fit p-2 py-2.5 text-sm hover:bg-rose-100/70 hover:text-rose-600 rounded-b duration-200 cursor-pointer'
                                     onClick={menuBtns[2].ftn}
                                 >
                                     {menuBtns[2].icon}
                                     {menuBtns[2].name}
+                                </button>
+                            </>
+                        :   <>
+                                <button
+                                    className='flex flex-row items-center gap-2 w-full h-fit p-2 py-2.5 text-sm hover:bg-secondary/50 hover:text-primary rounded duration-200 cursor-pointer'
+                                    onClick={menuBtns[1].ftn}
+                                >
+                                    {menuBtns[1].icon}
+                                    {menuBtns[1].name}
                                 </button>
                             </>
                     }
