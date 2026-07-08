@@ -10,6 +10,7 @@ const CommentContainer = ({
 }) => {
 
     const [isRepliesActive, setIsRepliesActive] = useState(false)
+    const [isNewReplyActive, setIsNewReplyActive] = useState(false)
     
     const { isLoading, data: comment = {} } = useQuery({
         queryKey: ['get_comment', commentId],
@@ -19,6 +20,15 @@ const CommentContainer = ({
     })
 
     const handleToggleNewReply = () => {
+
+        if (isNewReplyActive) {
+            setIsNewReplyActive(false)
+            setIsRepliesActive(false)
+        }
+        else {
+            setIsNewReplyActive(true)
+            setIsRepliesActive(true)
+        }
 
     }
 
@@ -45,7 +55,7 @@ const CommentContainer = ({
             >
                 <Comment
                     comment={comment}
-                    handleToggleNewReply={() => handleToggleNewReply()}
+                    handleToggleNewReply={handleToggleNewReply}
                     isRepliesActive={isRepliesActive}
                     setIsRepliesActive={setIsRepliesActive}
                 />
@@ -53,7 +63,13 @@ const CommentContainer = ({
                 <div
                     className='flex flex-col gap-2 w-full h-fit'
                 >
-                    <RepliesContainer/>
+                    <RepliesContainer
+                        isNewReplyActive={isNewReplyActive}
+                        isRepliesActive={isRepliesActive}
+                        commentId={comment?.id}
+                        handleToggleNewReply={handleToggleNewReply}
+                        setIsNewReplyActive={setIsNewReplyActive}
+                    />
                 </div>
 
             </div>

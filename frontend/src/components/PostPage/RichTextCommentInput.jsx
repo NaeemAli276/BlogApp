@@ -119,6 +119,7 @@ const RichTextCommentInput = ({
                             {
                                 styleCommands.map((comm) => (
                                     <button
+                                        key={comm.btnTitle}
                                         className={`border-primary/70 hover:bg-text/10 p-1 duration-200 ${comm.isActive() ? 'bg-secondary/70 text-primary' : 'text-text'} rounded-xs cursor-pointer`}
                                         onClick={comm.command}
                                         title={comm.btnTitle}

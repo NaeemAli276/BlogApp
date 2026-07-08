@@ -26,6 +26,29 @@ class CommentReplyController extends Controller
 
     }
 
+    public function show($id) {
+        $reply = CommentReply::with('user')
+            ->findOrFail($id);
+
+        // Log::info('comment: ',[
+        //     $comment
+        // ]); 
+
+        return new CommentReplyResource($reply);
+    }
+
+    public function getRepliesId($id) {
+
+        $comment = Comment::findOrFail($id);
+
+        $repliesIds = $comment->replies()
+            ->pluck('id')
+            ->toArray();
+
+        return response()->json($repliesIds);
+
+    }
+
     public function store(Request $request) {   
 
         Log::info('comment received: ', [

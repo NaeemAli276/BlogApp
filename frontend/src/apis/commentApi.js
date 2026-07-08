@@ -165,6 +165,46 @@ export async function getCommentReplies(id) {
     }
 }
 
+export async function getRepliesIds(id) {
+    const url = `http://localhost:8000/api/comments/${id}/repliesIds`
+
+    try {
+
+        const { data } = await axios(url, {
+            headers: {
+                Accept: 'application/json'
+            }
+        })
+
+        // console.log(data)
+        return data
+
+    }
+    catch (error) {
+        throw error
+    }
+}
+
+export async function getReply(id) {
+    const url = `http://localhost:8000/api/comments/reply/${id}`
+
+    try {
+
+        const { data } = await axios(url, {
+            headers: {
+                Accept: 'application/json'
+            }
+        })
+
+        console.log(data.data)
+        return data.data
+
+    }
+    catch (error) {
+        throw error
+    }
+}
+
 export async function createReply(reply) {
     const response = apiClient.post(`/reply-crud/create/`, reply, {
         headers: {

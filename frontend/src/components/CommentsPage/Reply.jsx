@@ -1,43 +1,136 @@
 import React, { useEffect, useState } from 'react'
-import RichTextViewer from '../PostPage/RichTextViewer'
-import AuthorBtn from '../btns/AuthorBtn'
 import Icon from '../../assets/Icon'
+import { useQuery } from '@tanstack/react-query'
+import { getReply, deleteReply, updateReply } from '../../apis/commentApi'
 import { useAuth } from '../../context/AuthContext'
-import RichTextCommentInput from './RichTextCommentInput'
-
+import AuthorBtn from '../btns/AuthorBtn'
+import RichTextCommentInput from '../PostPage/RichTextCommentInput'
+import RichTextViewer from '../PostPage/RichTextViewer'
+import { useQueryClient } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
 
 const Reply = ({
-    reply,
-    handleDeleteReply,
-    handleUpdateReply,
+    reply
 }) => {
 
     const { user } = useAuth()
 
-    const [content, setContent] = useState(reply?.content || '')
-
     const [isEditActive, setIsEditActive] = useState(false)
     const [isDropdownActive, setIsDropdownActive] = useState(false)
-    const [isReportActive, setIsReportActive] = useState(false)    
 
-    const handleReplyChange = (contentHTML) => {
-        setContent(contentHTML)
+    // const { isLoading, isSuccess, error, data:reply = {} } = useQuery({
+    //     queryFn: () => getReply(replyId),
+    //     queryKey: ['get_replies', reply?.id]
+    // })
+
+    const queryClient = useQueryClient()
+
+    const [content, setContent] = useState(reply?.content || '')
+
+    const deleteReplyMutation = useMutation({
+        mutationKey: ['delete_reply'],
+        mutationFn: deleteReply,
+        onMutate: async (deletedId) => {
+            if (reply?.comment_id) return { originalReply: {} };
+
+            await queryClient.cancelQueries({ 
+                queryKey: ['get_replies', reply?.comment_id] 
+            });
+
+            // Get previous data with fallback
+            const originalReply = queryClient.getQueryData(['get_replies', reply?.comment_id]) || {};
+
+            // Update the cache with safety checks
+            queryClient.setQueryData(['get_replies', reply?.comment_id], (oldData) => {
+                // If oldData is undefined or null, return empty array
+                if (!oldData) return [];
+                
+                // Filter out the deleted post
+                return oldData?.filter((reply) => reply?.id !== deletedId);
+            });
+
+            return { originalReply };
+        },
+
+        onError: (error, deletedId, context) => {
+            // Restore previous data
+            if (reply?.comment_id) {
+                queryClient.setQueryData(
+                    ['get_replies', reply?.comment_id], 
+                    context?.originalReply || {}
+                );
+            }
+            console.error('Delete error:', error);
+        },
+
+        onSettled: () => {
+            if (reply?.comment_id) {
+                queryClient.invalidateQueries({ 
+                    queryKey: ['get_replies', reply?.comment_id] 
+                });
+            }
+        },
+
+    })
+
+    const updateReplyMutation = useMutation({
+        mutationFn: updateReply,
+        mutationKey: ['update_reply'],
+        onSuccess: (updatedReplyFromServer) => {
+            // console.log('updated post from server: ', updatedReplyFromServer);
+
+            queryClient.setQueryData(['get_replies', reply?.id], (oldData) => {
+                
+                // console.log('old data: ', oldData)    
+
+                return oldData?.map((reply) => 
+                    reply?.id === updatedReplyFromServer?.id ? updatedReplyFromServer : reply 
+                )
+            })
+
+            // 2. Safely trigger a background refetch to ensure alignment with database
+            queryClient.invalidateQueries({ queryKey: ['get_replies', reply?.id] });
+
+            setIsEditActive(false)
+
+        },  
+        onError: (error) => {
+            console.error('Update error:', error);
+        }
+    })
+
+    const handleUpdateReply = () => {
+        
+        const updatedComment = {
+            id: reply?.id,
+            content: content
+        }
+
+        updateReplyMutation.mutate(updatedComment)
+    
     }
 
-    const handleCloseEditing = () => {
-        setIsEditActive(false)
-        setContent(reply?.content)
+    const handleDeleteReply = () => {
+        deleteReplyMutation.mutate(reply?.id)
+        console.log('this ran')
     }
 
-    const handleToggleUpdating = () => {
-        setIsDropdownActive(false)
-        setIsEditActive(true)
-    }
-
-    const handleUpdatingProcess = () => {
-        handleUpdateReply(reply?.id, content)
-        setIsEditActive(false)
+    const handleReplyChange = (content) => {
         setContent(content)
+    }
+
+    const handleToggleEditing = () => {
+
+        setIsDropdownActive(false)
+
+        if (isEditActive) {
+            setIsEditActive(false)
+            setContent(reply?.content)
+        }
+        else {
+            setIsEditActive(true)
+        }
+
     }
 
     const menuBtns = [
@@ -48,7 +141,7 @@ const Reply = ({
         },
         {
             name: 'Edit',
-            ftn: () => handleToggleUpdating(),
+            ftn: () => handleToggleEditing(),
             icon:   <Icon type={'edit'} size='18'/>
         },
         {
@@ -56,11 +149,11 @@ const Reply = ({
             ftn: () => setIsReportActive(true),
             icon:   <Icon type={'alert'} size='18'/>,
         }
-    ]
+    ]   
 
     return (
         <div
-            className='flex relative gap-2 w-full h-fit'
+            className='flex relative gap-2 w-full h-fit pl-6'
         >
             
             {/* corner/connection */}
@@ -146,7 +239,7 @@ const Reply = ({
                             >
                                 <button
                                     className='bg-rose-200/70 text-rose-600 p-1 rounded cursor-pointer hover:bg-rose-500 hover:text-background duration-200'
-                                    onClick={() => handleCloseEditing()}
+                                    onClick={() => handleToggleEditing()}
                                 >
                                     <Icon
                                         type={'close'}
@@ -155,7 +248,7 @@ const Reply = ({
                                 </button>
                                 <button
                                     className={`${content?.length <= 7 ? 'hidden' : 'flex'} bg-emerald-200/70 text-emerald-600 p-1 rounded cursor-pointer hover:bg-emerald-500 hover:text-background duration-200`}
-                                    onClick={() => handleUpdatingProcess()}
+                                    onClick={() => handleUpdateReply()}
                                 >
                                     <Icon
                                         type={'check'}
@@ -172,5 +265,8 @@ const Reply = ({
         </div>
     )
 }
+
+    
+// }
 
 export default Reply
