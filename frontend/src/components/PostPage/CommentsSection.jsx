@@ -168,8 +168,6 @@ const CommentsSection = ({
             content: content
         }
 
-
-
         createCommentMutation.mutate(comment)
     }
 

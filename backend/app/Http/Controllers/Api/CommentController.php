@@ -161,6 +161,8 @@ class CommentController extends Controller
             ->pluck('id')
             ->toArray();
 
+        
+
         return response()->json($commentIds);
     }
 

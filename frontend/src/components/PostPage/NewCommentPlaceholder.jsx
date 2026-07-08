@@ -6,17 +6,12 @@ import RichTextCommentInput from './RichTextCommentInput'
 
 const NewCommentPlaceholder = ({
     handleCreateComment,
-    setIsNewCommentActive,
-    children,
+    handleToggleNewComment,
     content,
     handleCommentChange,
 }) => {
 
     const { user } = useAuth()
-
-    const handleCloseNewComment = () => {
-        setIsNewCommentActive(false)
-    }
 
     // useEffect(() => {
     //     console.log(content)
@@ -48,7 +43,7 @@ const NewCommentPlaceholder = ({
                     >
                         <button
                             className='bg-rose-200/70 text-rose-600 p-1 rounded cursor-pointer hover:bg-rose-500 hover:text-background duration-200'
-                            onClick={() => handleCloseNewComment()}
+                            onClick={() => handleToggleNewComment()}
                         >
                             <Icon
                                 type={'close'}

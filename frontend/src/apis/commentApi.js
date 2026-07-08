@@ -105,7 +105,7 @@ export async function deleteComment(id) {
             method: 'DELETE',
             url: `/comments-crud/delete/${id}`
         });
-        console.log(response.data);
+        // console.log(response.data);
         return response.data;
     } catch (error) {
         console.error('Delete failed:', error);

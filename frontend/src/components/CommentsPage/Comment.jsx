@@ -5,7 +5,7 @@ import RichTextCommentInput from '../PostPage/RichTextCommentInput'
 import RichTextViewer from '../PostPage/RichTextViewer'
 import { useAuth } from '../../context/AuthContext'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { deleteComment } from '../../apis/commentApi'
+import { deleteComment, updateComment } from '../../apis/commentApi'
 
 const Comment = ({
     comment,
@@ -69,6 +69,43 @@ const Comment = ({
 
     })
 
+    const updateCommentMutation = useMutation({
+        mutationFn: updateComment,
+        mutationKey: ['update_comment'],
+        onSuccess: (updatedCommentFromServer) => {
+            // console.log('updated post from server: ', updatedCommentFromServer);
+
+            queryClient.setQueryData(['get_comments_ids', comment?.post_id], (oldData) => {
+                
+                // console.log('old data: ', oldData)    
+
+                return oldData?.map((comment) => 
+                    comment?.id === updatedCommentFromServer?.id ? updatedCommentFromServer : comment 
+                )
+            })
+
+            // 2. Safely trigger a background refetch to ensure alignment with database
+            queryClient.invalidateQueries({ queryKey: ['get_comments_ids', comment?.post_id] });
+
+            setIsEditActive(false)
+
+        },  
+        onError: (error) => {
+            console.error('Update error:', error);
+        }
+    })
+
+    const handleUpdateComment = () => {
+        
+        const updatedComment = {
+            id: comment?.id,
+            content: content
+        }
+
+        updateCommentMutation.mutate(updatedComment)
+    
+    }
+
     const handleDeleteComment = () => {
         deleteCommentMutation.mutate(comment?.id)
         console.log('this ran')
@@ -80,6 +117,7 @@ const Comment = ({
 
     const handlesStartEditing = () => {
         setIsEditActive(true)
+        setIsDropdownActive(false)
     }
 
     const handleCloseEditing = () => {
@@ -186,7 +224,7 @@ const Comment = ({
                     >
                         <button
                             className='bg-rose-200/70 text-rose-600 p-1 rounded cursor-pointer hover:bg-rose-500 hover:text-background duration-200'
-                            onClick={() => handleCloseCommentEditing()}
+                            onClick={() => handleCloseEditing()}
                         >
                             <Icon
                                 type={'close'}
@@ -195,7 +233,7 @@ const Comment = ({
                         </button>
                         <button
                             className={`${content?.length <= 7 ? 'hidden' : 'flex'} bg-emerald-200/70 text-emerald-600 p-1 rounded cursor-pointer hover:bg-emerald-500 hover:text-background duration-200`}
-                            onClick={() => handleUpdatingCommentProcess()}
+                            onClick={() => handleUpdateComment()}
                         >
                             <Icon
                                 type={'check'}

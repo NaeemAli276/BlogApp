@@ -13,12 +13,104 @@ const CommentsHandlerContainer = ({
     const { user } = useAuth()
 
     const [isNewCommentActive, setIsNewCommentActive] = useState(false)
+    const [newCommentContent, setNewCommentContent] = useState('')
 
     const { isLoading, error, data: commentsIds = [] } = useQuery({
         queryFn: () => getPostCommentsIds(selectedPostId),
         queryKey: ['get_comments_ids', selectedPostId],
         enabled: selectedPostId === null ? false : true
     })
+
+    const queryClient = useQueryClient()
+
+    const createCommentMutation = useMutation({
+        mutationFn: createComment,
+        mutationKey: ['create_comment'],
+        onMutate: async (data) => {
+
+            await queryClient.cancelQueries({ queryKey: ['get_comments_ids', selectedPostId] })
+
+            const previousComments = queryClient.getQueryData(['get_comments_ids', selectedPostId])
+
+            const optimisticComment = {
+                id: new Date().toLocaleDateString(),
+                user: {
+                    id: user?.id,
+                    username: user?.username,
+                    profileImg: user?.profileImg,
+                    email: user?.email
+                },
+                content: newCommentContent,
+                isOptimistic: true
+            }
+
+            // console.log(optimisticComment)
+
+            // queryClient.setQueryData(['get_comments_ids', selectedPostId], (old) => {
+            //     return old ? [optimisticComment, ...old] : [optimisticComment]
+            // })
+
+            return { previousComments }
+
+        },
+        onSuccess: (data) => {
+
+            queryClient.cancelQueries(['get_comments_ids', selectedPostId])
+
+            queryClient.setQueryData(['get_comments_ids', selectedPostId], (old) => {
+
+                // console.log(old)
+
+                return old?.map(comment => 
+                    comment?.id === `temp-${new Date().toLocaleDateString()}`
+                    ?   { ...data, isOptimistic:false }
+                    :   comment
+                )
+            })
+
+            // console.log(data.data)
+            setIsNewCommentActive(false)
+            setNewCommentContent('')
+
+        },
+        onError: (error, variables, context) => {
+            // Rollback to previous state on error
+            if (context?.previousComments) {
+                queryClient.setQueryData(['get_comments_ids', selectedPostId], context.previousComments);
+            }
+            console.error('Failed to add comment:', error);
+        },
+        onSettled: (data, error, variables, context) => {
+            // Always refetch to ensure consistency
+            queryClient.invalidateQueries({ queryKey: ['get_comments_ids', selectedPostId] });
+        },        
+    })
+
+    const handleCreateComment = () => {
+
+        const comment = {
+            post_id: selectedPostId,
+            user_id: user?.id,
+            content: newCommentContent
+        }
+
+        createCommentMutation.mutate(comment)
+
+    }
+
+    const handleCommentChange = (html) => {
+        setNewCommentContent(html)
+    }
+
+    const handleToggleNewComment = () => {
+        if (isNewCommentActive) {
+            setNewCommentContent('')
+            setIsNewCommentActive(false)
+        }
+        else {
+            setIsNewCommentActive(true)
+        }
+    }
 
     if (isLoading) {
         return (
@@ -100,7 +192,8 @@ const CommentsHandlerContainer = ({
                         </h1>
                         <button
                             className='text-primary bg-secondary/30 rounded hover:bg-primary hover:text-background duration-200 cursor-pointer'
-                        >
+                            onClick={() => handleToggleNewComment()}
+                        > 
                             <Icon
                                 type={'plus'}
                             />
@@ -114,7 +207,12 @@ const CommentsHandlerContainer = ({
                 >
                     {
                         isNewCommentActive &&
-                        <NewCommentPlaceholder/>
+                        <NewCommentPlaceholder
+                            content={newCommentContent}
+                            handleCommentChange={handleCommentChange}
+                            handleToggleNewComment={handleToggleNewComment}
+                            handleCreateComment={() => handleCreateComment()}
+                        />
                     }
                     {
                         commentsIds?.map((commentId) => (

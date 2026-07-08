@@ -26,7 +26,7 @@ class CommentReplyController extends Controller
 
     }
 
-    public function store(Request $request) {
+    public function store(Request $request) {   
 
         Log::info('comment received: ', [
             $request->all()
