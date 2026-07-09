@@ -89,4 +89,26 @@ class UserController extends Controller
             // ],
              // ← Use collection, not single resource
     }
+
+    public function getMyStats($userId) {
+        // Get ALL posts for this user
+        $posts = Post::with(['user', 'comments.user', 'tags', 'category'])
+            ->withCount(['likes', 'dislikes'])
+            ->where('user_id', $userId) // ← Filter by user
+            ->get(); // ← Get collection
+        
+        // Now sum() works on the collection
+        $total_view_count = $posts->sum('view_count');
+        $total_like_count = $posts->sum('likes_count');
+        $total_dislike_count = $posts->sum('dislikes_count');
+        $total_share_count = $posts->sum('share_count');
+        
+        return [
+            'total_view_count' => $total_view_count,
+            'total_like_count' => $total_like_count,
+            'total_dislike_count' => $total_dislike_count,
+            'total_share_count' => $total_share_count,
+        ];
+    }
+
 }

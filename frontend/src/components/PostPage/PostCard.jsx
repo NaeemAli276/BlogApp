@@ -22,7 +22,7 @@ const PostCard = ({
                 className='w-full h-fit rounded'    
             />
             <div
-                className='w-full h-full absolute left-0 top-0 z-50 bg-black/20 flex flex-col justify-between rounded'
+                className='w-full h-full absolute left-0 top-0 z-30 bg-black/20 flex flex-col justify-between rounded'
             >
 
                 {/* name and category */}
