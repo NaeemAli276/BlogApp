@@ -7,6 +7,7 @@ use App\Http\Resources\PostResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Post;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -90,24 +91,31 @@ class UserController extends Controller
              // ← Use collection, not single resource
     }
 
-    public function getMyStats($userId) {
-        // Get ALL posts for this user
-        $posts = Post::with(['user', 'comments.user', 'tags', 'category'])
-            ->withCount(['likes', 'dislikes'])
-            ->where('user_id', $userId) // ← Filter by user
-            ->get(); // ← Get collection
-        
-        // Now sum() works on the collection
+    public function getMyStats($id) {
+        $posts = Post::withCount(['likes', 'dislikes'])
+            ->where('user_id', $id)
+            ->get();
+
+
+        Log::info('posts: ',[
+            $posts,
+        ]);
+        // dd($posts->count(), $posts->toArray()); // Debug to see what's returned
+
+        // If view_count is a column in posts table
         $total_view_count = $posts->sum('view_count');
+
+        // These should work if withCount is used correctly
         $total_like_count = $posts->sum('likes_count');
         $total_dislike_count = $posts->sum('dislikes_count');
-        $total_share_count = $posts->sum('share_count');
-        
+
+        // Alternative if you want to count all likes across all posts
+        // $total_like_count = \App\Models\Like::whereIn('post_id', $posts->pluck('id'))->count();
+
         return [
             'total_view_count' => $total_view_count,
             'total_like_count' => $total_like_count,
             'total_dislike_count' => $total_dislike_count,
-            'total_share_count' => $total_share_count,
         ];
     }
 

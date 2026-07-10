@@ -88,7 +88,9 @@ const Icon = ({
         h1: 'heroicons:h1-solid',
         h2: 'heroicons:h2',
         h3: 'heroicons:h3',
-        corner: 'proicons:corner-radius'
+        corner: 'proicons:corner-radius',
+        image: 'mynaui:image',
+        lock: 'mynaui:lock'
     }
 
     const iconName = icons[type] || type; 

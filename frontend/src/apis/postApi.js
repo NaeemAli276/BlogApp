@@ -290,3 +290,23 @@ export async function updatePost(post) {
     return response.data;
 
 }
+
+export async function getUserStats(id) {
+    const url = `http://localhost:8000/api/users/${id}/stats`
+
+    try {
+
+        const { data } = await axios(url, {
+            headers: {
+                Accept: 'application/json'
+            }
+        })
+
+        console.log(data)
+        return data
+
+    }
+    catch (error) {
+        throw error
+    }
+}
