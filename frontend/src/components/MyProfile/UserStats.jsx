@@ -12,6 +12,7 @@ const UserStats = () => {
     const { isLoading, error, data: stats = {} } = useQuery({
         queryFn: () => getUserStats(user?.id),
         queryKey: ['get_my_stats', user?.id],
+        refetchInterval: 20000
     })
 
     if (isLoading) {
@@ -87,7 +88,7 @@ const UserStats = () => {
                     <h2
                         className='text-sm'
                     >
-                        {formatCompactNumber(stats?.total_like_count)}
+                        {formatCompactNumber(stats?.total_dislike_count)}
                     </h2>
                 </div>
 

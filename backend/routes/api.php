@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Route;
 // Public routes
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
+Route::post('/logout', [AuthController::class, 'logout']);
+
 
 // Protected routes
 Route::middleware('auth:sanctum')->group(function () {
@@ -80,6 +82,11 @@ Route::middleware('auth:sanctum')->group(function() {
         Route::post('/create', [CommentReplyController::class, 'store']);
         Route::put('/update/{id}', [CommentReplyController::class, 'update']);
         Route::delete('/delete/{id}', [CommentReplyController::class, 'destroy']);
+    });
+
+    // user
+    Route::prefix('user-crud')->group(function() {
+        Route::put('update/{id}', [AuthController::class, 'update']);
     });
 
 });

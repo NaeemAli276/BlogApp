@@ -32,7 +32,7 @@ class Post extends Model
 
     ];
 
-        protected $appends = ['thumbnail_url'];
+    protected $appends = ['thumbnail_url'];
 
     // ✅ Boot method to register model events
     protected static function boot()

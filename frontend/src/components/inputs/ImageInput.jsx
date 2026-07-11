@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'
+    import React, { useState, useRef, useEffect } from 'react'
 import Icon from '../../assets/Icon';
 
 const ImageInput = ({ handleImage, image = null, extraText }) => {
@@ -25,12 +25,6 @@ const ImageInput = ({ handleImage, image = null, extraText }) => {
             // console.log('This is a Blob');
             return true;
         }
-        
-        // Check if it's a File (File extends Blob)
-        // if (source instanceof File) {
-        //     console.log('This is a File (also a Blob)');
-        //     return 'file';
-        // }
         
         // Check if it's a string (URL)
         if (typeof source === 'string') {
