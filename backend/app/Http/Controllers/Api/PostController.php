@@ -197,9 +197,9 @@ class PostController extends Controller
             'is_published' => 'sometimes|boolean',
         ]);
 
-        Log::info('post: ', [
-            $request->all()
-        ]);
+        // Log::info('post: ', [
+        //     $request->all()
+        // ]);
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);

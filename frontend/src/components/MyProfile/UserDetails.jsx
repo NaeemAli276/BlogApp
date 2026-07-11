@@ -14,6 +14,7 @@ const UserDetails = ({
     const { user } = useAuth()
 
     const [userData, setUserData] = useState({
+        id: user?.id,
         profileImg: user?.profileImg,
         username: user?.username,
         email: user?.email        
@@ -22,7 +23,7 @@ const UserDetails = ({
     const queryClient = useQueryClient()
 
     const updateUserMutation = useMutation({
-        mutationFn: updateUser,
+        mutationFn: () => updateUser(userData),
         mutationKey: ['update_user'],
         onSuccess: (updatedUserFromServer) => {
 
@@ -42,7 +43,7 @@ const UserDetails = ({
     })
 
     const handleUpdateUser = () => {
-        updateUserMutation.mutate(userData)
+        updateUserMutation.mutate()
     }
 
     const [isEditActive, setIsEditActive] = useState(false)
@@ -114,7 +115,7 @@ const UserDetails = ({
 
     useEffect(() => {
         console.log(userData)
-    }, [userData    ])
+    }, [userData])
 
     return (
         <div
@@ -163,7 +164,11 @@ const UserDetails = ({
                             {
                                 user?.profileImg !== null
                                 ?   <img 
-                                        src={user?.profileImg} 
+                                        src={
+                                            Object.prototype.toString.call(user?.profileImg) === '[object String]'
+                                            ?   user?.profileImg 
+                                            :   URL.createObjectURL(user?.profileImg) 
+                                        } 
                                         alt="" 
                                         className='rounded-full size-24 w-33 shadow shadow-text/20'
                                     />

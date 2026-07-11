@@ -1,6 +1,6 @@
 // navigates the user to the user page
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useAuth } from '../../context/AuthContext'
 import { Link } from 'react-router-dom'
 import defaultUserImg from '../../assets/user.png'
@@ -16,7 +16,6 @@ const UserBtn = ({
         <button
             onClick={ftn}
         >
-
             {
                 user?.profileImg === null
                 ?   <Icon
@@ -24,7 +23,11 @@ const UserBtn = ({
                         className='size-8 text-text border-2 border-primary rounded-full p-1'
                     />
                 :   <img 
-                        src={user?.profileImg} 
+                        src={
+                            Object.prototype.toString.call(user?.profileImg) === '[object String]'
+                                ?   user?.profileImg 
+                                :   URL.createObjectURL(user?.profileImg) 
+                        } 
                         alt=""
                         className={`size-8 rounded-full border-2 border-primary`} 
                     /> 

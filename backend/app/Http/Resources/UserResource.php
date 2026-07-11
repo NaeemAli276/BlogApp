@@ -14,13 +14,18 @@ class UserResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        // return parent::toArray($request);
+        $profileImg = $this->profileImg;
+
+        if (!filter_var($profileImg, FILTER_VALIDATE_URL)) {
+            // String is not a valid URL
+            $profileImg = asset('storage/'. $this->profileImg);
+        }
 
         return [
             'id' => $this->id,
             'username' => $this->username,
             'email' => $this->email,
-            'profileImg' => $this->profileImg
+            'profileImg' => $profileImg  // ← Changed from $this->$profileImg
         ];
 
     }

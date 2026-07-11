@@ -91,12 +91,14 @@ class AuthController extends Controller
         return response()->json($request->user());
     }
 
-    public function update($id, Request $request) {
+    public function update(Request $request, $id) {
 
-        $user = User::find($id);
+        $user = User::findOrFail($id);
 
         Log::info('user data: ', [
-            $request
+            $request,
+            $request->all(),
+            $user
         ]);
         
         $validator = Validator::make($request->all(), [

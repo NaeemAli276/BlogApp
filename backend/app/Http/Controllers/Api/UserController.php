@@ -97,9 +97,9 @@ class UserController extends Controller
             ->get();
 
 
-        Log::info('posts: ',[
-            $posts,
-        ]);
+        // Log::info('posts: ',[
+        //     $posts,
+        // ]);
         // dd($posts->count(), $posts->toArray()); // Debug to see what's returned
 
         // If view_count is a column in posts table

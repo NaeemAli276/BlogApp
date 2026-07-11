@@ -56,7 +56,7 @@ export async function updateUser(user) {
     formData.append('email', user?.email || null)
 
     if (user?.profileImg) {
-        formData.append('profileImg', user?.profileImg || null)
+        formData.append('profileImg', user?.profileImg)
     }
 
     const response = await apiClient.put(`/user-crud/update/${user?.id}`, formData, {

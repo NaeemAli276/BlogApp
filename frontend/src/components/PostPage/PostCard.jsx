@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { formatDate, truncateText } from '../../utils/textUtils'
 import { useNavigate } from 'react-router-dom'
 import Icon from '../../assets/Icon'
@@ -10,6 +10,10 @@ const PostCard = ({
 }) => {
 
     const navigate = useNavigate()
+
+    // useEffect(() => {
+    //     console.log(post)
+    // })
 
     return (
         <div
