@@ -348,4 +348,25 @@ class PostController extends Controller
         }
     }
 
+    public function queriedPosts(Request $request) {
+
+        $query = $request->input('query'); // Get from query string
+
+        Log::info('query: ', [
+            $request->all()
+        ]);
+
+        $posts = Post::where('title', 'LIKE', "%{$query}%}")
+            ->with(['user', 'tags', 'category'])
+            ->get();
+
+        Log::info('posts: ', [
+            $posts
+        ]);
+
+        // return response()->json($posts);
+        return PostResource::collection($posts);
+
+    }
+
 }

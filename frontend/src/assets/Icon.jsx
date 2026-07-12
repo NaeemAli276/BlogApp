@@ -34,7 +34,7 @@ const Icon = ({
     type,
     size='24',
     color='currentcolor',
-    className = '',
+    className = 'text-inherit',
     onClick,
     ...restProps
 }) => {

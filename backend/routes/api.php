@@ -42,6 +42,7 @@ Route::prefix('categories')->group(function () {
 // API Resources - Posts
 Route::prefix('posts')->group(function () {
     Route::get('/', [PostController::class, 'index'])->name('api.posts.index');
+    Route::get('/search', [PostController::class, 'queriedPosts']);
     Route::get('/featured', [PostController::class, 'getMostPopularPost'])->name('api.posts.featured');
     Route::get('/popular', [PostController::class, 'getPopularPosts'])->name('api.posts.popular');
     Route::get('/{id}', [PostController::class, 'show'])->name('api.posts.show');

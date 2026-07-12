@@ -150,7 +150,6 @@ export async function getSpecifiedPosts(id) {
     }
 }
 
-
 export async function getPostsFromCategory(category) {
     
     const url = `http://localhost:8000/api/categories/${category}/posts`
@@ -309,4 +308,16 @@ export async function getUserStats(id) {
     catch (error) {
         throw error
     }
+}
+
+export async function getSearchedPosts(searchQuery) {
+    
+    const response = await apiClient.post('/posts-crud/create', formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
+    });
+
+    return response.data;
+
 }
