@@ -32,6 +32,9 @@ const UserDetails = ({
             })
 
             queryClient.invalidateQueries({ queryKey: ['get_user'] });
+
+            setUserData(updatedUserFromServer.user)
+
         },
         onError: (error) => {
             console.error('Update error:', error);
@@ -115,7 +118,7 @@ const UserDetails = ({
 
     useEffect(() => {
         console.log(userData)
-    }, [userData])
+    }, [user])
 
     return (
         <div
@@ -285,9 +288,9 @@ const UserDetails = ({
                                         {/* the image preview */}
                                         <img 
                                             src={
-                                                checkImageTypeIsBlob(userData?.profileImg) || checkImageTypeIsBlob(userData?.profileImg) === 'unknown'  
-                                                    ? URL.createObjectURL(userData?.profileImg)     
-                                                    : userData?.profileImg
+                                                checkImageTypeIsBlob(userData?.profileImg) === true
+                                                    ? URL.createObjectURL(userData?.profileImg) 
+                                                    : userData?.profileImg  
                                             } 
                                             alt="" 
                                             className={`size-24 ${userData?.profileImg !== null ? 'flex' : 'hidden aspect-square'} rounded shadow shadow-text/20`}
@@ -297,7 +300,7 @@ const UserDetails = ({
 
                             {/* remove btn */}
                             <div
-                                className={`flex flex-col gap-2 w-fit h-fit ${isEditActive && userData.profileImg !== null ? 'flex' : 'hidden'}`}
+                                className={`flex flex-col gap-2 w-fit h-fit ${isEditActive && userData?.profileImg !== null ? 'flex' : 'hidden'}`}
                             >   
                                 <button
                                     className='flex flex-row items-center gap-2 w-full h-fit bg-rose-200/50 text-rose-600 hover:bg-rose-500 hover:text-background p-2 rounded px-3 pl-2.5 text-sm duration-200'

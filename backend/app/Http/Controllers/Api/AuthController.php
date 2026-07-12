@@ -41,7 +41,7 @@ class AuthController extends Controller
         }
         else {
             return response()->json([
-                'user' => $user,
+                'user' => new UserResource($user),
                 // 'token' => $user->createToken('auth_token')->plainTextToken
             ]);
         }   
@@ -88,6 +88,9 @@ class AuthController extends Controller
 
     public function user(Request $request)
     {
+        Log::info('user: ', [
+            $request->user()
+        ]);
         return response()->json($request->user());
     }
 
@@ -96,9 +99,9 @@ class AuthController extends Controller
         $user = User::findOrFail($id);
 
         Log::info('user data: ', [
-            $request,
+            // $request,
             $request->all(),
-            $user
+            // $user
         ]);
         
         $validator = Validator::make($request->all(), [
@@ -156,11 +159,13 @@ class AuthController extends Controller
                 $user->profileImg = asset('storage/' . $user->profileImg);
             }
 
-            
+            Log::info('updated user: ', [
+                new UserResource($user)
+            ]);
 
             return response()->json([
-                'message' => 'Post updated successfully',
-                'post' => new UserResource($user),
+                'message' => 'user updated successfully',
+                'user' => new UserResource($user),
             ], 200);
         }
         catch (Exception $e) {
