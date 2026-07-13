@@ -12,7 +12,8 @@ export async function getCategories() {
             }
         })
 
-        return data.categories
+        console.log(data.categories)
+        return data.categories.data
 
     }
     catch (error) {
