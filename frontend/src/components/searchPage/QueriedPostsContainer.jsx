@@ -1,22 +1,22 @@
 import React from 'react'
 import Icon from '../../assets/Icon'
-
+import VerticalPostCard from '../cards/VerticalPostCard'
 
 const QueriedPostsContainer = ({
     isLoading = false ,
     error,
-    data,
-    searchQuery
+    posts = [],
+    debouncedQuery
 }) => {
     
 
-    if (searchQuery?.length <= 0) {
+    if (debouncedQuery?.length <= 0) {
         return (
             <div
                 className='flex items-center justify-center w-full min-h-80 bg-background shadow shadow-text/20 rounded flex-col gap-5'
             >
                 <i
-                    className='relative bg-secondary text-primary p-4 rounded-full'
+                    className='relative bg-secondary/50 text-primary p-4 rounded-full'
                 >
                     <Icon
                         type={'cardView'}
@@ -41,7 +41,6 @@ const QueriedPostsContainer = ({
             </div>
         )
     }
-
     if (isLoading) {
         return (
             <div
@@ -53,11 +52,41 @@ const QueriedPostsContainer = ({
             </div>
         )
     }
-
     if (error) {
         return (
-            <div>
+            <div
+                className='flex items-center justify-center w-full min-h-80 bg-background shadow shadow-text/20 rounded flex-col gap-5'
+            >
+                <i
+                    className='relative bg-secondary/50 text-primary p-4 rounded-full'
+                >
+                    <Icon
+                        type={'sad'}
+                        size='75'
+                    />
+                </i>
 
+                <h2
+                    className='text-text/70 text-sm w-60 text-center'
+                >
+                    An error has occured, try typing something else.
+                </h2>
+
+            </div>
+        )
+    }
+    else {
+        return (
+            <div
+                className='w-full min-h-80 h-full overflow-y-scroll grid-cols-12 grid-rows-12 grid gap-2 overflow-x-hidden p-1'
+            >
+                {
+                    posts?.map((post) => (
+                        <VerticalPostCard
+                            post={post}
+                        />
+                    ))
+                }
             </div>
         )
     }

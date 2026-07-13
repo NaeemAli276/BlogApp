@@ -310,14 +310,15 @@ export async function getUserStats(id) {
     }
 }
 
-export async function getSearchedPosts(searchQuery) {
+export async function getSearchedPosts(query) {
     
-    const response = await apiClient.post('/posts-crud/create', formData, {
+    const response = await apiClient.get(`/posts/search?query=${query}`, {
         headers: {
             'Content-Type': 'multipart/form-data',
         },
     });
 
-    return response.data;
+    console.log(response.data.data)
+    return response.data.data;
 
 }

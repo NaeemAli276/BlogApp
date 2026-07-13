@@ -4,11 +4,18 @@ import TextInput from '../../components/inputs/TextInput'
 import { useDebounce } from '@uidotdev/usehooks'
 import Icon from '../../assets/Icon'
 import QueriedPostsContainer from '../../components/searchPage/QueriedPostsContainer'
+import { useQuery } from '@tanstack/react-query'
+import { getSearchedPosts } from '../../apis/postApi'
 
 const SearchPage = () => {
     
     const [searchQuery, setSearchQuery] = useState('')
     const debouncedQuery = useDebounce(searchQuery, 2000)
+
+    const { isLoading, error, data: posts = [] } = useQuery({
+        queryKey: ['getQueriedPosts', debouncedQuery],
+        queryFn: () => getSearchedPosts(debouncedQuery)
+    })
 
     return (
         <Layout
@@ -25,7 +32,7 @@ const SearchPage = () => {
                 text={searchQuery}
                 handleText={(e) => setSearchQuery(e.target.value)}
                 placeholder='Search for a post...'
-                className='placeholder:text-text/50 outline-none w-full p-2 border-2 border-primary rounded text-text pl-9 pr-10' 
+                className='placeholder:text-text/50 outline-none w-full p-2 border-2 border-primary rounded text-text pl-9 pr-10 bg-background' 
 
             >
                 <i
@@ -47,9 +54,11 @@ const SearchPage = () => {
             </TextInput>
 
             <QueriedPostsContainer
-                searchQuery={searchQuery}
-
-            />
+                debouncedQuery={debouncedQuery}
+                isLoading={isLoading}
+                error={error}
+                posts={posts}
+            />  
 
         </Layout>
     )

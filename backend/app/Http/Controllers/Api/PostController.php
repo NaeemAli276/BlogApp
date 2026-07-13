@@ -340,7 +340,7 @@ class PostController extends Controller
                 Log::warning('Thumbnail not found:', ['path' => $path]);
             }
             
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Log::error('Failed to delete thumbnail:', [
                 'path' => $thumbnailPath,
                 'error' => $e->getMessage()
@@ -356,7 +356,7 @@ class PostController extends Controller
             $request->all()
         ]);
 
-        $posts = Post::where('title', 'LIKE', "%{$query}%}")
+        $posts = Post::where('title', 'LIKE', "%{$query}%")
             ->with(['user', 'tags', 'category'])
             ->get();
 
@@ -365,7 +365,9 @@ class PostController extends Controller
         ]);
 
         // return response()->json($posts);
-        return PostResource::collection($posts);
+        return [
+            'data' => PostResource::collection($posts)
+        ];
 
     }
 

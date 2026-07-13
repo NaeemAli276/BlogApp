@@ -9,10 +9,11 @@ import FileHandler from '@tiptap/extension-file-handler'
 import { useEditor } from '@tiptap/react'
 import { EditorContent } from '@tiptap/react'
 import Image from '@tiptap/extension-image'
+import { CharacterCount } from '@tiptap/extensions'
 
 const RichTextViewer = ({
     content,
-    className = 'px-2 text-text/70'
+    className = 'px-2 text-text/70',
 }) => {
 
     const editor = useEditor({
